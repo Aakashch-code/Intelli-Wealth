@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme (dark mode) -->
+    <style name="Theme.GlassyBlack" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color -->
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryVariant">@color/black_translucent</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/black_translucent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Action bar / App bar -->
+        <item name="actionBarStyle">@style/Widget.GlassyBlack.ActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <!-- Custom ActionBar style -->
+    <style name="Widget.GlassyBlack.ActionBar" parent="Widget.MaterialComponents.ActionBar.Solid">
+        <item name="background">@color/black_translucent</item>
+        <item name="elevation">0dp</item>
+    </style>
+        <!-- Base application theme -->
+        <style name="Theme.FinanceApp" parent="Theme.Material3.Dark.NoActionBar">
+            <!-- Primary brand color -->
+            <item name="colorPrimary">@color/purple_200</item>
+            <item name="colorPrimaryVariant">@color/purple_700</item>
+            <item name="colorOnPrimary">@color/black</item>
+            <!-- Secondary brand color -->
+            <item name="colorSecondary">@color/teal_200</item>
+            <item name="colorSecondaryVariant">@color/teal_200</item>
+            <item name="colorOnSecondary">@color/black</item>
+            <!-- Status bar color -->
+            <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+            <!-- Customize your theme here -->
+        </style>
+
+        <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+            <item name="android:textSize">12sp</item>
+            <item name="android:textAllCaps">false</item>
+            <item name="android:textStyle">normal</item>
+        </style>
+
+        <style name="FinanceCard" parent="Widget.MaterialComponents.CardView">
+            <item name="cardBackgroundColor">#1E1E1E</item>
+            <item name="cardCornerRadius">16dp</item>
+            <item name="cardElevation">2dp</item>
+            <item name="android:layout_margin">8dp</item>
+        </style>
+
+        <style name="FinanceButton" parent="Widget.Material3.Button.OutlinedButton">
+            <item name="android:textSize">14sp</item>
+            <item name="android:layout_height">48dp</item>
+            <item name="android:insetTop">0dp</item>
+            <item name="android:insetBottom">0dp</item>
+            <item name="shapeAppearance">@style/ShapeAppearance.Material3.SmallComponent</item>
+        </style>
+
+</resources>

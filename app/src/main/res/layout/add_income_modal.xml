@@ -49,9 +49,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Amount"
+            android:importantForAutofill="no"
             android:inputType="numberDecimal"
-            android:maxLines="1"
-            android:importantForAutofill="no" />
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
+    <!--Payment Method-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/paymentMethodInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+        <AutoCompleteTextView
+            android:id="@+id/incomePaymentMethod"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Payment Method"
+            android:inputType="none"
+            android:clickable="true"
+            android:focusable="false" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Transaction ID Input -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transactionIdInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/transactionIdEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Transaction ID (optional)"
+            android:inputType="textVisiblePassword"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <!-- Category Selection -->
@@ -66,7 +100,7 @@
             android:id="@+id/incomeCategorySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category"
+            android:hint="Source"
             android:inputType="none"
             android:clickable="true"
             android:focusable="false" />
@@ -107,6 +141,7 @@
             android:maxLines="3" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <!-- Save Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveIncomeBtn"
@@ -119,5 +154,6 @@
         app:icon="@drawable/ic_save"
         app:iconGravity="textStart"
         app:iconPadding="8dp" />
+
 
 </LinearLayout>

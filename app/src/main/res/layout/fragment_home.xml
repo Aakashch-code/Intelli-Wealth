@@ -648,43 +648,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Quick Actions Floating Button -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabQuickActions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="24dp"
-        android:contentDescription="Quick Actions"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="#9C27B0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="#FFFFFF" />
-    <!-- Child FABs (initially hidden) -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabIncome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:contentDescription="Add Income"
-        android:src="@drawable/ic_income"
-        android:visibility="invisible"
-        app:backgroundTint="#4CAF50"
-        app:layout_anchor="@id/fabQuickActions"
-        app:layout_anchorGravity="top|end"
-        app:tint="#FFFFFF" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabExpense"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:contentDescription="Add Expense"
-        android:src="@drawable/ic_expense"
-        android:visibility="invisible"
-        app:backgroundTint="#F44336"
-        app:layout_anchor="@id/fabQuickActions"
-        app:layout_anchorGravity="top|end"
-        app:tint="#FFFFFF" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

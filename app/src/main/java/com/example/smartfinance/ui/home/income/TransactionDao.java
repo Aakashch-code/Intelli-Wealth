@@ -11,6 +11,9 @@ public interface TransactionDao {
 
     @Insert
     void insertTransaction(Transaction transaction);
+    @Query("SELECT SUM(amount) FROM transactions WHERE type = :type")
+    LiveData<Double> getTotalByType(String type);
+
 
     @Query("SELECT * FROM transactions ORDER BY timestamp DESC")
     LiveData<List<Transaction>> getAllTransactions();

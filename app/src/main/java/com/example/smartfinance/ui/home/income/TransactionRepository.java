@@ -24,6 +24,10 @@ public class TransactionRepository {
         allTransactions = transactionDao.getAllTransactions();
         executorService = Executors.newSingleThreadExecutor();
     }
+    public LiveData<Double> getTotalByType(String type) {
+        return transactionDao.getTotalByType(type);
+    }
+
 
     public LiveData<List<Transaction>> getAllTransactions() {
         return allTransactions;

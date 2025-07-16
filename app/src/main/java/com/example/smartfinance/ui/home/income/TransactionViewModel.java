@@ -24,6 +24,9 @@ public class TransactionViewModel extends AndroidViewModel {
     public void insert(Transaction transaction) {
         repository.insertTransaction(transaction);
     }
+    public LiveData<Double> getTotalByType(String type) {
+        return repository.getTotalByType(type);
+    }
 
     public LiveData<List<Transaction>> getAllTransactions() {
         return allTransactions;

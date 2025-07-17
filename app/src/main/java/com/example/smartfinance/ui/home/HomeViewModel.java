@@ -17,18 +17,34 @@ public class HomeViewModel extends ViewModel {
         mIncome.setValue(0.00);
 
         totalAmount = new MutableLiveData<>();
-        totalAmount.setValue(249.40);
+        totalAmount.setValue(0.00);
 
         mExpenses = new MutableLiveData<>();
-        mExpenses.setValue(750.85);
+        mExpenses.setValue(0.00);
 
         mSavings = new MutableLiveData<>();
         mSavings.setValue(150.00);
     }
 
+    private void updateTotalAmount() {
+        double income = mIncome.getValue() != null ? mIncome.getValue() : 0.0;
+        double expenses = mExpenses.getValue() != null ? mExpenses.getValue() : 0.0;
+        double total = income - expenses;
+        totalAmount.setValue(total);
+    }
     public void addIncome(double amount, String note) {
         double currentIncome = mIncome.getValue() != null ? mIncome.getValue() : 0.0;
         mIncome.setValue(currentIncome + amount);
+
+        updateTotalAmount();
+
+        // TODO: Also add note to DB if needed
+    }
+    public void addExpense(double amount, String note) {
+        double currentExpense = mExpenses.getValue() != null ? mExpenses.getValue() : 0.0;
+        mExpenses.setValue(currentExpense + amount);
+
+        updateTotalAmount();
 
         // TODO: Also add note to DB if needed
     }

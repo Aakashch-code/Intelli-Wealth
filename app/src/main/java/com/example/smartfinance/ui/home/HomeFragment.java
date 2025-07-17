@@ -67,10 +67,18 @@ public class HomeFragment extends Fragment {
         binding.btnAddIncome.setOnClickListener(v -> {
             AddIncomeBottomSheet bottomSheet = new AddIncomeBottomSheet();
             bottomSheet.setIncomeListener((amount, note) -> {
-                homeViewModel.addIncome(amount, note); // Implement this method in ViewModel
+                homeViewModel.addIncome(amount, note);
                 Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
             });
             bottomSheet.show(getChildFragmentManager(), "AddIncomeBottomSheet");
+        });
+        binding.btnAddExpense.setOnClickListener(v -> {
+            AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
+            bottomSheet.setExpenseListener((amount, note) -> {
+                homeViewModel.addExpense(amount, note);
+                Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
+            });
+            bottomSheet.show(getChildFragmentManager(), "AddExpenseBottomSheet");
         });
 
         return root;

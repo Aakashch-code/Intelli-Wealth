@@ -23,8 +23,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import com.example.smartfinance.ui.home.income.Transaction;
 
 public class AddIncomeBottomSheet extends BottomSheetDialogFragment {
+
+
 
     private EditText editTextAmount, editTextNote;
     private Button buttonSave;
@@ -113,6 +116,7 @@ public class AddIncomeBottomSheet extends BottomSheetDialogFragment {
             );
             datePickerDialog.show();
         });
+
 
 
 

@@ -419,7 +419,6 @@
                 android:layout_marginBottom="24dp"
                 app:cardBackgroundColor="#1E1E1E"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="4dp"
                 app:layout_constraintTop_toBottomOf="@id/budgetProgressCard"
                 app:strokeColor="#2E2E2E"
                 app:strokeWidth="1dp">
@@ -427,102 +426,41 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="24dp">
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:text="Recent Transactions"
+                            android:textColor="#FFFFFF"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Recent Transactions"
-                                android:textColor="#FFFFFF"
-                                android:textSize="16sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/viewAllTransactions"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:gravity="end"
-                                android:text="View All"
-                                android:textColor="#2196F3"
-                                android:textSize="14sp" />
-                        </LinearLayout>
-
-                        <com.google.android.material.tabs.TabLayout
-                            android:id="@+id/transactionTabs"
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/viewAllTransactions"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            app:tabBackground="@drawable/tab_selector"
-                            app:tabGravity="fill"
-                            app:tabIndicatorColor="#2196F3"
-                            app:tabIndicatorHeight="2dp"
-                            app:tabMode="fixed"
-                            app:tabRippleColor="@null"
-                            app:tabSelectedTextColor="#FFFFFF"
-                            app:tabTextAppearance="@style/TabTextAppearance"
-                            app:tabTextColor="#A0A0A0">
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="All" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Income" />
-
-                            <com.google.android.material.tabs.TabItem
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Expenses" />
-                        </com.google.android.material.tabs.TabLayout>
+                            android:text="View All"
+                            android:textColor="#4CAF50"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <!-- Transaction Items -->
-                    <include
-                        layout="@layout/item_transaction"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="16dp"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_transaction" />
 
-                    <include
-                        layout="@layout/item_transaction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="8dp" />
-
-                    <include
-                        layout="@layout/item_transaction"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="16dp" />
-
-                    <Button
-                        android:id="@+id/btnAddTransaction"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="24dp"
-                        android:layout_marginBottom="16dp"
-                        android:text="Add New Transaction"
-                        android:textColor="#2196F3" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.SmartFinance.NoActionBar">
+    <style name="Theme.SmartFinance.NoActionBar" parent="Theme.SmartFinance">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

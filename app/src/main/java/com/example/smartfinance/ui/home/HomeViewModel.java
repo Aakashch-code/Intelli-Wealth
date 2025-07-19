@@ -3,6 +3,9 @@ package com.example.smartfinance.ui.home;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
+
+import com.example.smartfinance.ui.home.income.TransactionViewModel;
 
 public class HomeViewModel extends ViewModel {
 
@@ -39,6 +42,7 @@ public class HomeViewModel extends ViewModel {
         updateTotalAmount();
 
         // TODO: Also add note to DB if needed
+
     }
     public void addExpense(double amount, String note) {
         double currentExpense = mExpenses.getValue() != null ? mExpenses.getValue() : 0.0;
@@ -64,4 +68,5 @@ public class HomeViewModel extends ViewModel {
     public LiveData<Double> getSavings() {
         return mSavings;
     }
+    
 }

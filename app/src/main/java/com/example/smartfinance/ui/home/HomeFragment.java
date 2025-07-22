@@ -77,8 +77,14 @@ public class HomeFragment extends Fragment {
             bottomSheet.show(getChildFragmentManager(), "AddExpenseBottomSheet");
         });
 
-        // Set up RecyclerView with dummy data (replace with live data later)
-        setupRecyclerView(root);
+        // Observe all transactions for RecyclerView
+        TransactionAdapter transactionAdapter = new TransactionAdapter(new ArrayList<>(), getContext());
+        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerView.setAdapter(transactionAdapter);
+
+        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), transactions -> {
+            transactionAdapter.setTransactions(transactions);
+        });
 
         return root;
     }
@@ -106,18 +112,6 @@ public class HomeFragment extends Fragment {
             expenseText.setText(String.format("$ %.2f", currentExpense));
             homeViewModel.updateBudget(currentIncome, currentExpense);
         });
-    }
-
-    private void setupRecyclerView(View root) {
-        RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
-        List<recentTransactions> transactions = new ArrayList<>();
-
-        // Dummy data for now — replace with database data later
-        transactions.add(new recentTransactions(50.0, "Income", "Salary", System.currentTimeMillis()));
-        transactions.add(new recentTransactions(50.0, "Expense", "Groceries", System.currentTimeMillis() - 86400000));
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new TransactionAdapter(transactions, getContext()));
     }
 
     @Override

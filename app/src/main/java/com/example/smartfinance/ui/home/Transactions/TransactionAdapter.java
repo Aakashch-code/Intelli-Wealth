@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartfinance.R;
+import com.example.smartfinance.ui.home.income.Transaction;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
 
 
     Context context;
-    List<recentTransactions> transactions;
+    List<Transaction> transactions;
 
-    public TransactionAdapter(List<recentTransactions> transactions, Context context) {
+    public TransactionAdapter(List<Transaction> transactions, Context context) {
         this.transactions = transactions;
         this.context = context;
     }
@@ -45,5 +46,10 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
     @Override
     public int getItemCount() {
         return transactions.size();
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
+        notifyDataSetChanged();
     }
 }

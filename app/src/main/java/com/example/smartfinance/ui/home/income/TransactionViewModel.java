@@ -30,7 +30,8 @@ public class TransactionViewModel extends AndroidViewModel {
         return repository.getTotalByType(type);
     }
 
-
-
+    public LiveData<List<Transaction>> getAllTransactions() {
+        return allTransactions;
+    }
 
 }

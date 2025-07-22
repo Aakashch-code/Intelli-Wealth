@@ -21,4 +21,5 @@ public interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE type = :type ORDER BY timestamp DESC")
     LiveData<List<Transaction>> getTransactionsByType(String type);
+
 }

@@ -24,105 +24,101 @@ import com.example.smartfinance.ui.home.income.TransactionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class HomeFragment extends Fragment {
-    private List<Transaction> transactions;
+
+    private FragmentHomeBinding binding;
+    private HomeViewModel homeViewModel;
+    private double currentIncome = 0.0;
+    private double currentExpense = 0.0;
 
     public HomeFragment() {
         super(R.layout.fragment_home);
     }
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        binding = FragmentHomeBinding.bind(view);
-
-
-        // Initialize TransactionViewModel (for Room access)
-        TransactionViewModel transactionViewModel = new ViewModelProvider(
-                requireActivity(),
-                new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
-        ).get(TransactionViewModel.class);
-
-        // Reference to your income TextView
-        TextView incomeText = view.findViewById(R.id.incomeAmount);
-
-        // Observe total income from DB
-        transactionViewModel.getTotalByType("Income").observe(getViewLifecycleOwner(), income -> {
-            double incomeValue = income != null ? income : 0.0;
-            incomeText.setText(String.format("$ %.2f", incomeValue));
-        });
-    }
-    private List<Transaction> transactionList = new ArrayList<>();
-
-    private FragmentHomeBinding binding;
-    private HomeViewModel homeViewModel;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        // Inflate layout and bind views
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Initialize ViewModels
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        TransactionViewModel transactionViewModel = new ViewModelProvider(
+                requireActivity(),
+                new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
+        ).get(TransactionViewModel.class);
 
+        // Observe LiveData for UI updates
+        observeViewModels(homeViewModel, transactionViewModel);
 
-        // Observers for LiveData
-        homeViewModel.getBudget().observe(getViewLifecycleOwner(),
-                value -> binding.totalBalance.setText("$" + value));
-
-        homeViewModel.getExpenses().observe(getViewLifecycleOwner(),
-                value -> binding.expenseAmount.setText("$" + value));
-
-        homeViewModel.getIncome().observe(getViewLifecycleOwner(),
-                value -> binding.incomeAmount.setText("$" + value));
-
-        homeViewModel.getSavings().observe(getViewLifecycleOwner(),
-                value -> binding.savingsAmount.setText("$" + value));
-
-        // Handle Add Income button click
+        // Set up Add Income button
         binding.btnAddIncome.setOnClickListener(v -> {
             AddIncomeBottomSheet bottomSheet = new AddIncomeBottomSheet();
             bottomSheet.setIncomeListener((amount, note) -> {
-                homeViewModel.addIncome(amount, note);
                 Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
+
+                Transaction transaction = new Transaction("Income", amount, note, System.currentTimeMillis());
+                transactionViewModel.insert(transaction);
             });
             bottomSheet.show(getChildFragmentManager(), "AddIncomeBottomSheet");
         });
+
+        // Set up Add Expense button
         binding.btnAddExpense.setOnClickListener(v -> {
             AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
             bottomSheet.setExpenseListener((amount, note) -> {
-                homeViewModel.addExpense(amount, note);
                 Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
+
+                Transaction transaction = new Transaction("Expense", amount, note, System.currentTimeMillis());
+                transactionViewModel.insert(transaction);
             });
             bottomSheet.show(getChildFragmentManager(), "AddExpenseBottomSheet");
         });
 
-        int mincome = 10;
-        RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
-        List<recentTransactions> transactions = new ArrayList<recentTransactions>();
-        transactions.add(new recentTransactions(mincome, "Income", "Salary", System.currentTimeMillis()));
-        transactions.add(new recentTransactions(50.0, "Expense", "Groceries", System.currentTimeMillis() - 86400000)); // 1 day ago
-        transactions.add(new recentTransactions(200.0, "Income", "Freelancing", System.currentTimeMillis() - 2 * 86400000)); // 2 days ago
-        transactions.add(new recentTransactions(75.5, "Expense", "Electricity Bill", System.currentTimeMillis() - 3 * 86400000));
-        transactions.add(new recentTransactions(30.0, "Expense", "Mobile Recharge", System.currentTimeMillis() - 4 * 86400000));
-        transactions.add(new recentTransactions(150.0, "Income", "Gift", System.currentTimeMillis() - 5 * 86400000));
-        transactions.add(new recentTransactions(120.0, "Expense", "Restaurant", System.currentTimeMillis() - 6 * 86400000));
-        transactions.add(new recentTransactions(90.0, "Income", "Cashback", System.currentTimeMillis() - 7 * 86400000));
-        transactions.add(new recentTransactions(40.0, "Expense", "Travel", System.currentTimeMillis() - 8 * 86400000));
-        transactions.add(new recentTransactions(300.0, "Income", "Part-time Job", System.currentTimeMillis() - 9 * 86400000));
-        transactions.add(new recentTransactions(60.0, "Expense", "Stationery", System.currentTimeMillis() - 10 * 86400000));
-
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        recyclerView.setAdapter(new TransactionAdapter(transactions,this.getContext()));
+        // Set up RecyclerView with dummy data (replace with live data later)
+        setupRecyclerView(root);
 
         return root;
     }
 
+    private void observeViewModels(HomeViewModel homeViewModel, TransactionViewModel transactionViewModel) {
+        // Budget, Expense, Income, and Savings observers
+        homeViewModel.getBudget().observe(getViewLifecycleOwner(),
+                value -> binding.totalBalance.setText(String.format("$ %.2f", value)));
 
+        homeViewModel.getSavings().observe(getViewLifecycleOwner(),
+                value -> binding.savingsAmount.setText("$" + value));
 
+        // Observe Room DB income directly
+        TextView incomeText = binding.incomeAmount;
+        transactionViewModel.getTotalByType("Income").observe(getViewLifecycleOwner(), income -> {
+            currentIncome = income != null ? income : 0.0;
+            incomeText.setText(String.format("$ %.2f", currentIncome));
+            homeViewModel.updateBudget(currentIncome, currentExpense);
+        });
+
+        // Observe Room DB expense directly
+        TextView expenseText = binding.expenseAmount;
+        transactionViewModel.getTotalByType("Expense").observe(getViewLifecycleOwner(), expense -> {
+            currentExpense = expense != null ? expense : 0.0;
+            expenseText.setText(String.format("$ %.2f", currentExpense));
+            homeViewModel.updateBudget(currentIncome, currentExpense);
+        });
+    }
+
+    private void setupRecyclerView(View root) {
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
+        List<recentTransactions> transactions = new ArrayList<>();
+
+        // Dummy data for now — replace with database data later
+        transactions.add(new recentTransactions(50.0, "Income", "Salary", System.currentTimeMillis()));
+        transactions.add(new recentTransactions(50.0, "Expense", "Groceries", System.currentTimeMillis() - 86400000));
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(new TransactionAdapter(transactions, getContext()));
+    }
 
     @Override
     public void onDestroyView() {

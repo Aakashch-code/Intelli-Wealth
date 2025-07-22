@@ -41,4 +41,7 @@ public class TransactionRepository {
     public void shutDown() {
         executorService.shutdown();
     }
+
+    public void insert(Transaction transaction) {
+    }
 }

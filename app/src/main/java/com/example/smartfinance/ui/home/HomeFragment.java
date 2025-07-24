@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +18,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartfinance.R;
 import com.example.smartfinance.databinding.FragmentHomeBinding;
+import com.example.smartfinance.ui.budget.AddBudgetBottomSheet;
 import com.example.smartfinance.ui.home.Transactions.TransactionAdapter;
 import com.example.smartfinance.ui.home.Transactions.recentTransactions;
 import com.example.smartfinance.ui.home.income.Transaction;
 import com.example.smartfinance.ui.home.income.TransactionViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +40,58 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        FloatingActionButton fabMenu = view.findViewById(R.id.fabMenu);
+        FloatingActionButton fabAddIncome = view.findViewById(R.id.btnAddIncome);
+        FloatingActionButton fabAddExpense = view.findViewById(R.id.btnAddExpense);
+        FloatingActionButton fabAddBudget = view.findViewById(R.id.btnAddBudget);
+
+        fabAddBudget.setOnClickListener(v -> {
+            AddBudgetBottomSheet bottomSheet = new AddBudgetBottomSheet();
+            bottomSheet.show(getParentFragmentManager(), bottomSheet.getTag());
+        });
+
+        final boolean[] isFabMenuOpen = {false};
+
+        fabMenu.setOnClickListener(v -> {
+            if (!isFabMenuOpen[0]) {
+                // Show mini FABs with animation
+                showFab(fabAddIncome);
+                showFab(fabAddExpense);
+                showFab(fabAddBudget);
+                fabMenu.animate().rotation(45f).setDuration(200).start(); // rotate main FAB
+            } else {
+                // Hide mini FABs with animation
+                hideFab(fabAddIncome);
+                hideFab(fabAddExpense);
+                hideFab(fabAddBudget);
+                fabMenu.animate().rotation(0f).setDuration(200).start();
+            }
+            isFabMenuOpen[0] = !isFabMenuOpen[0];
+        });
+
+    }
+
+    // Animation helpers
+    private void showFab(FloatingActionButton fab) {
+        fab.setVisibility(View.VISIBLE);
+        fab.setAlpha(0f);
+        fab.setTranslationY(100f);
+        fab.animate().alpha(1f).translationY(0f).setDuration(200).start();
+    }
+
+    private void hideFab(FloatingActionButton fab) {
+        fab.animate().alpha(0f).translationY(100f).setDuration(200)
+                .withEndAction(() -> fab.setVisibility(View.GONE))
+                .start();
+    }
+
+
+    @Override
+    public View onCreateView(@NonNull  LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
         // Inflate layout and bind views
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -64,7 +117,6 @@ public class HomeFragment extends Fragment {
             });
             bottomSheet.show(getChildFragmentManager(), "AddIncomeBottomSheet");
         });
-
         // Set up Add Expense button
         binding.btnAddExpense.setOnClickListener(v -> {
             AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
@@ -94,8 +146,6 @@ public class HomeFragment extends Fragment {
         homeViewModel.getBudget().observe(getViewLifecycleOwner(),
                 value -> binding.totalBalance.setText(String.format("$ %.2f", value)));
 
-        homeViewModel.getSavings().observe(getViewLifecycleOwner(),
-                value -> binding.savingsAmount.setText("$" + value));
 
         // Observe Room DB income directly
         TextView incomeText = binding.incomeAmount;

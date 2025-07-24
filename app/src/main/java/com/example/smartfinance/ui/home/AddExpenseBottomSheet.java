@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.smartfinance.R;
+import com.example.smartfinance.ui.home.income.Transaction;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -73,11 +74,12 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
 
         // Set up category spinner
         AutoCompleteTextView categorySpinner = view.findViewById(R.id.expenseCategorySpinner);
-        String[] categories = {"-- Expense --", "Food", "Transport", "Shopping", "Health", "Entertainment", "Education", "Bills", "EMI", "Others"};
+        String[] categories = {"Food", "Transport", "Shopping", "Health", "Entertainment", "Education", "Bills", "EMI", "Others"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categories);
         categorySpinner.setAdapter(adapter);
         categorySpinner.setOnClickListener(v -> categorySpinner.showDropDown());
+
 
         // Set payment method spinner
         AutoCompleteTextView paymentMethodSpinner = view.findViewById(R.id.expensePaymentMethod);
@@ -107,5 +109,6 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
             );
             datePickerDialog.show();
         });
+
     }
 }

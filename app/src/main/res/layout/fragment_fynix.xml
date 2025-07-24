@@ -3,11 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context=".ui.fynix.FynixFragment">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:id="@+id/comingSoonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🚧 Coming Soon 🚧"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#FFEB3B"
+        android:layout_gravity="center"
+        android:shadowColor="#80000000"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="4"
+        android:padding="16dp" />
 
 </FrameLayout>

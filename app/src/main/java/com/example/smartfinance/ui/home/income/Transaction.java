@@ -21,6 +21,7 @@ public class Transaction {
     public String paymentMethod;
     public String note;
 
+
     public long timestamp;  // For sorting
     public Transaction(String type, double amount, String note, long timestamp) {
         this.type = type;

@@ -10,13 +10,13 @@
         android:label="intelli Wealth"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GlassyBlack"
+        android:theme="@style/Theme.FinanceApp"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="Intelli Wealth"
-            android:theme="@style/Theme.SmartFinance.NoActionBar">
+            android:theme="@style/Theme.FinanceApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -6,7 +6,6 @@
 
 ## 📱 App Screenshots
 
-> *Insert screenshots for each section below*
 
 | Home | Budget | Insights |
 |------|--------|----------|

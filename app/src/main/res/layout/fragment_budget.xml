@@ -86,7 +86,6 @@
                                 android:id="@+id/tv_total_budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sample_total_budget"
                                 android:textColor="@color/text_primary"
                                 android:textSize="@dimen/text_large"
                                 android:textStyle="bold" />
@@ -110,7 +109,6 @@
                                 android:id="@+id/tv_amount_spent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sample_spent"
                                 android:textColor="@color/error"
                                 android:textSize="@dimen/text_large"
                                 android:textStyle="bold" />
@@ -134,7 +132,6 @@
                                 android:id="@+id/tv_remaining_budget"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sample_remaining"
                                 android:textColor="@color/success"
                                 android:textSize="@dimen/text_large"
                                 android:textStyle="bold" />
@@ -180,7 +177,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/spacing_small"
+                android:layout_marginBottom="@dimen/spacing_large"
                 android:gravity="center_vertical"
                 app:layout_constraintTop_toBottomOf="@id/card_budget_summary"
                 app:layout_constraintStart_toStartOf="parent">
@@ -189,7 +186,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/budget_categories"
                     android:textColor="@color/text_primary"
                     android:textSize="@dimen/text_headline"
                     android:textStyle="bold" />
@@ -270,6 +266,7 @@
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:elevation="@dimen/card_elevation"
                 app:layout_constraintTop_toBottomOf="@id/budgetCard"
+                android:layout_marginTop="@dimen/spacing_large"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="@dimen/spacing_large">
 
@@ -316,12 +313,13 @@
                     </LinearLayout>
 
                     <!-- Chart Placeholder (Replace with ChartView in real implementation) -->
-                    <View
-                        android:id="@+id/chart_placeholder"
-                        android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:background="@color/chart_background"
-                        android:layout_marginBottom="@dimen/spacing_small" />
+                  <com.github.mikephil.charting.charts.PieChart
+                      android:id="@+id/chart_placeholder"
+                      android:layout_width="match_parent"
+                      android:layout_height="match_parent"
+                      android:layout_marginBottom="@dimen/spacing_small"
+                      android:minHeight="250sp"
+                      android:background="@color/chart_background"/>
 
                     <!-- Quick Stats -->
                     <LinearLayout

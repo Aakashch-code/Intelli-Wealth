@@ -95,13 +95,15 @@
 
                 <!-- Income Card -->
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="190dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#252525"
                     app:cardCornerRadius="16dp"
                     app:strokeColor="#4CAF50"
+                    android:layout_marginTop="20dp"
+
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -119,9 +121,7 @@
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/ic_income"
-                                app:tint="#4CAF50" />
-
+                                app:srcCompat="@drawable/ic_income"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -154,13 +154,14 @@
 
                 <!-- Expense Card -->
                 <com.google.android.material.card.MaterialCardView
-                    android:layout_width="190dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
                     android:layout_weight="1"
                     app:cardBackgroundColor="#252525"
                     app:cardCornerRadius="16dp"
                     app:strokeColor="#F44336"
+                    android:layout_marginTop="20dp"
                     app:strokeWidth="1dp">
 
                     <LinearLayout
@@ -178,9 +179,7 @@
                             <ImageView
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
-                                android:src="@drawable/ic_expense"
-                                app:tint="#F44336" />
-
+                                app:srcCompat="@drawable/ic_expense"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -223,6 +222,7 @@
                 app:cardElevation="4dp"
                 app:layout_constraintTop_toBottomOf="@id/statsRow"
                 app:strokeColor="#2E2E2E"
+                android:layout_marginTop="20dp"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -247,80 +247,12 @@
                         android:textColor="#A0A0A0"
                         android:textSize="12sp" />
 
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/budgetProgressBar"
-                        style="@style/Widget.MaterialComponents.LinearProgressIndicator"
+                    <com.github.mikephil.charting.charts.PieChart
                         android:layout_width="match_parent"
-                        android:layout_height="8dp"
-                        android:layout_marginTop="16dp"
-                        android:progress="65"
-                        app:indicatorColor="#4CAF50"
-                        app:trackColor="#333333" />
+                        android:layout_height="match_parent"
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                        android:layout_marginTop="16dp"/>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="65% used"
-                            android:textColor="#A0A0A0"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="$1,150 of $1,800"
-                            android:textColor="#A0A0A0"
-                            android:textSize="12sp" />
-                    </LinearLayout>
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:singleLine="true"
-                        app:singleSelection="false">
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Food"
-                            app:chipBackgroundColor="#2E7D32"
-                            app:chipStrokeColor="#4CAF50"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Transport"
-                            app:chipBackgroundColor="#1565C0"
-                            app:chipStrokeColor="#2196F3"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Shopping"
-                            app:chipBackgroundColor="#6A1B9A"
-                            app:chipStrokeColor="#9C27B0"
-                            app:chipStrokeWidth="1dp" />
-
-                        <com.google.android.material.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="+3 more"
-                            app:chipBackgroundColor="#1E1E1E"
-                            app:chipStrokeColor="#A0A0A0"
-                            app:chipStrokeWidth="1dp" />
-                    </com.google.android.material.chip.ChipGroup>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -334,6 +266,7 @@
                 app:cardCornerRadius="20dp"
                 app:layout_constraintTop_toBottomOf="@id/budgetProgressCard"
                 app:strokeColor="#2E2E2E"
+                android:layout_marginTop="20dp"
                 app:strokeWidth="1dp">
 
                 <LinearLayout

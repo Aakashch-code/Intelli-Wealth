@@ -94,9 +94,13 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/incomeChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#2D2D2D" />
+                    android:layout_height="300dp"
+                    android:layout_margin="18dp"
+                    android:background="@color/dark_background"
+                    android:elevation="4dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -137,7 +141,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Expense Breakdown"
+                    android:text="Financial Expenditure Analysis"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:textColor="#FFFFFF" />
@@ -145,10 +149,13 @@
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/expenseChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#2D2D2D" />
-
+                    android:layout_height="350dp"
+                    android:layout_margin="16dp"
+                    android:background="@color/dark_background"
+                    android:elevation="4dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

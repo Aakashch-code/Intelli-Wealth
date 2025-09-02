@@ -22,21 +22,64 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
+/**
+ * HomeFragment - Main screen for showing budget, income, expenses,
+ * and recent transactions.
+ */
 public class HomeFragment extends Fragment {
 
+    // ----------------- UI & Data Members -----------------
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private double currentIncome = 0.0;
     private double currentExpense = 0.0;
 
+    // ----------------- Constructor -----------------
     public HomeFragment() {
         super(R.layout.fragment_home);
     }
 
+    // ----------------- Lifecycle Methods -----------------
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupFabMenu(view);
+    }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        // Inflate layout with ViewBinding
+        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        // Initialize ViewModels
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        TransactionViewModel transactionViewModel = new ViewModelProvider(
+                requireActivity(),
+                new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
+        ).get(TransactionViewModel.class);
+
+        // Observe LiveData (Budget, Income, Expense)
+        observeViewModels(homeViewModel, transactionViewModel);
+
+        // Setup Add Income & Expense Buttons
+        setupTransactionButtons(transactionViewModel);
+
+        // Setup RecyclerView for Transactions
+        setupRecyclerView(transactionViewModel);
+
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    // ----------------- FAB Menu (Main + Mini FABs) -----------------
+    private void setupFabMenu(View view) {
         FloatingActionButton fabMenu = view.findViewById(R.id.fabMenu);
         FloatingActionButton fabAddIncome = view.findViewById(R.id.btnAddIncome);
         FloatingActionButton fabAddExpense = view.findViewById(R.id.btnAddExpense);
@@ -46,24 +89,20 @@ public class HomeFragment extends Fragment {
 
         fabMenu.setOnClickListener(v -> {
             if (!isFabMenuOpen[0]) {
-                // Show mini FABs with animation
                 showFab(fabAddIncome);
                 showFab(fabAddExpense);
                 showFab(fabAddBudget);
-                fabMenu.animate().rotation(45f).setDuration(200).start(); // rotate main FAB
+                fabMenu.animate().rotation(45f).setDuration(200).start(); // Rotate open
             } else {
-                // Hide mini FABs with animation
                 hideFab(fabAddIncome);
                 hideFab(fabAddExpense);
                 hideFab(fabAddBudget);
-                fabMenu.animate().rotation(0f).setDuration(200).start();
+                fabMenu.animate().rotation(0f).setDuration(200).start(); // Rotate close
             }
             isFabMenuOpen[0] = !isFabMenuOpen[0];
         });
-
     }
 
-    // Animation helpers
     private void showFab(FloatingActionButton fab) {
         fab.setVisibility(View.VISIBLE);
         fab.setAlpha(0f);
@@ -77,66 +116,49 @@ public class HomeFragment extends Fragment {
                 .start();
     }
 
-
-    @Override
-    public View onCreateView(@NonNull  LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        // Inflate layout and bind views
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
-
-        // Initialize ViewModels
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        TransactionViewModel transactionViewModel = new ViewModelProvider(
-                requireActivity(),
-                new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
-        ).get(TransactionViewModel.class);
-
-        // Observe LiveData for UI updates
-        observeViewModels(homeViewModel, transactionViewModel);
-
-        // Set up Add Income button
+    // ----------------- Transaction Buttons -----------------
+    private void setupTransactionButtons(TransactionViewModel transactionViewModel) {
+        // Add Income
         binding.btnAddIncome.setOnClickListener(v -> {
             AddIncomeBottomSheet bottomSheet = new AddIncomeBottomSheet();
             bottomSheet.setIncomeListener((amount, note) -> {
                 Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
-
                 Transaction transaction = new Transaction("Income", amount, note, System.currentTimeMillis());
                 transactionViewModel.insert(transaction);
             });
             bottomSheet.show(getChildFragmentManager(), "AddIncomeBottomSheet");
         });
-        // Set up Add Expense button
+
+        // Add Expense
         binding.btnAddExpense.setOnClickListener(v -> {
             AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
             bottomSheet.setExpenseListener((amount, note) -> {
                 Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
-
                 Transaction transaction = new Transaction("Expense", amount, note, System.currentTimeMillis());
                 transactionViewModel.insert(transaction);
             });
             bottomSheet.show(getChildFragmentManager(), "AddExpenseBottomSheet");
         });
+    }
 
-        // Observe all transactions for RecyclerView
+    // ----------------- RecyclerView Setup -----------------
+    private void setupRecyclerView(TransactionViewModel transactionViewModel) {
         TransactionAdapter transactionAdapter = new TransactionAdapter(new ArrayList<>(), getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(transactionAdapter);
 
-        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(), transactions -> {
-            transactionAdapter.setTransactions(transactions);
-        });
-
-        return root;
+        // Observe DB changes -> Update list
+        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(),
+                transactionAdapter::setTransactions);
     }
 
+    // ----------------- ViewModel Observers -----------------
     private void observeViewModels(HomeViewModel homeViewModel, TransactionViewModel transactionViewModel) {
-        // Budget, Expense, Income, and Savings observers
+        // Budget
         homeViewModel.getBudget().observe(getViewLifecycleOwner(),
                 value -> binding.totalBalance.setText(String.format("$ %.2f", value)));
 
-
-        // Observe Room DB income directly
+        // Income
         TextView incomeText = binding.incomeAmount;
         transactionViewModel.getTotalByType("Income").observe(getViewLifecycleOwner(), income -> {
             currentIncome = income != null ? income : 0.0;
@@ -144,18 +166,12 @@ public class HomeFragment extends Fragment {
             homeViewModel.updateBudget(currentIncome, currentExpense);
         });
 
-        // Observe Room DB expense directly
+        // Expense
         TextView expenseText = binding.expenseAmount;
         transactionViewModel.getTotalByType("Expense").observe(getViewLifecycleOwner(), expense -> {
             currentExpense = expense != null ? expense : 0.0;
             expenseText.setText(String.format("$ %.2f", currentExpense));
             homeViewModel.updateBudget(currentIncome, currentExpense);
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        binding = null;
     }
 }

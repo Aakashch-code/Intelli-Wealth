@@ -21,7 +21,7 @@ public class TransactionViewModel extends AndroidViewModel {
         allTransactions = repository.getAllTransactions();
     }
 
-    public void insert(Transaction transaction) {
+    public void insert(Transaction transaction ) {
         repository.insertTransaction(transaction);
     }
 

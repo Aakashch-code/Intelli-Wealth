@@ -4,18 +4,84 @@
         <dimen name="activity_vertical_margin">16dp</dimen>
         <dimen name="nav_header_vertical_spacing">8dp</dimen>
         <dimen name="nav_header_height">176dp</dimen>
-        <dimen name="fab_margin">16dp</dimen>
         <dimen name="spacing_small">8dp</dimen>
         <dimen name="spacing_medium">16dp</dimen>
         <dimen name="spacing_large">24dp</dimen>
         <dimen name="fab_margin_bottom">104dp</dimen>
-        <dimen name="card_corner_radius">12dp</dimen>
-        <dimen name="card_corner_radius_large">20dp</dimen>
-        <dimen name="card_elevation">4dp</dimen>
         <dimen name="text_caption">14sp</dimen>
         <dimen name="text_medium">16sp</dimen>
         <dimen name="text_large">20sp</dimen>
         <dimen name="text_title">18sp</dimen>
         <dimen name="text_headline">22sp</dimen>
+        <!-- Spacing -->
+        <dimen name="spacing_tiny">4dp</dimen>
+        <dimen name="spacing_extra_large">32dp</dimen>
+
+        <!-- Text Sizes -->
+        <dimen name="text_body">14sp</dimen>
+        <dimen name="text_extra_large">24sp</dimen>
+
+        <!-- Card Properties -->
+        <dimen name="card_corner_radius">8dp</dimen>
+        <dimen name="card_corner_radius_large">12dp</dimen>
+        <dimen name="card_elevation">4dp</dimen>
+        <dimen name="card_stroke_width">1dp</dimen>
+
+        <!-- Button Properties -->
+        <dimen name="button_corner_radius">8dp</dimen>
+        <dimen name="button_elevation">2dp</dimen>
+        <dimen name="button_stroke_width">1dp</dimen>
+        <dimen name="button_min_height">48dp</dimen>
+
+        <!-- Input Field Properties -->
+        <dimen name="input_corner_radius">8dp</dimen>
+        <dimen name="input_stroke_width">2dp</dimen>
+        <dimen name="input_min_height">56dp</dimen>
+
+        <!-- Icon Sizes -->
+        <dimen name="icon_small">16dp</dimen>
+        <dimen name="icon_medium">24dp</dimen>
+        <dimen name="icon_large">32dp</dimen>
+        <dimen name="icon_extra_large">48dp</dimen>
+
+        <!-- Progress Bar -->
+        <dimen name="progress_height">8dp</dimen>
+        <dimen name="progress_corner_radius">4dp</dimen>
+
+        <!-- Dialog Properties -->
+        <dimen name="dialog_corner_radius">16dp</dimen>
+        <dimen name="dialog_elevation">8dp</dimen>
+        <dimen name="dialog_margin">24dp</dimen>
+
+        <!-- FAB Properties -->
+        <dimen name="fab_margin">16dp</dimen>
+        <dimen name="fab_mini_margin">16dp</dimen>
+        <dimen name="fab_mini_bottom_margin">104dp</dimen>
+
+        <!-- Chart Properties -->
+        <dimen name="chart_min_height">250dp</dimen>
+        <dimen name="chart_corner_radius">8dp</dimen>
+
+        <!-- Touch Target -->
+        <dimen name="touch_target_size">48dp</dimen>
+        <dimen name="touch_target_min">44dp</dimen>
+
+        <!-- Divider -->
+        <dimen name="divider_height">1dp</dimen>
+
+        <!-- Status Bar -->
+        <dimen name="status_bar_height">24dp</dimen>
+
+        <!-- App Bar -->
+        <dimen name="app_bar_height">56dp</dimen>
+
+        <!-- Bottom Navigation -->
+        <dimen name="bottom_nav_height">56dp</dimen>
+
+        <!-- Specific to Budget Dialog -->
+        <dimen name="dialog_header_height">64dp</dimen>
+        <dimen name="dialog_content_padding">24dp</dimen>
+        <dimen name="date_field_spacing">8dp</dimen>
+        <dimen name="button_section_margin_top">16dp</dimen>
 
 </resources>

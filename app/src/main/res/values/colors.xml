@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material Base Colors -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -9,28 +10,48 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black_translucent">#80000000</color>
 
-        <!-- Custom colors -->
-        <color name="dark_background">#0F0F0F</color>
-        <color name="card_background">#1E1E1E</color>
-        <color name="card_background_secondary">#252525</color>
-        <color name="text_primary">#FFFFFF</color>
-        <color name="text_secondary">#A0A0A0</color>
-        <color name="text_hint">#707070</color>
-        <color name="divider">#252525</color>
+    <!-- Budget Theme Base -->
+    <color name="colorPrimary">#2196F3</color>
+    <color name="colorPrimaryDark">#1976D2</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#000000</color>
+    <color name="colorBackground">#F5F5F5</color>
 
-        <!-- Financial colors -->
-        <color name="income_green">#4CAF50</color>
-        <color name="expense_red">#F44336</color>
-        <color name="savings_blue">#2196F3</color>
-        <color name="ai_purple">#9C27B0</color>
+    <!-- Budget Specific Colors -->
+    <color name="budget_primary">#4CAF50</color>
+    <color name="budget_secondary">#81C784</color>
+    <color name="budget_expense">#F44336</color>
+    <color name="budget_income">#4CAF50</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#9E9E9E</color>
+    <color name="divider_color">#E0E0E0</color>
+    <color name="card_background">#1E1E1E</color>
+    <color name="success_green">#4CAF50</color>
+    <color name="warning_orange">#FF9800</color>
+    <color name="error_red">#F44336</color>
 
+    <!-- Priority Colors -->
+    <color name="priority_high">#F44336</color>
+    <color name="priority_medium">#FF9800</color>
+    <color name="priority_low">#4CAF50</color>
 
-        <color name="accent">#03DAC5</color>
-        <color name="error">#F44336</color>
-        <color name="success">#4CAF50</color>
-        <color name="warning">#FF9800</color>
-        <color name="progress_background">#2D2D2D</color>
-        <color name="chart_background">#2D2D2D</color>
-        <color name="card_stroke">#2E2E2E</color>
+    <!-- Expense / Income / Savings -->
+    <color name="expense_red">#F44336</color>
+    <color name="income_green">#4CAF50</color>
+    <color name="savings_blue">#2196F3</color>
+    <color name="dark_background">#0F0F0F</color>
+
+    <!-- Status & Alerts -->
+    <color name="accent">#03DAC5</color>
+    <color name="error">#F44336</color>
+    <color name="success">#4CAF50</color>
+    <color name="warning">#FF9800</color>
+
+    <!-- UI Backgrounds -->
+    <color name="progress_background">#2D2D2D</color>
+    <color name="card_stroke">#2E2E2E</color>
+    <color name="chart_background">#2D2D2D</color>
 
 </resources>

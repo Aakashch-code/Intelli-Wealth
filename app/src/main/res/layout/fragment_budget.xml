@@ -11,7 +11,6 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSurface"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +26,7 @@
                 app:cardBackgroundColor="@color/card_background"
                 app:cardCornerRadius="@dimen/card_corner_radius"
                 app:elevation="@dimen/card_elevation"
+
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginBottom="@dimen/spacing_large">
@@ -337,7 +337,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sample_avg_daily"
                                 android:textColor="@color/success"
                                 android:textSize="@dimen/text_medium"
                                 android:textStyle="bold" />
@@ -361,7 +360,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sample_days_left"
                                 android:textColor="@color/warning"
                                 android:textSize="@dimen/text_medium"
                                 android:textStyle="bold" />
@@ -385,7 +383,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/sample_daily_limit"
                                 android:textColor="@color/accent"
                                 android:textSize="@dimen/text_medium"
                                 android:textStyle="bold" />

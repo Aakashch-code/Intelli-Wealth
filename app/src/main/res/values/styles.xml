@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Base application theme -->
     <style name="Theme.FinanceApp" parent="Theme.Material3.Dark.NoActionBar">
         <!-- Primary brand color -->
@@ -12,12 +13,10 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here -->
     </style>
 
     <style name="CustomProgressIndicator" parent="Widget.Material3.LinearProgressIndicator">
         <item name="trackCornerRadius">6dp</item>
-        <!-- Add other customizations if needed -->
     </style>
 
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
@@ -27,7 +26,7 @@
     </style>
 
     <style name="FinanceCard" parent="Widget.Material3.CardView.Elevated">
-        <item name="cardBackgroundColor">#1E1E1E</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">2dp</item>
         <item name="android:layout_margin">8dp</item>
@@ -39,6 +38,155 @@
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="shapeAppearance">@style/ShapeAppearance.Material3.SmallComponent</item>
+    </style>
+
+    <!-- Budget Text Styles -->
+    <style name="BudgetTextAppearance" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="BudgetTextAppearance.Caption" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="BudgetTextAppearance.Headline" parent="TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+    </style>
+
+    <!-- Budget EditText -->
+    <style name="BudgetEditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:background">@drawable/budget_edittext_background</item>
+        <item name="android:fontFamily">@font/regular</item>
+    </style>
+
+    <style name="BudgetEditText.Amount">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">@font/regular</item>
+        <item name="android:textColor">@color/budget_primary</item>
+    </style>
+
+    <!-- Budget TextInputLayout -->
+    <style name="BudgetTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/budget_primary</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        <item name="hintTextColor">@color/budget_primary</item>
+        <item name="errorTextColor">@color/error_red</item>
+    </style>
+
+    <style name="BudgetTextInputLayout.DropDown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/budget_primary</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="android:textColorHint">@color/text_hint</item>
+        <item name="hintTextColor">@color/budget_primary</item>
+    </style>
+
+    <!-- Budget Buttons -->
+    <style name="BudgetButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/inter_medium</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingStart">24dp</item>
+        <item name="android:paddingEnd">24dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="BudgetButton.Primary">
+        <item name="backgroundTint">@color/budget_primary</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="rippleColor">@color/budget_secondary</item>
+    </style>
+
+    <style name="BudgetButton.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="strokeColor">@color/budget_primary</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:textColor">@color/budget_primary</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/medium</item>
+        <item name="rippleColor">@color/budget_secondary</item>
+    </style>
+
+    <!-- Budget Switch -->
+    <style name="BudgetSwitch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="thumbTint">@color/switch_thumb_color</item>
+        <item name="trackTint">@color/switch_track_color</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Budget CheckBox -->
+    <style name="BudgetCheckBox" parent="Widget.MaterialComponents.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/checkbox_color</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">8dp</item>
+    </style>
+
+    <!-- Budget Card -->
+    <style name="BudgetCard" parent="Widget.MaterialComponents.CardView">
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="contentPadding">16dp</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <!-- Budget ImageButton -->
+    <style name="BudgetImageButton" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:padding">8dp</item>
+        <item name="rippleColor">@color/budget_secondary</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <!-- Budget Containers -->
+    <style name="BudgetContainer">
+        <item name="android:padding">16dp</item>
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
+    <style name="BudgetFormContainer">
+        <item name="android:padding">20dp</item>
+        <item name="android:background">@drawable/budget_form_background</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+
+    <!-- Priority Indicator -->
+    <style name="PriorityIndicator">
+        <item name="android:layout_width">4dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/priority_indicator_background</item>
+    </style>
+
+    <!-- Dialog -->
+    <style name="BudgetDialogTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/BudgetTextAppearance.Headline</item>
+        <item name="buttonBarPositiveButtonStyle">@style/BudgetButton.Primary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/BudgetButton.Secondary</item>
+        <item name="android:background">@drawable/dialog_background</item>
     </style>
 
 </resources>

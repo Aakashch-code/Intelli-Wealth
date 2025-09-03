@@ -28,6 +28,7 @@ public class BudgetRepository {
     public void updateTotalSpent(double amount) {
         executorService.execute(() -> budgetDao.getTotalCategorySpent());
     }
+
     public LiveData<Budget> getTotalBudget() {
         return budgetDao.getTotalBudget();
     }
@@ -36,7 +37,7 @@ public class BudgetRepository {
         return budgetDao.getTotalCategoryBudget();
     }
 
-    public LiveData<Double> getTotalCategorySpent() {
+    public LiveData<Double> getTotalSpent() {
         return budgetDao.getTotalCategorySpent();
     }
 

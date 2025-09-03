@@ -22,6 +22,7 @@ public class BudgetViewModel extends AndroidViewModel {
         return repository.getAllCategoryBudgets();
     }
 
+
     public LiveData<Budget> getTotalBudget() {
         return repository.getTotalBudget();
     }
@@ -31,7 +32,7 @@ public class BudgetViewModel extends AndroidViewModel {
     }
 
     public LiveData<Double> getTotalCategorySpent() {
-        return repository.getTotalCategorySpent();
+        return repository.getTotalSpent();
     }
     public void updateTotalSpent(double amount) {
         repository.updateTotalSpent(amount);

@@ -1,12 +1,10 @@
 package com.example.smartfinance.ui.budget;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,12 +29,11 @@ import java.util.Locale;
 
 public class BudgetFragment extends Fragment {
 
-    private ProgressBar progressBudget;
     private BudgetViewModel budgetViewModel;
     private BudgetAdapter budgetAdapter;
     private RecyclerView budgetRecyclerView;
     private TextView viewAllBudgets;
-    private TextView tvTotalBudget, tvAmountSpent, tvRemainingBudget, tvBudgetPercentage;
+    private TextView tvTotalBudget, tvAmountSpent, tvRemainingBudget;
 
     private FloatingActionButton fabMenu, btnAddBudget, btnAddTotalBudget;
     private boolean isFabOpen = false;
@@ -53,8 +50,6 @@ public class BudgetFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_budget, container, false);
 
         // Initialize UI components
-        progressBudget = root.findViewById(R.id.progress_budget);
-        tvBudgetPercentage = root.findViewById(R.id.tv_budget_percentage);
         budgetRecyclerView = root.findViewById(R.id.budgetRecyclerView);
         viewAllBudgets = root.findViewById(R.id.viewAllBudgets);
         fabMenu = root.findViewById(R.id.fabMenu);
@@ -114,8 +109,6 @@ public class BudgetFragment extends Fragment {
         });
 
         // Add Category Budget FAB
-        // Add Category Budget FAB
-        // Add Category Budget FAB
         btnAddBudget.setOnClickListener(v -> {
             AddBudgetBottomSheet bottomSheet = new AddBudgetBottomSheet();
             bottomSheet.setBudgetListener((category, amount, startDate, endDate, description) -> {
@@ -130,40 +123,25 @@ public class BudgetFragment extends Fragment {
         });
     }
 
-    private void updateProgressAndRemaining() {
-        Budget totalBudgetObj = budgetViewModel.getTotalBudget().getValue();
+    private void updateRemainingBudget() {
+        Double totalBudgetObj = 0.0;
+        if (budgetViewModel.getTotalBudget().getValue() != null) {
+            totalBudgetObj = budgetViewModel.getTotalBudget().getValue().getAllocatedAmount();
+        }
+        
         Double totalSpent = budgetViewModel.getTotalCategorySpent().getValue();
+        Double totalSpentValue = totalSpent != null ? totalSpent : 0.0;
 
-        if (totalBudgetObj != null && totalSpent != null) {
-            double totalBudgetAmount = totalBudgetObj.getAllocatedAmount();
-            double remaining = totalBudgetAmount - totalSpent;
+        double remaining = totalBudgetObj - totalSpentValue;
 
-            // Update remaining budget text
-            tvRemainingBudget.setText(formatCurrency(remaining));
+        // Update remaining budget text
+        tvRemainingBudget.setText(formatCurrency(remaining));
 
-            // Update progress bar and percentage
-            int progress = 0;
-            if (totalBudgetAmount > 0) {
-                progress = (int) ((totalSpent / totalBudgetAmount) * 100);
-                progress = Math.min(progress, 100); // Cap at 100%
-            }
-
-            progressBudget.setProgress(progress);
-            tvBudgetPercentage.setText(String.format(Locale.getDefault(), "%d%%", progress));
-
-            // Set color based on remaining amount
-            if (remaining < 0) {
-                tvRemainingBudget.setTextColor(ContextCompat.getColor(requireContext(), R.color.error));
-                progressBudget.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.error)));
-            } else {
-                tvRemainingBudget.setTextColor(ContextCompat.getColor(requireContext(), R.color.success));
-                progressBudget.setProgressTintList(ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.primary)));
-            }
+        // Set color based on remaining amount
+        if (remaining < 0) {
+            tvRemainingBudget.setTextColor(ContextCompat.getColor(requireContext(), R.color.error));
         } else {
-            // Handle null values
-            tvRemainingBudget.setText(formatCurrency(0));
-            progressBudget.setProgress(0);
-            tvBudgetPercentage.setText("0%");
+            tvRemainingBudget.setTextColor(ContextCompat.getColor(requireContext(), R.color.success));
         }
     }
 
@@ -172,15 +150,25 @@ public class BudgetFragment extends Fragment {
         budgetViewModel.getTotalBudget().observe(getViewLifecycleOwner(), totalBudget -> {
             if (totalBudget != null) {
                 tvTotalBudget.setText(formatCurrency(totalBudget.getAllocatedAmount()));
-                updateProgressAndRemaining();
+                updateRemainingBudget();
+            } else {
+                // Handle case when no total budget is set
+                tvTotalBudget.setText(formatCurrency(0));
+                updateRemainingBudget();
             }
         });
 
         // Observe total spent from categories
         budgetViewModel.getTotalCategorySpent().observe(getViewLifecycleOwner(), totalSpent -> {
-            if (totalSpent != null) {
-                tvAmountSpent.setText(formatCurrency(totalSpent));
-                updateProgressAndRemaining();
+            Double spentValue = totalSpent != null ? totalSpent : 0.0;
+            tvAmountSpent.setText(formatCurrency(spentValue));
+            updateRemainingBudget();
+        });
+
+        // Observe total category budget
+        budgetViewModel.getTotalCategoryBudget().observe(getViewLifecycleOwner(), totalCategoryBudget -> {
+            if (totalCategoryBudget != null) {
+                updateRemainingBudget();
             }
         });
     }

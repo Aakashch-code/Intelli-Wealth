@@ -8,7 +8,7 @@ import android.content.Context;
 import com.example.smartfinance.ui.budget.Recyclerview.Budget;
 import com.example.smartfinance.ui.budget.Recyclerview.BudgetDao;
 
-@Database(entities = {Budget.class}, version = 10, exportSchema = false)
+@Database(entities = {Budget.class}, version = 11, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract BudgetDao budgetDao();
 

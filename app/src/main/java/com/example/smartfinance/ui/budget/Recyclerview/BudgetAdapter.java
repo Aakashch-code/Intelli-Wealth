@@ -99,8 +99,6 @@ public class BudgetAdapter extends RecyclerView.Adapter<BudgetAdapter.BudgetView
             super(itemView);
             categoryName = itemView.findViewById(R.id.text_category);
             allocatedAmount = itemView.findViewById(R.id.budgetAmount);
-            progressBar = itemView.findViewById(R.id.progress_bar);
-            percentageText = itemView.findViewById(R.id.text_percentage);
             icon = itemView.findViewById(R.id.image_icon);
         }
     }

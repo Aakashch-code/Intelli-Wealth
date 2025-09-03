@@ -49,27 +49,9 @@
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
 
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:progress="0"
-                android:progressTint="#4CAF50"
-                android:progressBackgroundTint="#2D2D2D"
-                android:layout_marginTop="8dp" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/text_percentage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="0%"
-            android:textColor="#4CAF50"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginStart="12dp" />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

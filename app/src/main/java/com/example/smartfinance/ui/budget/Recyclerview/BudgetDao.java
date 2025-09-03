@@ -45,6 +45,8 @@ public interface BudgetDao {
     // Category budget calculations - FIXED: Use allocated_amount for spending calculation
     @Query("SELECT SUM(allocated_amount) FROM budgets WHERE is_total_budget = 0")
     LiveData<Double> getTotalCategoryBudget();
+    @Query("SELECT SUM(spent_amount) FROM budgets WHERE is_total_budget = 0")
+    LiveData<Double> getTotalSpent();
 
     @Query("SELECT SUM(allocated_amount) FROM budgets WHERE is_total_budget = 0")
     LiveData<Double> getTotalCategorySpent();

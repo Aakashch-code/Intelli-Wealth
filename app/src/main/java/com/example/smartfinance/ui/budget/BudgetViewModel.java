@@ -1,64 +1,74 @@
-// BudgetViewModel.java (in com.example.smartfinance.ui.budget package)
 package com.example.smartfinance.ui.budget;
 
+import android.app.Application;
+
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
 
 import com.example.smartfinance.ui.budget.Recyclerview.Budget;
-import com.example.smartfinance.ui.budget.Recyclerview.BudgetDao;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class BudgetViewModel extends ViewModel {
+public class BudgetViewModel extends AndroidViewModel {
+    private BudgetRepository repository;
 
-    private BudgetDao budgetDao;
-    private ExecutorService executorService;
-
-    public BudgetViewModel(BudgetDao budgetDao) {
-        this.budgetDao = budgetDao;
-        this.executorService = Executors.newSingleThreadExecutor();
+    public BudgetViewModel(Application application) {
+        super(application);
+        repository = new BudgetRepository(application);
     }
 
-    // Change BudgetEntity to Budget
+    public LiveData<List<Budget>> getAllCategoryBudgets() {
+        return repository.getAllCategoryBudgets();
+    }
+
+    public LiveData<Budget> getTotalBudget() {
+        return repository.getTotalBudget();
+    }
+
+    public LiveData<Double> getTotalCategoryBudget() {
+        return repository.getTotalCategoryBudget();
+    }
+
+    public LiveData<Double> getTotalCategorySpent() {
+        return repository.getTotalCategorySpent();
+    }
+    public void updateTotalSpent(double amount) {
+        repository.updateTotalSpent(amount);
+    }
+
     public void insertBudget(Budget budget) {
-        executorService.execute(() -> budgetDao.insert(budget));
+        repository.insert(budget);
     }
 
-    // Change BudgetEntity to Budget
     public void updateBudget(Budget budget) {
-        executorService.execute(() -> budgetDao.update(budget));
+        repository.update(budget);
     }
 
-    // Change BudgetEntity to Budget
     public void deleteBudget(Budget budget) {
-        executorService.execute(() -> budgetDao.delete(budget));
+        repository.delete(budget);
     }
 
-    // Change BudgetEntity to Budget
-    public LiveData<List<Budget>> getAllBudgets() {
-        return budgetDao.getAllBudgets();
+    public void updateTotalBudget(double amount) {
+        repository.updateTotalBudget(amount);
     }
 
-    public LiveData<Double> getTotalBudget() {
-        return budgetDao.getTotalBudget();
+    public void addToSpentAmount(int budgetId, double amount) {
+        repository.addToSpentAmount(budgetId, amount);
     }
+    // In BudgetViewModel.java
 
-    // ViewModel Factory
-    public static class Factory extends ViewModelProvider.NewInstanceFactory {
-        private BudgetDao budgetDao;
+    public static class Factory extends ViewModelProvider.AndroidViewModelFactory {
+        private Application application;
 
-        public Factory(BudgetDao budgetDao) {
-            this.budgetDao = budgetDao;
+        public Factory(Application application) {
+            super(application);
+            this.application = application;
         }
 
-        @NonNull
         @Override
-        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-            return (T) new BudgetViewModel(budgetDao);
+        public <T extends androidx.lifecycle.ViewModel> T create(Class<T> modelClass) {
+            return (T) new BudgetViewModel(application);
         }
     }
 }

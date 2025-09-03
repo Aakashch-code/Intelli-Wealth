@@ -538,7 +538,6 @@
         style="@style/Widget.Material3.FloatingActionButton.Secondary"
         app:layout_constraintBottom_toTopOf="@id/fabMenu"
         app:layout_constraintEnd_toEndOf="parent" />
-
     <!-- Main FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMenu"

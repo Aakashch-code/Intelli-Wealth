@@ -113,6 +113,7 @@
                                 android:textSize="@dimen/text_large"
                                 android:textStyle="bold" />
 
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -404,19 +405,31 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
     <!-- Mini FAB: Add Budget -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnAddBudget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="104dp"
+        android:layout_marginBottom="180dp"
         android:layout_marginEnd="16dp"
         android:src="@drawable/ic_budget"
         android:contentDescription="Add Budget"
         android:visibility="gone"
         style="@style/Widget.Material3.FloatingActionButton.Secondary" />
+
+    <!-- Mini FAB: Add Total Budget -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddTotalBudget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="104dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_income"
+        android:contentDescription="Add Budget"
+        android:visibility="gone"
+        style="@style/Widget.Material3.FloatingActionButton.Tertiary" />
 
     <!-- Main FAB -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -425,9 +438,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:background="@drawable/toolbar"
         android:src="@drawable/ic_add"
         android:contentDescription="Open menu"
         style="@style/Widget.Material3.FloatingActionButton.Primary" />
-
 </FrameLayout>

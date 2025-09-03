@@ -17,7 +17,9 @@
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorOnSurface">#000000</color>
     <color name="colorBackground">#F5F5F5</color>
-
+    <!-- colors.xml -->
+    <color name="primary">#FF6200EE</color>
+    <color name="gray_light">#FFE0E0E0</color>
     <!-- Budget Specific Colors -->
     <color name="budget_primary">#4CAF50</color>
     <color name="budget_secondary">#81C784</color>

@@ -41,6 +41,8 @@ public class AddBudgetBottomSheet extends BottomSheetDialogFragment {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
 
     public interface BudgetListener {
+
+
         void onBudgetAdded(
                 String category,
                 double amount,

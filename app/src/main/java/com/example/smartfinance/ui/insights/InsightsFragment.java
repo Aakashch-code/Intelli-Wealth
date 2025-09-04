@@ -1,21 +1,14 @@
 package com.example.smartfinance.ui.insights;
 
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.room.Room;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +20,6 @@ import com.example.smartfinance.ui.home.income.MonthlyTotal;
 import com.example.smartfinance.ui.home.income.TransactionDao;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -43,17 +35,22 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.concurrent.Executors;
 
 public class InsightsFragment extends Fragment {
 
@@ -63,6 +60,35 @@ public class InsightsFragment extends Fragment {
 
     public static InsightsFragment newInstance() {
         return new InsightsFragment();
+    }
+
+    // Helper method to convert month string to date for proper sorting
+    private Date parseMonthString(String monthString) {
+        try {
+            // Assuming format is "MMM yyyy" like "Jan 2023"
+            SimpleDateFormat format = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+            return format.parse(monthString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date(0); // Return epoch date as fallback
+        }
+    }
+
+    // Helper method to sort months chronologically
+    private List<String> sortMonthsChronologically(Set<String> months) {
+        List<String> monthList = new ArrayList<>(months);
+
+        // Sort by converting to dates for proper chronological order
+        Collections.sort(monthList, new Comparator<String>() {
+            @Override
+            public int compare(String month1, String month2) {
+                Date date1 = parseMonthString(month1);
+                Date date2 = parseMonthString(month2);
+                return date1.compareTo(date2);
+            }
+        });
+
+        return monthList;
     }
 
     private void setupPieChart(PieChart pieChart, float income, float expense) {
@@ -160,12 +186,12 @@ public class InsightsFragment extends Fragment {
         Map<String, Float> incomeMap = new HashMap<>();
         for (MonthlyTotal mt : incomeList) incomeMap.put(mt.month, mt.total);
 
-        // Sort months
-        Set<String> allMonths = new TreeSet<>(incomeMap.keySet());
+        // Sort months chronologically
+        List<String> sortedMonths = sortMonthsChronologically(incomeMap.keySet());
 
         // Populate entries
         int index = 0;
-        for (String month : allMonths) {
+        for (String month : sortedMonths) {
             labels.add(month);
             float income = incomeMap.getOrDefault(month, 0f);
             incomeEntries.add(new Entry(index, income));
@@ -280,14 +306,16 @@ public class InsightsFragment extends Fragment {
             for (MonthlyTotal mt : expenseList) expenseMap.put(mt.month, mt.total);
         }
 
-        // Sort months
+        // Get all unique months and sort them chronologically
         Set<String> allMonths = new TreeSet<>();
         allMonths.addAll(incomeMap.keySet());
         allMonths.addAll(expenseMap.keySet());
 
+        List<String> sortedMonths = sortMonthsChronologically(allMonths);
+
         // Populate entries
         int index = 0;
-        for (String month : allMonths) {
+        for (String month : sortedMonths) {
             labels.add(month);
             float income = incomeMap.getOrDefault(month, 0f);
             float expense = expenseMap.getOrDefault(month, 0f);
@@ -377,14 +405,9 @@ public class InsightsFragment extends Fragment {
 
         chart.invalidate();
     }
-
     private void setupComparisonChart(BarChart chart, List<MonthlyTotal> incomeList, List<MonthlyTotal> expenseList) {
         // Clear any existing data
         chart.clear();
-
-        List<BarEntry> incomeEntries = new ArrayList<>();
-        List<BarEntry> expenseEntries = new ArrayList<>();
-        List<String> labels = new ArrayList<>();
 
         // If no data, show a message
         if ((incomeList == null || incomeList.isEmpty()) && (expenseList == null || expenseList.isEmpty())) {
@@ -394,129 +417,161 @@ public class InsightsFragment extends Fragment {
             return;
         }
 
-        // Create maps for income and expenses
-        Map<String, Float> incomeMap = new HashMap<>();
+        // Get all unique months in chronological order
+        Set<String> monthSet = new TreeSet<>();
         if (incomeList != null) {
-            for (MonthlyTotal mt : incomeList) incomeMap.put(mt.month, mt.total);
+            for (MonthlyTotal mt : incomeList) monthSet.add(mt.month);
         }
-
-        Map<String, Float> expenseMap = new HashMap<>();
         if (expenseList != null) {
-            for (MonthlyTotal mt : expenseList) expenseMap.put(mt.month, mt.total);
+            for (MonthlyTotal mt : expenseList) monthSet.add(mt.month);
         }
 
-        // Get the two most recent months
-        Set<String> allMonths = new TreeSet<>();
-        allMonths.addAll(incomeMap.keySet());
-        allMonths.addAll(expenseMap.keySet());
+        List<String> sortedMonths = sortMonthsChronologically(monthSet);
 
-        List<String> recentMonths = new ArrayList<>(allMonths);
-        if (recentMonths.size() > 2) {
-            recentMonths = recentMonths.subList(recentMonths.size() - 2, recentMonths.size());
-        }
+        // Create lists for income, expense, and savings data
+        List<BarEntry> incomeEntries = new ArrayList<>();
+        List<BarEntry> expenseEntries = new ArrayList<>();
+        List<BarEntry> savingsEntries = new ArrayList<>();
 
-        // Populate entries
-        for (int i = 0; i < recentMonths.size(); i++) {
-            String month = recentMonths.get(i);
-            labels.add(month);
+        // Prepare data for each month
+        for (int i = 0; i < sortedMonths.size(); i++) {
+            String month = sortedMonths.get(i);
 
-            float income = incomeMap.getOrDefault(month, 0f);
-            float expense = expenseMap.getOrDefault(month, 0f);
+            // Find income for this month
+            float income = 0;
+            if (incomeList != null) {
+                for (MonthlyTotal mt : incomeList) {
+                    if (mt.month.equals(month)) {
+                        income = mt.total;
+                        break;
+                    }
+                }
+            }
 
+            // Find expense for this month
+            float expense = 0;
+            if (expenseList != null) {
+                for (MonthlyTotal mt : expenseList) {
+                    if (mt.month.equals(month)) {
+                        expense = mt.total;
+                        break;
+                    }
+                }
+            }
+
+            // Calculate savings
+            float savings = income - expense;
+
+            // Add entries (x position, value)
             incomeEntries.add(new BarEntry(i, income));
             expenseEntries.add(new BarEntry(i, expense));
+            savingsEntries.add(new BarEntry(i, savings));
         }
 
-        // Configure datasets
-        BarDataSet incomeSet = new BarDataSet(incomeEntries, "Income");
-        incomeSet.setColor(Color.rgb(76, 175, 80));
+        // Create datasets
+        BarDataSet incomeDataSet = new BarDataSet(incomeEntries, "Income");
+        incomeDataSet.setColor(Color.rgb(67, 160, 71)); // Green
+        incomeDataSet.setValueTextColor(Color.WHITE);
+        incomeDataSet.setValueTextSize(10f);
 
-        BarDataSet expenseSet = new BarDataSet(expenseEntries, "Expense");
-        expenseSet.setColor(Color.rgb(255, 87, 34));
+        BarDataSet expenseDataSet = new BarDataSet(expenseEntries, "Expenses");
+        expenseDataSet.setColor(Color.rgb(244, 67, 54)); // Red
+        expenseDataSet.setValueTextColor(Color.WHITE);
+        expenseDataSet.setValueTextSize(10f);
 
-        // Set data
+        BarDataSet savingsDataSet = new BarDataSet(savingsEntries, "Savings");
+        savingsDataSet.setColor(Color.rgb(33, 150, 243)); // Blue
+        savingsDataSet.setValueTextColor(Color.WHITE);
+        savingsDataSet.setValueTextSize(10f);
+
+        // Group bars together
         float groupSpace = 0.08f;
         float barSpace = 0.03f;
-        float barWidth = 0.4f;
+        float barWidth = 0.25f;
 
-        BarData data = new BarData(incomeSet, expenseSet);
+        BarData data = new BarData(incomeDataSet, expenseDataSet, savingsDataSet);
         data.setBarWidth(barWidth);
+
+        // Apply styling
         chart.setData(data);
+        chart.groupBars(0, groupSpace, barSpace);
+        chart.setFitBars(true);
 
-        if (recentMonths.size() > 0) {
-            chart.groupBars(0, groupSpace, barSpace);
-        }
-
-        // X Axis
+        // Configure X-axis
         XAxis xAxis = chart.getXAxis();
-        xAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                int index = (int) value;
-                return index >= 0 && index < labels.size() ? labels.get(index) : "";
-            }
-        });
-        xAxis.setGranularity(1f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTextSize(12f);
         xAxis.setTextColor(Color.WHITE);
-        xAxis.setTextSize(10f);
         xAxis.setDrawGridLines(false);
-        xAxis.setCenterAxisLabels(true);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(sortedMonths));
 
-        // Y Axis
+        // Configure Y-axis
         YAxis leftAxis = chart.getAxisLeft();
+        leftAxis.setTextSize(12f);
         leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setTextSize(10f);
+        leftAxis.setAxisMinimum(0f);
         leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.argb(50, 255, 255, 255));
-        leftAxis.setAxisLineColor(Color.WHITE);
-        leftAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return "$" + Math.round(value);
-            }
-        });
+        leftAxis.setGridColor(Color.parseColor("#3C3C3C"));
 
-        chart.getAxisRight().setEnabled(false);
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
 
-        // Chart Styling
-        chart.getDescription().setEnabled(false);
-        chart.getLegend().setTextColor(Color.WHITE);
-        chart.getLegend().setTextSize(12f);
-        chart.getLegend().setForm(Legend.LegendForm.SQUARE);
-        chart.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        chart.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-
-        // Additional chart settings
-        chart.setDrawGridBackground(false);
+        // Configure the chart appearance
         chart.setBackgroundColor(Color.rgb(45, 45, 45));
-        chart.setBorderColor(Color.WHITE);
-        chart.setBorderWidth(1f);
-        chart.setDrawValueAboveBar(true);
+        chart.getDescription().setEnabled(false);
+        chart.setDrawGridBackground(false);
+        chart.setDrawBorders(false);
+        chart.setBorderColor(Color.LTGRAY);
 
-        // Enable touch interactions
+        // Configure legend
+        Legend legend = chart.getLegend();
+        legend.setTextColor(Color.WHITE);
+        legend.setTextSize(12f);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setDrawInside(false);
+
+        // Enable interactions
         chart.setTouchEnabled(true);
         chart.setDragEnabled(true);
         chart.setScaleEnabled(true);
-        chart.setPinchZoom(false);
+        chart.setPinchZoom(true);
+        chart.setDoubleTapToZoomEnabled(true);
 
-        // Add animations
-        chart.animateY(1000, Easing.EaseInOutQuad);
+        // Add animation
+        chart.animateY(1400, Easing.EaseInOutQuad);
 
         chart.invalidate();
     }
+
 
     private void updateSummaryTexts(float totalIncome, float totalExpense, List<MonthlyTotal> incomeList, List<MonthlyTotal> expenseList) {
         if (incomeSummaryText != null) {
             if (incomeList == null || incomeList.isEmpty()) {
                 incomeSummaryText.setText("No income data available.");
             } else {
-                // Get current month data (assuming the last entry is the current month)
-                MonthlyTotal currentMonth = incomeList.get(incomeList.size() - 1);
-                incomeSummaryText.setText(String.format("Total income this month: $%.2f", currentMonth.total));
+                // Sort months to get the most recent
+                List<String> sortedMonths = sortMonthsChronologically(new TreeSet<String>() {{
+                    for (MonthlyTotal mt : incomeList) add(mt.month);
+                }});
 
-                // You could add more detailed analysis here
-                // For example, find the category with highest income
+                if (!sortedMonths.isEmpty()) {
+                    String currentMonth = sortedMonths.get(sortedMonths.size() - 1);
+                    float currentIncome = 0;
+
+                    for (MonthlyTotal mt : incomeList) {
+                        if (mt.month.equals(currentMonth)) {
+                            currentIncome = mt.total;
+                            break;
+                        }
+                    }
+
+                    incomeSummaryText.setText(String.format("Total income this month: $%.2f", currentIncome));
+                } else {
+                    incomeSummaryText.setText("No income data available.");
+                }
             }
         }
 
@@ -524,9 +579,26 @@ public class InsightsFragment extends Fragment {
             if (expenseList == null || expenseList.isEmpty()) {
                 expenseSummaryText.setText("No expense data available.");
             } else {
-                // Get current month data
-                MonthlyTotal currentMonth = expenseList.get(expenseList.size() - 1);
-                expenseSummaryText.setText(String.format("Total expenses this month: $%.2f", currentMonth.total));
+                // Sort months to get the most recent
+                List<String> sortedMonths = sortMonthsChronologically(new TreeSet<String>() {{
+                    for (MonthlyTotal mt : expenseList) add(mt.month);
+                }});
+
+                if (!sortedMonths.isEmpty()) {
+                    String currentMonth = sortedMonths.get(sortedMonths.size() - 1);
+                    float currentExpense = 0;
+
+                    for (MonthlyTotal mt : expenseList) {
+                        if (mt.month.equals(currentMonth)) {
+                            currentExpense = mt.total;
+                            break;
+                        }
+                    }
+
+                    expenseSummaryText.setText(String.format("Total expenses this month: $%.2f", currentExpense));
+                } else {
+                    expenseSummaryText.setText("No expense data available.");
+                }
             }
         }
     }
@@ -554,17 +626,43 @@ public class InsightsFragment extends Fragment {
         // Compare with previous month if available
         if (incomeHistory != null && expenseHistory != null &&
                 incomeHistory.size() >= 2 && expenseHistory.size() >= 2) {
-            float currentIncome = incomeHistory.get(incomeHistory.size() - 1).total;
-            float previousIncome = incomeHistory.get(incomeHistory.size() - 2).total;
-            float currentExpense = expenseHistory.get(expenseHistory.size() - 1).total;
-            float previousExpense = expenseHistory.get(expenseHistory.size() - 2).total;
 
-            if (currentExpense > previousExpense * 1.1) {
-                suggestions.append("• Your expenses increased by ").append(Math.round((currentExpense/previousExpense - 1) * 100)).append("% compared to last month\n");
-            }
+            // Sort months chronologically
+            Set<String> incomeMonths = new TreeSet<>();
+            for (MonthlyTotal mt : incomeHistory) incomeMonths.add(mt.month);
+            List<String> sortedIncomeMonths = sortMonthsChronologically(incomeMonths);
 
-            if (currentIncome < previousIncome * 0.9) {
-                suggestions.append("• Your income decreased by ").append(Math.round((1 - currentIncome/previousIncome) * 100)).append("% compared to last month\n");
+            Set<String> expenseMonths = new TreeSet<>();
+            for (MonthlyTotal mt : expenseHistory) expenseMonths.add(mt.month);
+            List<String> sortedExpenseMonths = sortMonthsChronologically(expenseMonths);
+
+            if (sortedIncomeMonths.size() >= 2 && sortedExpenseMonths.size() >= 2) {
+                String currentIncomeMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 1);
+                String previousIncomeMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 2);
+
+                String currentExpenseMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 1);
+                String previousExpenseMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 2);
+
+                float currentIncome = 0, previousIncome = 0;
+                float currentExpense = 0, previousExpense = 0;
+
+                for (MonthlyTotal mt : incomeHistory) {
+                    if (mt.month.equals(currentIncomeMonth)) currentIncome = mt.total;
+                    if (mt.month.equals(previousIncomeMonth)) previousIncome = mt.total;
+                }
+
+                for (MonthlyTotal mt : expenseHistory) {
+                    if (mt.month.equals(currentExpenseMonth)) currentExpense = mt.total;
+                    if (mt.month.equals(previousExpenseMonth)) previousExpense = mt.total;
+                }
+
+                if (currentExpense > previousExpense * 1.1 && previousExpense > 0) {
+                    suggestions.append("• Your expenses increased by ").append(Math.round((currentExpense/previousExpense - 1) * 100)).append("% compared to last month\n");
+                }
+
+                if (currentIncome < previousIncome * 0.9 && previousIncome > 0) {
+                    suggestions.append("• Your income decreased by ").append(Math.round((1 - currentIncome/previousIncome) * 100)).append("% compared to last month\n");
+                }
             }
         }
 
@@ -591,7 +689,7 @@ public class InsightsFragment extends Fragment {
         PieChart pieChart = view.findViewById(R.id.expenseChart);
         LineChart incomeChart = view.findViewById(R.id.incomeChart);
         LineChart savingsChart = view.findViewById(R.id.savingsChart);
-        BarChart comparisonChart = view.findViewById(R.id.comparisonChart);
+        BarChart monthlyCommparisonChart = view.findViewById(R.id.comparisonChart);
 
         // Set no data text for all charts initially
         pieChart.setNoDataText("No chart data available.");
@@ -603,8 +701,8 @@ public class InsightsFragment extends Fragment {
         savingsChart.setNoDataText("No chart data available.");
         savingsChart.setNoDataTextColor(Color.WHITE);
 
-        comparisonChart.setNoDataText("No chart data available.");
-        comparisonChart.setNoDataTextColor(Color.WHITE);
+        monthlyCommparisonChart.setNoDataText("No chart data available.");
+        monthlyCommparisonChart.setNoDataTextColor(Color.WHITE);
 
         dao.getTotalIncome().observe(getViewLifecycleOwner(), income -> {
             dao.getTotalExpense().observe(getViewLifecycleOwner(), expense -> {
@@ -620,7 +718,7 @@ public class InsightsFragment extends Fragment {
 
             dao.getMonthlyTotals("Expense").observe(getViewLifecycleOwner(), expenseList -> {
                 setupSavingsChart(savingsChart, incomeList, expenseList);
-                setupComparisonChart(comparisonChart, incomeList, expenseList);
+                setupComparisonChart(monthlyCommparisonChart, incomeList, expenseList);
 
                 // Update summary texts
                 float totalIncome = 0;

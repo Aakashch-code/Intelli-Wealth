@@ -18,52 +18,56 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
+            app:cardElevation="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#262626">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Insights"
-                    android:textSize="24sp"
+                    android:textSize="28sp"
                     android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#FFFFFF"
+                    android:letterSpacing="0.02" />
 
                 <com.google.android.material.chip.ChipGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="12dp">
 
                     <com.google.android.material.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="This Month"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
-                        app:chipBackgroundColor="#2D2D2D"
-                        android:textColor="#FFFFFF" />
+                        app:chipBackgroundColor="#4CAF50"
+                        android:textColor="#FFFFFF"
+                        app:chipCornerRadius="20dp" />
 
                     <com.google.android.material.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Last Month"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
-                        app:chipBackgroundColor="#2D2D2D"
-                        android:textColor="#FFFFFF" />
+                        app:chipBackgroundColor="#3E3E3E"
+                        android:textColor="#E0E0E0"
+                        app:chipCornerRadius="20dp" />
 
                     <com.google.android.material.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Custom Range"
                         style="@style/Widget.MaterialComponents.Chip.Choice"
-                        app:chipBackgroundColor="#2D2D2D"
-                        android:textColor="#FFFFFF" />
+                        app:chipBackgroundColor="#3E3E3E"
+                        android:textColor="#E0E0E0"
+                        app:chipCornerRadius="20dp" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -73,31 +77,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
+            app:cardElevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#262626">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Income Trends"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="#4CAF50"
+                        android:layout_marginRight="12dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Income Trends"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/incomeChart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
                     android:layout_margin="18dp"
-                    android:background="@color/dark_background"
-                    android:elevation="4dp"
+                    android:background="#1A1A1A"
+                    android:elevation="2dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -106,15 +124,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="8dp"
+                    android:background="#1E1E1E"
+                    android:padding="12dp"
+                    android:layout_marginHorizontal="8dp">
 
                     <TextView
                         android:id="@+id/incomeSummaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Total income this month: ₹15,000"
-                        android:textColor="#CCCCCC" />
-
+                        android:textColor="#B0BEC5"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -125,47 +146,65 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
+            app:cardElevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#262626">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Financial Expenditure Analysis"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="#FF5722"
+                        android:layout_marginRight="12dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Financial Expenditure Analysis"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.PieChart
                     android:id="@+id/expenseChart"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
                     android:layout_margin="16dp"
-                    android:background="@color/dark_background"
-                    android:elevation="4dp"
+                    android:background="#1A1A1A"
+                    android:elevation="2dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="8dp"
+                    android:background="#1E1E1E"
+                    android:padding="12dp"
+                    android:layout_marginHorizontal="8dp">
 
                     <TextView
                         android:id="@+id/expenseSummaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="You spent ₹3,000 on Food this month"
-                        android:textColor="#CCCCCC" />
-
+                        android:textColor="#B0BEC5"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -176,65 +215,90 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
+            app:cardElevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#262626">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Savings Trend"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="#2196F3"
+                        android:layout_marginRight="12dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Savings Trend"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/savingsChart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#2D2D2D" />
+                    android:layout_marginTop="12dp"
+                    android:background="#1A1A1A" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-
-
 
         <!-- 6. Comparison Section -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
+            app:cardElevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#262626">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Month Comparison"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="#9C27B0"
+                        android:layout_marginRight="12dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Month Comparison"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/comparisonChart"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_marginTop="8dp"
-                    android:background="#2D2D2D" />
+                    android:layout_marginTop="12dp"
+                    android:background="#1A1A1A" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -242,36 +306,53 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
+            app:cardElevation="6dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="#262626">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="20dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Smart Suggestions"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <View
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="#FF9800"
+                        android:layout_marginRight="12dp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Smart Suggestions"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="#FFFFFF" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="12dp"
+                    android:background="#1E1E1E"
+                    android:padding="16dp">
 
                     <TextView
                         android:id="@+id/suggestionsText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="#CCCCCC" />
-
+                        android:textColor="#B0BEC5"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="2dp" />
 
                 </LinearLayout>
             </LinearLayout>

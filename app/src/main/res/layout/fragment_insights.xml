@@ -109,16 +109,13 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/incomeSummaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Total income this month: ₹15,000"
                         android:textColor="#CCCCCC" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Most earned from Freelancing (₹10,000)"
-                        android:textColor="#CCCCCC" />
+
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -163,16 +160,13 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/expenseSummaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="You spent ₹3,000 on Food this month"
                         android:textColor="#CCCCCC" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Expenses increased by 12% compared to last month"
-                        android:textColor="#CCCCCC" />
+
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -209,170 +203,8 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 5. Summary / Insights Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="12dp"
-            app:cardBackgroundColor="#1F1F1F">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="16dp">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Quick Insights"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="#FFFFFF" />
-
-                <GridLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:columnCount="2"
-                    android:rowCount="2"
-                    android:layout_marginTop="8dp">
-
-                    <!-- Insight Card 1 -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardBackgroundColor="#2D2D2D">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="✅"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="You saved 30% of your income"
-                                android:textAlignment="center"
-                                android:textColor="#CCCCCC" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Insight Card 2 -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardBackgroundColor="#2D2D2D">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="⚠️"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Expenses increased in Travel by ₹1,200"
-                                android:textAlignment="center"
-                                android:textColor="#CCCCCC" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Insight Card 3 -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardBackgroundColor="#2D2D2D">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🧠"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Most income was earned on 5th July"
-                                android:textAlignment="center"
-                                android:textColor="#CCCCCC" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Insight Card 4 -->
-                    <com.google.android.material.card.MaterialCardView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_columnWeight="1"
-                        android:layout_rowWeight="1"
-                        android:layout_margin="4dp"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="8dp"
-                        app:cardBackgroundColor="#2D2D2D">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:padding="12dp"
-                            android:gravity="center">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="🔥"
-                                android:textSize="20sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Best savings in June: ₹7,000"
-                                android:textAlignment="center"
-                                android:textColor="#CCCCCC" />
-                        </LinearLayout>
-                    </com.google.android.material.card.MaterialCardView>
-                </GridLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
 
         <!-- 6. Comparison Section -->
         <com.google.android.material.card.MaterialCardView
@@ -435,16 +267,12 @@
                     android:layout_marginTop="8dp">
 
                     <TextView
+                        android:id="@+id/suggestionsText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Try reducing shopping expenses next month"
                         android:textColor="#CCCCCC" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="• You're spending too much on eating out"
-                        android:textColor="#CCCCCC" />
+
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

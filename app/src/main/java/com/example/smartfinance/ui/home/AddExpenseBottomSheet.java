@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.smartfinance.R;
-import com.example.smartfinance.ui.home.income.Transaction;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -26,10 +25,12 @@ import java.util.Locale;
 public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
 
     private EditText editTextAmount, editTextNote;
+    private AutoCompleteTextView categorySpinner, paymentMethodSpinner;
+    private TextInputEditText expenseDateEditText;
     private Button buttonSave;
 
     public interface ExpenseListener {
-        void onExpenseAdded(double amount, String note);
+        void onExpenseAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp);
     }
 
     private ExpenseListener listener;
@@ -43,72 +44,109 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_expense_modal, container, false); // Make sure this layout exists
+        return inflater.inflate(R.layout.add_expense_modal, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         editTextAmount = view.findViewById(R.id.expenseAmountEditText);
         editTextNote = view.findViewById(R.id.expenseNoteEditText);
+        categorySpinner = view.findViewById(R.id.expenseCategorySpinner);
+        paymentMethodSpinner = view.findViewById(R.id.expensePaymentMethod);
+        expenseDateEditText = view.findViewById(R.id.expenseDateEditText);
         buttonSave = view.findViewById(R.id.saveExpenseBtn);
+
+        // Set up category spinner
+        String[] categories = {"Food", "Transport", "Shopping", "Health", "Entertainment", "Education", "Bills", "EMI", "Others"};
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categories);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        // Set payment method spinner
+        String[] paymentMethods = {"Cash", "Card", "Google Pay", "PhonePe", "Paytm", "Other"};
+        ArrayAdapter<String> paymentAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, paymentMethods);
+        paymentMethodSpinner.setAdapter(paymentAdapter);
+
+        // Set default date to today
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        expenseDateEditText.setText(sdf.format(calendar.getTime()));
+
+        // Date picker setup
+        expenseDateEditText.setOnClickListener(v -> showDatePicker(calendar));
 
         buttonSave.setOnClickListener(v -> {
             String amountStr = editTextAmount.getText().toString().trim();
             String note = editTextNote.getText().toString().trim();
+            String category = categorySpinner.getText().toString().trim();
+            String paymentMethod = paymentMethodSpinner.getText().toString().trim();
+            String date = expenseDateEditText.getText().toString().trim();
 
-            if (!amountStr.isEmpty()) {
+            if (validateInput(amountStr, category, paymentMethod, date)) {
                 double amount = Double.parseDouble(amountStr);
 
-                if (listener != null) {
-                    listener.onExpenseAdded(amount, note);
-                }
+                // Convert date string to timestamp
+                long timestamp = convertDateToTimestamp(date);
 
+                if (listener != null) {
+                    listener.onExpenseAdded(amount, note, category, paymentMethod, date, timestamp);
+                }
                 dismiss();
-            } else {
-                editTextAmount.setError("Amount required");
             }
         });
 
         ImageButton btnClose = view.findViewById(R.id.btnClose);
         btnClose.setOnClickListener(v -> dismiss());
+    }
 
-        // Set up category spinner
-        AutoCompleteTextView categorySpinner = view.findViewById(R.id.expenseCategorySpinner);
-        String[] categories = {"Food", "Transport", "Shopping", "Health", "Entertainment", "Education", "Bills", "EMI", "Others"};
+    private boolean validateInput(String amount, String category, String paymentMethod, String date) {
+        boolean isValid = true;
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categories);
-        categorySpinner.setAdapter(adapter);
-        categorySpinner.setOnClickListener(v -> categorySpinner.showDropDown());
+        if (amount.isEmpty()) {
+            editTextAmount.setError("Amount required");
+            isValid = false;
+        }
 
+        if (category.isEmpty()) {
+            categorySpinner.setError("Category required");
+            isValid = false;
+        }
 
-        // Set payment method spinner
-        AutoCompleteTextView paymentMethodSpinner = view.findViewById(R.id.expensePaymentMethod);
-        String[] paymentMethods = {"Cash", "Card", "Google Pay", "PhonePe", "Paytm", "Other"};
+        if (paymentMethod.isEmpty()) {
+            paymentMethodSpinner.setError("Payment method required");
+            isValid = false;
+        }
 
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, paymentMethods);
-        paymentMethodSpinner.setAdapter(adapter1);
-        paymentMethodSpinner.setOnClickListener(v -> paymentMethodSpinner.showDropDown());
+        if (date.isEmpty()) {
+            expenseDateEditText.setError("Date required");
+            isValid = false;
+        }
 
-        // Set up date picker
-        TextInputEditText expenseDateEditText = view.findViewById(R.id.expenseDateEditText);
-        Calendar calendar = Calendar.getInstance();
+        return isValid;
+    }
 
-        expenseDateEditText.setOnClickListener(v -> {
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
+    private void showDatePicker(Calendar calendar) {
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(
-                    requireContext(),
-                    (view1, selectedYear, selectedMonth, selectedDay) -> {
-                        calendar.set(selectedYear, selectedMonth, selectedDay);
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        expenseDateEditText.setText(sdf.format(calendar.getTime()));
-                    },
-                    year, month, day
-            );
-            datePickerDialog.show();
-        });
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    calendar.set(selectedYear, selectedMonth, selectedDay);
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    expenseDateEditText.setText(sdf.format(calendar.getTime()));
+                },
+                year, month, day
+        );
+        datePickerDialog.show();
+    }
 
+    private long convertDateToTimestamp(String dateString) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            return sdf.parse(dateString).getTime();
+        } catch (Exception e) {
+            return System.currentTimeMillis();
+        }
     }
 }

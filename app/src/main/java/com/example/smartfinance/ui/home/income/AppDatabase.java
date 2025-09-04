@@ -23,6 +23,9 @@ public abstract class AppDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE transactions ADD COLUMN category TEXT");
             database.execSQL("ALTER TABLE transactions ADD COLUMN date TEXT");
             database.execSQL("ALTER TABLE transactions ADD COLUMN paymentMethod TEXT");
+            database.execSQL("UPDATE transactions SET category = 'Uncategorized' WHERE category IS NULL");
+            database.execSQL("UPDATE transactions SET paymentMethod = 'Not specified' WHERE paymentMethod IS NULL");
+            database.execSQL("UPDATE transactions SET date = strftime('%d/%m/%Y', timestamp / 1000, 'unixepoch') WHERE date IS NULL");
         }
     };
 

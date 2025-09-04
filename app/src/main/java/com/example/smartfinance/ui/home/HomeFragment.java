@@ -121,10 +121,24 @@ public class HomeFragment extends Fragment {
         // Add Income
         binding.btnAddIncome.setOnClickListener(v -> {
             AddIncomeBottomSheet bottomSheet = new AddIncomeBottomSheet();
-            bottomSheet.setIncomeListener((amount, note) -> {
-                Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
-                Transaction transaction = new Transaction("Income", amount, note, System.currentTimeMillis());
-                transactionViewModel.insert(transaction);
+            bottomSheet.setIncomeListener(new AddIncomeBottomSheet.IncomeListener() {
+                @Override
+                public void onIncomeAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp) {
+                    Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
+
+                    // Create transaction with all fields
+                    Transaction transaction = new Transaction(
+                            "Income",
+                            category,
+                            amount,
+                            date,
+                            paymentMethod,
+                            note,
+                            timestamp
+                    );
+
+                    transactionViewModel.insert(transaction);
+                }
             });
             bottomSheet.show(getChildFragmentManager(), "AddIncomeBottomSheet");
         });
@@ -132,10 +146,24 @@ public class HomeFragment extends Fragment {
         // Add Expense
         binding.btnAddExpense.setOnClickListener(v -> {
             AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
-            bottomSheet.setExpenseListener((amount, note) -> {
-                Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
-                Transaction transaction = new Transaction("Expense", amount, note, System.currentTimeMillis());
-                transactionViewModel.insert(transaction);
+            bottomSheet.setExpenseListener(new AddExpenseBottomSheet.ExpenseListener() {
+                @Override
+                public void onExpenseAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp) {
+                    Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
+
+                    // Create transaction with all fields
+                    Transaction transaction = new Transaction(
+                            "Expense",
+                            category,
+                            amount,
+                            date,
+                            paymentMethod,
+                            note,
+                            timestamp
+                    );
+
+                    transactionViewModel.insert(transaction);
+                }
             });
             bottomSheet.show(getChildFragmentManager(), "AddExpenseBottomSheet");
         });

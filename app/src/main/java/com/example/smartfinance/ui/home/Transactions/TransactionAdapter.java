@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartfinance.R;
 import com.example.smartfinance.ui.home.income.Transaction;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-
-
+import java.util.Locale;
 
 public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHolder> {
-
 
     Context context;
     List<Transaction> transactions;
@@ -29,19 +30,53 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
     @NonNull
     @Override
     public TransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-      return new TransactionViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false));
+        return new TransactionViewHolder(LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
-        double amount = transactions.get(position).getAmount();
-        holder.amountText.setText(String.valueOf(amount));
+        Transaction transaction = transactions.get(position);
+
+        // Format amount
+        double amount = transaction.getAmount();
         holder.amountText.setText(String.format("$%.2f", amount));
-        holder.typeText.setText(transactions.get(position).getType());
-        holder.noteText.setText(transactions.get(position).getNote());
 
+        // Set type with proper formatting
+        holder.typeText.setText(transaction.getType());
+
+        // Handle note (could be null for old transactions)
+        String note = transaction.getNote();
+        holder.noteText.setText(note != null ? note : "No description");
+
+        // Handle category (could be null for old transactions)
+        String category = transaction.getCategory();
+        if (holder.categoryText != null) {
+            holder.categoryText.setText(category != null ? category : "Uncategorized");
+        }
+
+        // Handle payment method (could be null for old transactions)
+        String paymentMethod = transaction.getPaymentMethod();
+        if (holder.paymentMethodText != null) {
+            holder.paymentMethodText.setText(paymentMethod != null ? paymentMethod : "Not specified");
+        }
+
+        // Format date (could be null for old transactions)
+        String date = transaction.getDate();
+        if (holder.dateText != null) {
+            if (date != null) {
+                holder.dateText.setText(date);
+            } else {
+                // Fallback: format from timestamp
+                try {
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    String formattedDate = sdf.format(new Date(transaction.getTimestamp()));
+                    holder.dateText.setText(formattedDate);
+                } catch (Exception e) {
+                    holder.dateText.setText("Unknown date");
+                }
+            }
+        }
     }
-
 
     @Override
     public int getItemCount() {

@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.home.income;
+package com.example.smartfinance.ui.home.model;
 
 public class MonthlyTotal {
     public String month; // format: YYYY-MM

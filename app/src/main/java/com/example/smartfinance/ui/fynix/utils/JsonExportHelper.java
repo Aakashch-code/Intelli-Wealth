@@ -1,12 +1,14 @@
-package com.example.smartfinance.utils;
+package com.example.smartfinance.ui.fynix.utils;
 
 import android.content.Context;
 import android.util.Log;
-import com.example.smartfinance.ui.home.income.Transaction;
-import com.example.smartfinance.ui.home.income.AppDatabase;
+
+import com.example.smartfinance.ui.home.data.AppDatabase;
+import com.example.smartfinance.ui.home.model.Transaction;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -63,7 +65,6 @@ public class JsonExportHelper {
                 }
 
                 callback.onExportSuccess(exportFile.getAbsolutePath());
-
             } catch (Exception e) {
                 Log.e(TAG, "Error exporting transactions: ", e);
                 callback.onExportError("Export failed: " + e.getMessage());

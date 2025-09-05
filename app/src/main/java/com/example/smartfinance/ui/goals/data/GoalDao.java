@@ -1,5 +1,5 @@
 // GoalDao.java
-package com.example.smartfinance.ui.goals;
+package com.example.smartfinance.ui.goals.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,6 +7,9 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.smartfinance.ui.goals.model.Goal;
+
 import java.util.List;
 
 @Dao

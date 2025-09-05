@@ -1,17 +1,20 @@
-package com.example.smartfinance.ui.fynix;
+package com.example.smartfinance.ui.fynix.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartfinance.R;
+import com.example.smartfinance.ui.fynix.FynixViewModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MessageViewHolder> {
-
     private List<FynixViewModel.ChatMessage> messages = new ArrayList<>();
 
     public void setMessages(List<FynixViewModel.ChatMessage> messages) {

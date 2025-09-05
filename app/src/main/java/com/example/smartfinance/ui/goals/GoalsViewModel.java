@@ -6,6 +6,10 @@ import android.support.annotation.NonNull;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.smartfinance.ui.goals.data.GoalRepository;
+import com.example.smartfinance.ui.goals.model.Goal;
+
 import java.util.List;
 
 public class GoalsViewModel extends AndroidViewModel {

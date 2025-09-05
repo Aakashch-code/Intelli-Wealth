@@ -1,17 +1,17 @@
-package com.example.smartfinance.utils;
+package com.example.smartfinance.ui.fynix.utils;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.example.smartfinance.BuildConfig;
-import com.example.smartfinance.R;
-import com.example.smartfinance.network.ApiModels;
-import com.example.smartfinance.network.FynixApiService;
-import com.example.smartfinance.network.RetrofitClient;
-import com.example.smartfinance.ui.home.income.Transaction;
-import com.example.smartfinance.ui.home.income.AppDatabase;
+import com.example.smartfinance.ui.fynix.model.ApiModels;
+import com.example.smartfinance.ui.fynix.network.FynixApiService;
+import com.example.smartfinance.ui.fynix.network.RetrofitClient;
+import com.example.smartfinance.ui.home.data.AppDatabase;
+import com.example.smartfinance.ui.home.model.Transaction;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Executor;
@@ -50,18 +50,18 @@ public class FynixApiHelper {
         StringBuilder prompt = new StringBuilder();
 
         // ===== NEW & IMPORTANT: ADD THESE LINES FOR BREVITY =====
-        prompt.append("You are Fynix, a helpful financial AI assistant for a mobile app. ");
-        prompt.append("Provide clear, concise, and actionable financial advice based on the user's transaction data. ");
-        prompt.append("**CRITICAL INSTRUCTIONS:**\n");
-        prompt.append("1. Keep responses SHORT and DIRECT - aim for 2-3 sentences maximum.\n");
-        prompt.append("2. Focus on key insights and practical advice.\n");
-        prompt.append("3. Avoid long introductions, explanations, or disclaimers.\n");
-        prompt.append("4. Use bullet points only if absolutely necessary.\n\n");
-        // ===== END OF NEW LINES =====
+        prompt.append("You are Fynix, a helpful financial AI assistant for a mobile app. ")
+                .append("Provide clear, concise, and actionable financial advice based on the user's transaction data. ")
+                .append("**CRITICAL INSTRUCTIONS:**\n")
+                .append("1. Keep responses SHORT and DIRECT - aim for 2-3 sentences maximum.\n")
+                .append("2. Focus on key insights and practical advice.\n")
+                .append("3. Avoid long introductions, explanations, or disclaimers.\n")
+                .append("4. Use bullet points only if absolutely necessary.\n\n");
 
+        // ===== END OF NEW LINES =====
         if (transactions != null && !transactions.isEmpty()) {
-            prompt.append("USER'S TRANSACTIONS:\n");
-            prompt.append("====================\n");
+            prompt.append("USER'S TRANSACTIONS:\n")
+                    .append("====================\n");
 
             double totalIncome = 0;
             double totalExpense = 0;
@@ -81,24 +81,24 @@ public class FynixApiHelper {
                 ));
             }
 
-            prompt.append("\nFINANCIAL SUMMARY:\n");
-            prompt.append("=================\n");
-            prompt.append(String.format("Total Income: $%.2f\n", totalIncome));
-            prompt.append(String.format("Total Expenses: $%.2f\n", totalExpense));
-            prompt.append(String.format("Net Balance: $%.2f\n\n", totalIncome - totalExpense));
+            prompt.append("\nFINANCIAL SUMMARY:\n")
+                    .append("=================\n")
+                    .append(String.format("Total Income: $%.2f\n", totalIncome))
+                    .append(String.format("Total Expenses: $%.2f\n", totalExpense))
+                    .append(String.format("Net Balance: $%.2f\n\n", totalIncome - totalExpense));
         }
 
-        prompt.append("USER QUESTION: ").append(userMessage).append("\n\n");
-        prompt.append("Please provide helpful financial advice."); // This line is now reinforced by the instructions above
+        prompt.append("USER QUESTION: ")
+                .append(userMessage)
+                .append("\n\n")
+                .append("Please provide helpful financial advice.");
 
         return prompt.toString();
     }
 
-
     // Send message to Gemini AI
     public static void sendMessage(Context context, String userMessage, String userId, ApiCallback<String> callback) {
         executor.execute(() -> {
-
             try {
                 // Get transactions for context
                 List<Transaction> localTransactions = AppDatabase.getDatabase(context)
@@ -110,11 +110,10 @@ public class FynixApiHelper {
 
                 Log.d(TAG, "Prompt: " + promptText);
 
-                android.os.Handler mainHandler = new android.os.Handler(context.getMainLooper());
+                Handler mainHandler = new Handler(Looper.getMainLooper());
                 mainHandler.post(() -> {
                     try {
                         String apiKey = BuildConfig.GEMINI_API_KEY;
-
 
                         Log.d(TAG, "Loaded Gemini API Key: " + apiKey);
 
@@ -133,7 +132,6 @@ public class FynixApiHelper {
 
                         FynixApiService apiService = RetrofitClient.getApiService(context);
                         Call<ApiModels.GeminiResponse> call = apiService.chatWithGemini(geminiRequest);
-
 
                         Log.d(TAG, "Sending request to Gemini API");
 
@@ -206,7 +204,6 @@ public class FynixApiHelper {
                         callback.onError("Failed to initialize AI assistant: " + e.getMessage());
                     }
                 });
-
             } catch (Exception e) {
                 Log.e(TAG, "Error processing message", e);
                 callback.onError("Error processing your request: " + e.getMessage());
@@ -229,7 +226,6 @@ public class FynixApiHelper {
 
                 int count = transactions.size();
                 callback.onSuccess("Ready! " + count + " transactions loaded for financial analysis.");
-
             } catch (Exception e) {
                 Log.e(TAG, "Error loading transactions", e);
                 callback.onError("Error loading transactions: " + e.getMessage());

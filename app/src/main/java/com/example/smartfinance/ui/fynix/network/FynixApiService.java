@@ -1,4 +1,6 @@
-package com.example.smartfinance.network;
+package com.example.smartfinance.ui.fynix.network;
+
+import com.example.smartfinance.ui.fynix.model.ApiModels;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

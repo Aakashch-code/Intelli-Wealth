@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.home.income;
+package com.example.smartfinance.ui.home.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;

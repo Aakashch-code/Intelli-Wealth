@@ -1,15 +1,28 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+cat > .gitignore << 'EOF'
+# Gradle
+.gradle/
+build/
+
+# Local config / secrets
 local.properties
+*.env
+*.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+
+# Keystores (keep private!)
+*.jks
+*.keystore
+
+# Generated / misc
+captures/
+outputs/
+navigation.json
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+EOF

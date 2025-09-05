@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.smartfinance.R;
 
+import com.example.smartfinance.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -14,13 +15,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import java.util.concurrent.TimeUnit;
 
 public class RetrofitClient {
+
+    String apiKey = BuildConfig.GEMINI_API_KEY;
+
     private static final String TAG = "RetrofitClient";
     private static Retrofit retrofit = null;
 
     public static synchronized FynixApiService getApiService(Context context) {
         if (retrofit == null) {
             String baseUrl = context.getString(R.string.gemini_base_url);
-            String apiKey = context.getString(R.string.gemini_api_key);
+            String apiKey = BuildConfig.GEMINI_API_KEY;
 
             // Validate configuration
             if (baseUrl == null || baseUrl.isEmpty()) {
@@ -28,11 +32,11 @@ public class RetrofitClient {
                 throw new IllegalStateException("Base URL not configured. Please check strings.xml");
             }
 
-            if (apiKey == null || apiKey.isEmpty() || apiKey.equals("your_actual_gemini_api_key_here")) {
-                Log.e(TAG, "❌ API key is not configured or is placeholder in strings.xml");
-                throw new IllegalStateException("API key not configured. Please get a valid Gemini API key from Google AI Studio");
-            }
 
+            if (apiKey == null || apiKey.isEmpty()) {
+                Log.e(TAG, "❌ API key is missing from BuildConfig (check local.properties)");
+                throw new IllegalStateException("API key not configured. Add GEMINI_API_KEY in local.properties");
+            }
             // Ensure base URL ends with slash
             if (!baseUrl.endsWith("/")) {
                 baseUrl += "/";

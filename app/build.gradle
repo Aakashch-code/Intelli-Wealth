@@ -14,6 +14,9 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // --- CORRECTED BLOCK: Move the properties loading INSIDE defaultConfig ---
+        buildConfigField "String", "GEMINI_API_KEY", "\"${getApiKey()}\""
     }
 
     buildTypes {
@@ -27,11 +30,23 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
-
     buildFeatures {
+        buildConfig true   // ✅ This is correct
         viewBinding true
     }
 }
+
+// --- NEW: Create a function to safely get the API key ---
+def getApiKey() {
+    def localProperties = new Properties()
+    def localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(new FileInputStream(localPropertiesFile))
+    }
+    // Use getProperty with a fallback to avoid crashes
+    return localProperties.getProperty("GEMINI_API_KEY", "")
+}
+// --- END OF NEW FUNCTION ---
 
 dependencies {
     implementation 'com.google.ai.client.generativeai:generativeai:0.1.2'
@@ -41,26 +56,19 @@ dependencies {
     implementation libs.logging.interceptor
     implementation libs.gson
     implementation libs.mpandroidchart
-    implementation libs.mpandroidchart
     implementation libs.material
     annotationProcessor libs.room.compiler
-    implementation libs.recyclerview
     implementation libs.room.runtime
+    implementation libs.recyclerview
     implementation libs.appcompat
-    implementation libs.material
-    implementation libs.material
     implementation libs.constraintlayout
     implementation libs.lifecycle.livedata.ktx
     implementation libs.lifecycle.viewmodel.ktx
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.legacy.support.v4
-    implementation libs.mpandroidchart
-    implementation libs.mpandroidchart
+    implementation libs.spark
     testImplementation libs.junit
     androidTestImplementation libs.junit.v115
     androidTestImplementation libs.espresso.core.v351
-    implementation(libs.mpandroidchart)
-    implementation libs.spark
-
 }

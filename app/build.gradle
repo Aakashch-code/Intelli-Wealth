@@ -34,6 +34,12 @@ android {
 }
 
 dependencies {
+    implementation 'com.google.ai.client.generativeai:generativeai:0.1.2'
+    implementation libs.generativeai
+    implementation libs.retrofit
+    implementation libs.retrofit2.converter.gson
+    implementation libs.logging.interceptor
+    implementation libs.gson
     implementation libs.mpandroidchart
     implementation libs.mpandroidchart
     implementation libs.material

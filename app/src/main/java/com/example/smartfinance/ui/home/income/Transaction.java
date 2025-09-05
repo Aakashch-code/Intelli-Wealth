@@ -6,20 +6,18 @@ import androidx.room.PrimaryKey;
 
 @Entity(tableName = "transactions")
 public class Transaction {
-
     @PrimaryKey(autoGenerate = true)
     public int id;
 
     @NonNull
-    public String type; // "income" or "expense"
+    public String type;
     public String category;
     public double amount;
     public String date;
     public String paymentMethod;
     public String note;
-    public long timestamp;  // For sorting
+    public long timestamp;
 
-    // Updated constructor with all fields
     public Transaction(@NonNull String type, String category, double amount, String date,
                        String paymentMethod, String note, long timestamp) {
         this.type = type;
@@ -31,10 +29,9 @@ public class Transaction {
         this.timestamp = timestamp;
     }
 
-    // Getters for all fields
+    // Getters
     public int getId() { return id; }
-    @NonNull
-    public String getType() { return type; }
+    @NonNull public String getType() { return type; }
     public String getCategory() { return category; }
     public double getAmount() { return amount; }
     public String getDate() { return date; }

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-
 import java.util.List;
 
 @Dao
@@ -16,13 +15,17 @@ public interface TransactionDao {
             "ORDER BY month ASC")
     LiveData<List<MonthlyTotal>> getMonthlyTotals(String type);
 
-
     @Insert
     void insertTransaction(Transaction transaction);
+
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Income'")
     LiveData<Float> getTotalIncome();
+
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Expense'")
     LiveData<Float> getTotalExpense();
+
+    @Query("SELECT * FROM transactions ORDER BY timestamp DESC")
+    List<Transaction> getAllTransactionsSync();
 
     @Query("SELECT SUM(amount) FROM transactions WHERE type = :type")
     LiveData<Double> getTotalByType(String type);
@@ -32,5 +35,4 @@ public interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE type = :type ORDER BY timestamp DESC")
     LiveData<List<Transaction>> getTransactionsByType(String type);
-
 }

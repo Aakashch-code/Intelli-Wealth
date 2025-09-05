@@ -30,6 +30,5 @@
         <string name="add_budget_description">Add new budget</string>
         <string name="open_menu_description">Open menu</string>
 
-    <string name="gemini_api_key">REMOVED</string>
-    <string name="gemini_base_url">https://generativelanguage.googleapis.com/</string>
+    <string name="gemini_base_url">https://generativelanguage.googleapis.com/v1beta/</string>
 </resources>

@@ -2,6 +2,8 @@ package com.example.smartfinance.utils;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.example.smartfinance.BuildConfig;
 import com.example.smartfinance.R;
 import com.example.smartfinance.network.ApiModels;
 import com.example.smartfinance.network.FynixApiService;
@@ -85,9 +87,11 @@ public class FynixApiHelper {
         return prompt.toString();
     }
 
+
     // Send message to Gemini AI
     public static void sendMessage(Context context, String userMessage, String userId, ApiCallback<String> callback) {
         executor.execute(() -> {
+
             try {
                 // Get transactions for context
                 List<Transaction> localTransactions = AppDatabase.getDatabase(context)
@@ -102,7 +106,10 @@ public class FynixApiHelper {
                 android.os.Handler mainHandler = new android.os.Handler(context.getMainLooper());
                 mainHandler.post(() -> {
                     try {
-                        String apiKey = context.getString(R.string.gemini_api_key);
+                        String apiKey = BuildConfig.GEMINI_API_KEY;
+
+
+                        Log.d(TAG, "Loaded Gemini API Key: " + apiKey);
 
                         // Build Gemini request
                         ApiModels.Part part = new ApiModels.Part(promptText);
@@ -118,7 +125,8 @@ public class FynixApiHelper {
                         );
 
                         FynixApiService apiService = RetrofitClient.getApiService(context);
-                        Call<ApiModels.GeminiResponse> call = apiService.chatWithGemini(apiKey, geminiRequest);
+                        Call<ApiModels.GeminiResponse> call = apiService.chatWithGemini(geminiRequest);
+
 
                         Log.d(TAG, "Sending request to Gemini API");
 
@@ -225,7 +233,8 @@ public class FynixApiHelper {
     // Test API connection
     public static void testApiConnection(Context context, ApiCallback<String> callback) {
         try {
-            String apiKey = context.getString(R.string.gemini_api_key);
+            String apiKey = BuildConfig.GEMINI_API_KEY;
+
 
             // Simple test request
             ApiModels.Part part = new ApiModels.Part("Hello! Please respond with 'Connected successfully'");
@@ -235,7 +244,7 @@ public class FynixApiHelper {
             ApiModels.GeminiRequest request = new ApiModels.GeminiRequest(List.of(content), config);
 
             FynixApiService apiService = RetrofitClient.getApiService(context);
-            Call<ApiModels.GeminiResponse> call = apiService.chatWithGemini(apiKey, request);
+            Call<ApiModels.GeminiResponse> call = apiService.chatWithGemini(request);
 
             call.enqueue(new Callback<ApiModels.GeminiResponse>() {
                 @Override

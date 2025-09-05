@@ -1,4 +1,3 @@
-// GoalsFragment.java
 package com.example.smartfinance.ui.goals;
 
 import androidx.appcompat.app.AlertDialog;
@@ -26,20 +25,27 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class GoalsFragment extends Fragment implements GoalAdapter.OnGoalClickListener {
 
     private GoalsViewModel goalViewModel;
     private GoalAdapter adapter;
     private RecyclerView recyclerView;
+    private NumberFormat inrFormat;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_goals, container, false);
+
+        // Initialize INR currency format with explicit symbol
+        inrFormat = NumberFormat.getCurrencyInstance();
+        inrFormat.setCurrency(java.util.Currency.getInstance("INR"));
 
         initializeViews(view);
         setupRecyclerView();
@@ -61,7 +67,7 @@ public class GoalsFragment extends Fragment implements GoalAdapter.OnGoalClickLi
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
-        adapter = new GoalAdapter(this);
+        adapter = new GoalAdapter(this, inrFormat); // Pass INR format to adapter
         recyclerView.setAdapter(adapter);
     }
 
@@ -94,6 +100,10 @@ public class GoalsFragment extends Fragment implements GoalAdapter.OnGoalClickLi
         RadioGroup rgPriority = dialogView.findViewById(R.id.rgPriority);
         Button btnSelectDate = dialogView.findViewById(R.id.btnSelectDate);
         Button btnSaveGoal = dialogView.findViewById(R.id.btnSaveGoal);
+
+        // Add INR hint to amount fields
+        etTargetAmount.setHint("Target amount (₹)");
+        etSavedAmount.setHint("Saved amount (₹)");
 
         final Calendar calendar = Calendar.getInstance();
         Date[] selectedDate = {null};
@@ -230,7 +240,13 @@ public class GoalsFragment extends Fragment implements GoalAdapter.OnGoalClickLi
         Button btnCancel = dialogView.findViewById(R.id.btnCancel);
         Button btnUpdate = dialogView.findViewById(R.id.btnUpdate);
 
-        // Set current saved amount
+        // Update button texts to show INR symbols
+        btnAdd10.setText("+ ₹10");
+        btnAdd50.setText("+ ₹50");
+        btnAdd100.setText("+ ₹100");
+
+        // Set current saved amount with INR format
+        etAmount.setHint("Amount in ₹");
         etAmount.setText(String.valueOf(goal.getSavedAmount()));
 
         AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
@@ -299,9 +315,12 @@ public class GoalsFragment extends Fragment implements GoalAdapter.OnGoalClickLi
     }
 
     private void showExceedTargetConfirmation(Goal goal, double newAmount, AlertDialog dialog) {
+        String formattedTarget = formatAmountInINR(goal.getTargetAmount());
+        String formattedNewAmount = formatAmountInINR(newAmount);
+
         new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Amount Exceeds Target")
-                .setMessage("You're saving more than your target amount. Continue?")
+                .setMessage("You're saving " + formattedNewAmount + " which exceeds your target of " + formattedTarget + ". Continue?")
                 .setPositiveButton("Yes", (d, which) -> {
                     updateGoalAmount(goal, newAmount);
                     dialog.dismiss();
@@ -325,6 +344,15 @@ public class GoalsFragment extends Fragment implements GoalAdapter.OnGoalClickLi
     private void updateGoalAmount(Goal goal, double newAmount) {
         goal.setSavedAmount(newAmount);
         goalViewModel.update(goal);
-        Toast.makeText(requireContext(), "Amount updated successfully", Toast.LENGTH_SHORT).show();
+        Toast.makeText(requireContext(), "Amount updated to " + formatAmountInINR(newAmount), Toast.LENGTH_SHORT).show();
+    }
+
+    // Helper method to format amount in INR with explicit symbol
+    private String formatAmountInINR(double amount) {
+        try {
+            return "₹" + String.format(Locale.ENGLISH, "%.2f", amount);
+        } catch (Exception e) {
+            return "₹" + amount;
+        }
     }
 }

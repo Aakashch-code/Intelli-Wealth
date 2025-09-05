@@ -83,7 +83,6 @@ public class HomeFragment extends Fragment {
         FloatingActionButton fabMenu = view.findViewById(R.id.fabMenu);
         FloatingActionButton fabAddIncome = view.findViewById(R.id.btnAddIncome);
         FloatingActionButton fabAddExpense = view.findViewById(R.id.btnAddExpense);
-        FloatingActionButton fabAddBudget = view.findViewById(R.id.btnAddBudget);
 
         final boolean[] isFabMenuOpen = {false};
 
@@ -91,12 +90,10 @@ public class HomeFragment extends Fragment {
             if (!isFabMenuOpen[0]) {
                 showFab(fabAddIncome);
                 showFab(fabAddExpense);
-                showFab(fabAddBudget);
                 fabMenu.animate().rotation(45f).setDuration(200).start(); // Rotate open
             } else {
                 hideFab(fabAddIncome);
                 hideFab(fabAddExpense);
-                hideFab(fabAddBudget);
                 fabMenu.animate().rotation(0f).setDuration(200).start(); // Rotate close
             }
             isFabMenuOpen[0] = !isFabMenuOpen[0];

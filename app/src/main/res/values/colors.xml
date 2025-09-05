@@ -9,7 +9,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black_translucent">#80000000</color>
-
+    <color name="primary_color">#2196F3</color>
+    <color name="accent_color">#FF5722</color>
+    <color name="success_color">#4CAF50</color>
+    <color name="priority_color">#FF5722</color>
+    <color name="gold_color">#FFC107</color>
     <!-- Budget Theme Base -->
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryDark">#1976D2</color>

@@ -1,4 +1,3 @@
-// GoalAdapter.java
 package com.example.smartfinance.ui.goals;
 
 import android.view.LayoutInflater;
@@ -30,10 +29,10 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
         void onGoalLongClick(Goal goal);
     }
 
-    public GoalAdapter(OnGoalClickListener listener) {
+    public GoalAdapter(OnGoalClickListener listener, NumberFormat inrFormat) {
         this.listener = listener;
         this.goals = new ArrayList<>();
-        this.currencyFormat = NumberFormat.getCurrencyInstance();
+        this.currencyFormat = inrFormat; // Use the passed INR format
         this.dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
     }
 
@@ -48,7 +47,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
     @Override
     public void onBindViewHolder(@NonNull GoalViewHolder holder, int position) {
         Goal goal = goals.get(position);
-        holder.bind(goal);
+        holder.bind(goal, currencyFormat, dateFormat);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onGoalClick(goal);
@@ -89,7 +88,7 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
             progressBar = itemView.findViewById(R.id.progressBar);
         }
 
-        public void bind(Goal goal) {
+        public void bind(Goal goal, NumberFormat currencyFormat, SimpleDateFormat dateFormat) {
             tvGoalName.setText(goal.getGoalName());
             tvPriority.setText(goal.getPriority());
 
@@ -106,8 +105,9 @@ public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder
                     break;
             }
 
+            // Format amounts using the provided currency format
             tvSavedAmount.setText(currencyFormat.format(goal.getSavedAmount()));
-            tvTargetAmount.setText("/ " + currencyFormat.format(goal.getTargetAmount()));
+            tvTargetAmount.setText( currencyFormat.format(goal.getTargetAmount()));
 
             int progress = goal.getProgressPercentage();
             progressBar.setProgress(progress);

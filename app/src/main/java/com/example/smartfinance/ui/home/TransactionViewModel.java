@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.home.income;
+package com.example.smartfinance.ui.home;
 
 // package: com.example.smartfinance.viewmodel
 
@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+
+import com.example.smartfinance.ui.home.data.TransactionRepository;
+import com.example.smartfinance.ui.home.model.Transaction;
 
 import java.util.List;
 

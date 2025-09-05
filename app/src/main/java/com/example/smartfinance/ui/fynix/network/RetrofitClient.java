@@ -1,25 +1,23 @@
-package com.example.smartfinance.network;
+package com.example.smartfinance.ui.fynix.network;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.example.smartfinance.BuildConfig;
 import com.example.smartfinance.R;
 
-import com.example.smartfinance.BuildConfig;
+import java.util.concurrent.TimeUnit;
+
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.util.concurrent.TimeUnit;
-
 public class RetrofitClient {
-
-    String apiKey = BuildConfig.GEMINI_API_KEY;
-
     private static final String TAG = "RetrofitClient";
     private static Retrofit retrofit = null;
+    private static String apiKey = BuildConfig.GEMINI_API_KEY;
 
     public static synchronized FynixApiService getApiService(Context context) {
         if (retrofit == null) {
@@ -32,11 +30,11 @@ public class RetrofitClient {
                 throw new IllegalStateException("Base URL not configured. Please check strings.xml");
             }
 
-
             if (apiKey == null || apiKey.isEmpty()) {
                 Log.e(TAG, "❌ API key is missing from BuildConfig (check local.properties)");
                 throw new IllegalStateException("API key not configured. Add GEMINI_API_KEY in local.properties");
             }
+
             // Ensure base URL ends with slash
             if (!baseUrl.endsWith("/")) {
                 baseUrl += "/";

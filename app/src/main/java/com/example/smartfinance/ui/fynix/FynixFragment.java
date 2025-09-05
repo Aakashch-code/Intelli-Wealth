@@ -8,18 +8,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.smartfinance.R;
-import com.example.smartfinance.ui.fynix.FynixViewModel.ChatMessage;
+import com.example.smartfinance.ui.fynix.adapter.ChatAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 public class FynixFragment extends Fragment {
-
     private FynixViewModel viewModel;
     private RecyclerView messagesRecyclerView;
     private EditText messageEditText;

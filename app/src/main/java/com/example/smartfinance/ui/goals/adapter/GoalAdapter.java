@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.goals;
+package com.example.smartfinance.ui.goals.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 
 import com.example.smartfinance.R;
+import com.example.smartfinance.ui.goals.model.Goal;
 
 public class GoalAdapter extends RecyclerView.Adapter<GoalAdapter.GoalViewHolder> {
 

@@ -1,9 +1,8 @@
 // Goal.java
-package com.example.smartfinance.ui.goals;
+package com.example.smartfinance.ui.goals.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
 
 import java.util.Date;
 

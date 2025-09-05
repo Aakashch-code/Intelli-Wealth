@@ -15,9 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.smartfinance.R;
 import com.example.smartfinance.databinding.FragmentHomeBinding;
+import com.example.smartfinance.ui.home.Transactions.AddExpenseBottomSheet;
+import com.example.smartfinance.ui.home.Transactions.AddIncomeBottomSheet;
 import com.example.smartfinance.ui.home.Transactions.TransactionAdapter;
-import com.example.smartfinance.ui.home.income.Transaction;
-import com.example.smartfinance.ui.home.income.TransactionViewModel;
+import com.example.smartfinance.ui.home.model.Transaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
  * and recent transactions.
  */
 public class HomeFragment extends Fragment {
-
     // ----------------- UI & Data Members -----------------
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
@@ -41,14 +41,8 @@ public class HomeFragment extends Fragment {
 
     // ----------------- Lifecycle Methods -----------------
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupFabMenu(view);
-    }
-
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         // Inflate layout with ViewBinding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -70,6 +64,12 @@ public class HomeFragment extends Fragment {
         setupRecyclerView(transactionViewModel);
 
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupFabMenu(view);
     }
 
     @Override
@@ -104,11 +104,18 @@ public class HomeFragment extends Fragment {
         fab.setVisibility(View.VISIBLE);
         fab.setAlpha(0f);
         fab.setTranslationY(100f);
-        fab.animate().alpha(1f).translationY(0f).setDuration(200).start();
+        fab.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(200)
+                .start();
     }
 
     private void hideFab(FloatingActionButton fab) {
-        fab.animate().alpha(0f).translationY(100f).setDuration(200)
+        fab.animate()
+                .alpha(0f)
+                .translationY(100f)
+                .setDuration(200)
                 .withEndAction(() -> fab.setVisibility(View.GONE))
                 .start();
     }
@@ -120,7 +127,8 @@ public class HomeFragment extends Fragment {
             AddIncomeBottomSheet bottomSheet = new AddIncomeBottomSheet();
             bottomSheet.setIncomeListener(new AddIncomeBottomSheet.IncomeListener() {
                 @Override
-                public void onIncomeAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp) {
+                public void onIncomeAdded(double amount, String note, String category,
+                                          String paymentMethod, String date, long timestamp) {
                     Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
 
                     // Create transaction with all fields
@@ -145,7 +153,8 @@ public class HomeFragment extends Fragment {
             AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
             bottomSheet.setExpenseListener(new AddExpenseBottomSheet.ExpenseListener() {
                 @Override
-                public void onExpenseAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp) {
+                public void onExpenseAdded(double amount, String note, String category,
+                                           String paymentMethod, String date, long timestamp) {
                     Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
 
                     // Create transaction with all fields
@@ -180,8 +189,8 @@ public class HomeFragment extends Fragment {
     // ----------------- ViewModel Observers -----------------
     private void observeViewModels(HomeViewModel homeViewModel, TransactionViewModel transactionViewModel) {
         // Budget
-        homeViewModel.getBudget().observe(getViewLifecycleOwner(),
-                value -> binding.totalBalance.setText(String.format("$ %.2f", value)));
+        homeViewModel.getBudget().observe(getViewLifecycleOwner(), value ->
+                binding.totalBalance.setText(String.format("$ %.2f", value)));
 
         // Income
         TextView incomeText = binding.incomeAmount;

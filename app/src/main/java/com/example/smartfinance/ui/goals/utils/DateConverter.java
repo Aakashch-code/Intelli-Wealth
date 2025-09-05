@@ -1,5 +1,5 @@
 // DateConverter.java
-package com.example.smartfinance.ui.goals;
+package com.example.smartfinance.ui.goals.utils;
 
 import androidx.room.TypeConverter;
 import java.util.Date;

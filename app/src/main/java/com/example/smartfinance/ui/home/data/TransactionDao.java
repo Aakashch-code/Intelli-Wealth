@@ -1,9 +1,13 @@
-package com.example.smartfinance.ui.home.income;
+package com.example.smartfinance.ui.home.data;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.smartfinance.ui.home.model.MonthlyTotal;
+import com.example.smartfinance.ui.home.model.Transaction;
+
 import java.util.List;
 
 @Dao

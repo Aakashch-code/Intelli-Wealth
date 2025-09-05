@@ -1,6 +1,7 @@
-package com.example.smartfinance.network;
+package com.example.smartfinance.ui.fynix.model;
 
 import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class ApiModels {
@@ -64,10 +65,11 @@ public class ApiModels {
         public PromptFeedback promptFeedback;
 
         public String getResponseText() {
-            if (candidates != null && !candidates.isEmpty() &&
-                    candidates.get(0).content != null &&
-                    candidates.get(0).content.parts != null &&
-                    !candidates.get(0).content.parts.isEmpty()) {
+            if (candidates != null
+                    && !candidates.isEmpty()
+                    && candidates.get(0).content != null
+                    && candidates.get(0).content.parts != null
+                    && !candidates.get(0).content.parts.isEmpty()) {
                 return candidates.get(0).content.parts.get(0).text;
             }
             return "Sorry, I couldn't generate a response. Please try again.";

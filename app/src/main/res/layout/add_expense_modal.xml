@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context=".ui.home.AddExpenseBottomSheet">
+    tools:context=".ui.home.Transactions.AddExpenseBottomSheet">
 
     <!-- Header with close button -->
     <RelativeLayout

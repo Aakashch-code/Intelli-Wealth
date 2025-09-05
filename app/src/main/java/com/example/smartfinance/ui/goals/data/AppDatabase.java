@@ -1,5 +1,5 @@
 // AppDatabase.java
-package com.example.smartfinance.ui.goals;
+package com.example.smartfinance.ui.goals.data;
 
 import android.content.Context;
 import androidx.room.Database;
@@ -7,9 +7,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.example.smartfinance.ui.goals.DateConverter;
-import com.example.smartfinance.ui.goals.Goal;
-import com.example.smartfinance.ui.goals.GoalDao;
+import com.example.smartfinance.ui.goals.utils.DateConverter;
+import com.example.smartfinance.ui.goals.model.Goal;
 
 @Database(entities = {Goal.class}, version = 1, exportSchema = false)
 @TypeConverters({DateConverter.class})

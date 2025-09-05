@@ -1,10 +1,10 @@
 // GoalRepository.java
-package com.example.smartfinance.ui.goals;
+package com.example.smartfinance.ui.goals.data;
 
 import android.app.Application;
 import androidx.lifecycle.LiveData;
 
-import com.example.smartfinance.ui.goals.AppDatabase;
+import com.example.smartfinance.ui.goals.model.Goal;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

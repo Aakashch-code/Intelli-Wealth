@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.home.income;
+package com.example.smartfinance.ui.home.data;
 
 import android.content.Context;
 
@@ -8,6 +8,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.example.smartfinance.ui.home.model.Transaction;
 
 @Database(entities = {Transaction.class}, version = 2, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {

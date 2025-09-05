@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.home;
+package com.example.smartfinance.ui.home.Transactions;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
@@ -22,20 +22,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
+public class AddIncomeBottomSheet extends BottomSheetDialogFragment {
 
     private EditText editTextAmount, editTextNote;
     private AutoCompleteTextView categorySpinner, paymentMethodSpinner;
-    private TextInputEditText expenseDateEditText;
+    private TextInputEditText incomeDateEditText;
     private Button buttonSave;
 
-    public interface ExpenseListener {
-        void onExpenseAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp);
+    public interface IncomeListener {
+        void onIncomeAdded(double amount, String note, String category, String paymentMethod, String date, long timestamp);
     }
 
-    private ExpenseListener listener;
+    private IncomeListener listener;
 
-    public void setExpenseListener(ExpenseListener listener) {
+    public void setIncomeListener(IncomeListener listener) {
         this.listener = listener;
     }
 
@@ -44,42 +44,42 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.add_expense_modal, container, false);
+        return inflater.inflate(R.layout.add_income_modal, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        editTextAmount = view.findViewById(R.id.expenseAmountEditText);
-        editTextNote = view.findViewById(R.id.expenseNoteEditText);
-        categorySpinner = view.findViewById(R.id.expenseCategorySpinner);
-        paymentMethodSpinner = view.findViewById(R.id.expensePaymentMethod);
-        expenseDateEditText = view.findViewById(R.id.expenseDateEditText);
-        buttonSave = view.findViewById(R.id.saveExpenseBtn);
+        editTextAmount = view.findViewById(R.id.incomeAmountEditText);
+        editTextNote = view.findViewById(R.id.incomeNoteEditText);
+        categorySpinner = view.findViewById(R.id.incomeCategorySpinner);
+        paymentMethodSpinner = view.findViewById(R.id.incomePaymentMethod);
+        incomeDateEditText = view.findViewById(R.id.incomeDateEditText);
+        buttonSave = view.findViewById(R.id.saveIncomeBtn);
 
         // Set up category spinner
-        String[] categories = {"Food", "Transport", "Shopping", "Health", "Entertainment", "Education", "Bills", "EMI", "Others"};
+        String[] categories = {"Salary", "Freelancing", "Business", "Investments", "Gifts", "Cashback / Rewards", "Rental Income", "Interest Income", "Refunds", "Other Income"};
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, categories);
         categorySpinner.setAdapter(categoryAdapter);
 
-        // Set payment method spinner
-        String[] paymentMethods = {"Cash", "Card", "Google Pay", "PhonePe", "Paytm", "Other"};
+        // Set Payment Method spinner
+        String[] paymentMethods = {"BHIM UPI", "Google Pay", "PhonePe", "Paytm", "Other"};
         ArrayAdapter<String> paymentAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, paymentMethods);
         paymentMethodSpinner.setAdapter(paymentAdapter);
 
         // Set default date to today
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        expenseDateEditText.setText(sdf.format(calendar.getTime()));
+        incomeDateEditText.setText(sdf.format(calendar.getTime()));
 
         // Date picker setup
-        expenseDateEditText.setOnClickListener(v -> showDatePicker(calendar));
+        incomeDateEditText.setOnClickListener(v -> showDatePicker(calendar));
 
         buttonSave.setOnClickListener(v -> {
             String amountStr = editTextAmount.getText().toString().trim();
             String note = editTextNote.getText().toString().trim();
             String category = categorySpinner.getText().toString().trim();
             String paymentMethod = paymentMethodSpinner.getText().toString().trim();
-            String date = expenseDateEditText.getText().toString().trim();
+            String date = incomeDateEditText.getText().toString().trim();
 
             if (validateInput(amountStr, category, paymentMethod, date)) {
                 double amount = Double.parseDouble(amountStr);
@@ -88,7 +88,7 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
                 long timestamp = convertDateToTimestamp(date);
 
                 if (listener != null) {
-                    listener.onExpenseAdded(amount, note, category, paymentMethod, date, timestamp);
+                    listener.onIncomeAdded(amount, note, category, paymentMethod, date, timestamp);
                 }
                 dismiss();
             }
@@ -117,7 +117,7 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
         }
 
         if (date.isEmpty()) {
-            expenseDateEditText.setError("Date required");
+            incomeDateEditText.setError("Date required");
             isValid = false;
         }
 
@@ -134,7 +134,7 @@ public class AddExpenseBottomSheet extends BottomSheetDialogFragment {
                 (view, selectedYear, selectedMonth, selectedDay) -> {
                     calendar.set(selectedYear, selectedMonth, selectedDay);
                     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                    expenseDateEditText.setText(sdf.format(calendar.getTime()));
+                    incomeDateEditText.setText(sdf.format(calendar.getTime()));
                 },
                 year, month, day
         );

@@ -16,7 +16,7 @@
         <!-- Spacing -->
         <dimen name="spacing_tiny">4dp</dimen>
         <dimen name="spacing_extra_large">32dp</dimen>
-
+    <dimen name="chat_message_max_width">280dp</dimen>
         <dimen name="fab_menu_offset">200dp</dimen>
     <dimen name="fab_spacing">20dp</dimen>
 

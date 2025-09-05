@@ -29,4 +29,7 @@
         <string name="toggle_view_description">Toggle view mode</string>
         <string name="add_budget_description">Add new budget</string>
         <string name="open_menu_description">Open menu</string>
+
+    <string name="gemini_api_key">AIzaSyDjlFL_qk0hYcS-m-zV4T1W43OgniBCzL4</string>
+    <string name="gemini_base_url">https://generativelanguage.googleapis.com/</string>
 </resources>

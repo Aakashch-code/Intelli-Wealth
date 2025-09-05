@@ -1,24 +1,123 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@android:color/black"
     tools:context=".ui.fynix.FynixFragment">
 
-    <TextView
-        android:id="@+id/comingSoonText"
-        android:layout_width="wrap_content"
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="🚧 Coming Soon 🚧"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:textColor="#FFEB3B"
-        android:layout_gravity="center"
-        android:shadowColor="#80000000"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="4"
-        android:padding="16dp" />
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="#1E1E1E"
+        android:gravity="center_vertical">
 
-</FrameLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Fynix Assistant"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:gravity="center" />
+
+        <!-- Upload Progress Indicator -->
+        <ProgressBar
+            android:id="@+id/uploadProgress"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="8dp"
+            android:indeterminateTint="#4CAF50"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <!-- Upload Status Banner -->
+    <TextView
+        android:id="@+id/uploadStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:visibility="gone"
+        android:background="#2E7D32" />
+
+    <!-- Messages Container -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/messagesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:background="@android:color/black" />
+
+    <!-- Loading Indicator for Chat -->
+    <LinearLayout
+        android:id="@+id/loadingContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:gravity="center_vertical">
+
+        <ProgressBar
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:indeterminateTint="#2196F3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fynix is thinking..."
+            android:textColor="#888888"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <!-- Input Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="#1E1E1E"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/messageEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Ask about your finances..."
+            android:textColor="#FFFFFF"
+            android:textColorHint="#888888"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:layout_marginEnd="12dp"
+            android:maxLines="3"
+            android:inputType="textMultiLine|textCapSentences" />
+
+        <Button
+            android:id="@+id/sendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:text="Send"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/rounded_button_background"
+            android:paddingHorizontal="16dp"
+            android:minWidth="0dp"
+            android:enabled="true" />
+
+    </LinearLayout>
+
+</LinearLayout>

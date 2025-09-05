@@ -49,8 +49,15 @@ public class FynixApiHelper {
     private static String buildFinancialPrompt(String userMessage, List<Transaction> transactions) {
         StringBuilder prompt = new StringBuilder();
 
-        prompt.append("You are Fynix, a helpful financial AI assistant. ");
-        prompt.append("Provide financial advice and analysis based on the user's transaction data.\n\n");
+        // ===== NEW & IMPORTANT: ADD THESE LINES FOR BREVITY =====
+        prompt.append("You are Fynix, a helpful financial AI assistant for a mobile app. ");
+        prompt.append("Provide clear, concise, and actionable financial advice based on the user's transaction data. ");
+        prompt.append("**CRITICAL INSTRUCTIONS:**\n");
+        prompt.append("1. Keep responses SHORT and DIRECT - aim for 2-3 sentences maximum.\n");
+        prompt.append("2. Focus on key insights and practical advice.\n");
+        prompt.append("3. Avoid long introductions, explanations, or disclaimers.\n");
+        prompt.append("4. Use bullet points only if absolutely necessary.\n\n");
+        // ===== END OF NEW LINES =====
 
         if (transactions != null && !transactions.isEmpty()) {
             prompt.append("USER'S TRANSACTIONS:\n");
@@ -82,7 +89,7 @@ public class FynixApiHelper {
         }
 
         prompt.append("USER QUESTION: ").append(userMessage).append("\n\n");
-        prompt.append("Please provide helpful financial advice.");
+        prompt.append("Please provide helpful financial advice."); // This line is now reinforced by the instructions above
 
         return prompt.toString();
     }
@@ -231,41 +238,6 @@ public class FynixApiHelper {
     }
 
     // Test API connection
-    public static void testApiConnection(Context context, ApiCallback<String> callback) {
-        try {
-            String apiKey = BuildConfig.GEMINI_API_KEY;
-
-
-            // Simple test request
-            ApiModels.Part part = new ApiModels.Part("Hello! Please respond with 'Connected successfully'");
-            ApiModels.Content content = new ApiModels.Content(List.of(part), "user");
-            ApiModels.GenerationConfig config = new ApiModels.GenerationConfig();
-
-            ApiModels.GeminiRequest request = new ApiModels.GeminiRequest(List.of(content), config);
-
-            FynixApiService apiService = RetrofitClient.getApiService(context);
-            Call<ApiModels.GeminiResponse> call = apiService.chatWithGemini(request);
-
-            call.enqueue(new Callback<ApiModels.GeminiResponse>() {
-                @Override
-                public void onResponse(Call<ApiModels.GeminiResponse> call, Response<ApiModels.GeminiResponse> response) {
-                    if (response.isSuccessful() && response.body() != null) {
-                        callback.onSuccess("API Connected: " + response.body().getResponseText());
-                    } else {
-                        callback.onError("Connection failed: HTTP " + response.code());
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ApiModels.GeminiResponse> call, Throwable t) {
-                    callback.onError("Connection failed: " + t.getMessage());
-                }
-            });
-        } catch (Exception e) {
-            callback.onError("Test failed: " + e.getMessage());
-        }
-    }
-
     public static String generateUserId() {
         return "user_" + UUID.randomUUID().toString().substring(0, 8);
     }

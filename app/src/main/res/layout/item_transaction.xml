@@ -125,7 +125,6 @@
                     android:id="@+id/categoryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Shopping"
                     android:textColor="#CCCCCC"
                     android:textSize="12sp"
                     android:fontFamily="sans-serif-medium"

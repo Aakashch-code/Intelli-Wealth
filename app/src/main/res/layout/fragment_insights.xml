@@ -112,8 +112,8 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/incomeChart"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_margin="18dp"
+                    android:layout_height="250dp"
+                    android:layout_margin="10dp"
                     android:background="#1A1A1A"
                     android:elevation="2dp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -133,7 +133,6 @@
                         android:id="@+id/incomeSummaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Total income this month: ₹15,000"
                         android:textColor="#B0BEC5"
                         android:textSize="14sp" />
 
@@ -202,7 +201,6 @@
                         android:id="@+id/expenseSummaryText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You spent ₹3,000 on Food this month"
                         android:textColor="#B0BEC5"
                         android:textSize="14sp" />
 
@@ -250,8 +248,8 @@
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/savingsChart"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="12dp"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="10dp"
                     android:background="#1A1A1A" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

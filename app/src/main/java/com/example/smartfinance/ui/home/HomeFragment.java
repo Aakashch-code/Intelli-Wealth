@@ -21,7 +21,9 @@ import com.example.smartfinance.ui.home.Transactions.TransactionAdapter;
 import com.example.smartfinance.ui.home.model.Transaction;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * HomeFragment - Main screen for showing budget, income, expenses,
@@ -33,6 +35,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private double currentIncome = 0.0;
     private double currentExpense = 0.0;
+    private NumberFormat currencyFormat; // Add currency formatter
 
     // ----------------- Constructor -----------------
     public HomeFragment() {
@@ -47,6 +50,9 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        // Initialize currency formatter for INR
+        currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
+
         // Initialize ViewModels
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         TransactionViewModel transactionViewModel = new ViewModelProvider(
@@ -54,7 +60,7 @@ public class HomeFragment extends Fragment {
                 new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
         ).get(TransactionViewModel.class);
 
-        // Observe LiveData (Budget, Income, Expense)
+        // Observe LiveData (Income, Expense)
         observeViewModels(homeViewModel, transactionViewModel);
 
         // Setup Add Income & Expense Buttons
@@ -129,7 +135,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onIncomeAdded(double amount, String note, String category,
                                           String paymentMethod, String date, long timestamp) {
-                    Toast.makeText(getContext(), "Income added: $" + amount, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Income added: " + currencyFormat.format(amount), Toast.LENGTH_SHORT).show(); // Updated toast
 
                     // Create transaction with all fields
                     Transaction transaction = new Transaction(
@@ -155,7 +161,7 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onExpenseAdded(double amount, String note, String category,
                                            String paymentMethod, String date, long timestamp) {
-                    Toast.makeText(getContext(), "Expense added: $" + amount, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Expense added: " + currencyFormat.format(amount), Toast.LENGTH_SHORT).show(); // Updated toast
 
                     // Create transaction with all fields
                     Transaction transaction = new Transaction(
@@ -190,13 +196,13 @@ public class HomeFragment extends Fragment {
     private void observeViewModels(HomeViewModel homeViewModel, TransactionViewModel transactionViewModel) {
         // Budget
         homeViewModel.getBudget().observe(getViewLifecycleOwner(), value ->
-                binding.totalBalance.setText(String.format("$ %.2f", value)));
+                binding.totalBalance.setText(currencyFormat.format(value))); // Updated to INR format
 
         // Income
         TextView incomeText = binding.incomeAmount;
         transactionViewModel.getTotalByType("Income").observe(getViewLifecycleOwner(), income -> {
             currentIncome = income != null ? income : 0.0;
-            incomeText.setText(String.format("$ %.2f", currentIncome));
+            incomeText.setText(currencyFormat.format(currentIncome)); // Updated to INR format
             homeViewModel.updateBudget(currentIncome, currentExpense);
         });
 
@@ -204,7 +210,7 @@ public class HomeFragment extends Fragment {
         TextView expenseText = binding.expenseAmount;
         transactionViewModel.getTotalByType("Expense").observe(getViewLifecycleOwner(), expense -> {
             currentExpense = expense != null ? expense : 0.0;
-            expenseText.setText(String.format("$ %.2f", currentExpense));
+            expenseText.setText(currencyFormat.format(currentExpense)); // Updated to INR format
             homeViewModel.updateBudget(currentIncome, currentExpense);
         });
     }

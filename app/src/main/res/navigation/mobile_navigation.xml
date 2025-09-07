@@ -27,4 +27,9 @@
         android:name="com.example.smartfinance.ui.insights.InsightsFragment"
         android:label="Insights"
         tools:layout="@layout/fragment_insights" />
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.example.smartfinance.Authentication.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login" />
 </navigation>

@@ -1,8 +1,5 @@
 package com.example.smartfinance.ui.home.data;
 
-
-// package: com.example.smartfinance.repository
-
 import android.app.Application;
 
 import androidx.lifecycle.LiveData;

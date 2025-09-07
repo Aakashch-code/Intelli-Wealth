@@ -15,7 +15,8 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // --- CORRECTED BLOCK: Move the properties loading INSIDE defaultConfig ---
+        // Load values from local.properties
+        buildConfigField "String", "GOOGLE_CLIENT_ID", "\"${getGoogleClientId()}\""
         buildConfigField "String", "GEMINI_API_KEY", "\"${getApiKey()}\""
     }
 
@@ -31,24 +32,36 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     buildFeatures {
-        buildConfig true   // ✅ This is correct
+        buildConfig true
         viewBinding true
     }
 }
 
-// --- NEW: Create a function to safely get the API key ---
+// --- NEW FUNCTIONS ---
 def getApiKey() {
     def localProperties = new Properties()
     def localPropertiesFile = rootProject.file("local.properties")
     if (localPropertiesFile.exists()) {
         localProperties.load(new FileInputStream(localPropertiesFile))
     }
-    // Use getProperty with a fallback to avoid crashes
     return localProperties.getProperty("GEMINI_API_KEY", "")
 }
-// --- END OF NEW FUNCTION ---
+
+def getGoogleClientId() {
+    def localProperties = new Properties()
+    def localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(new FileInputStream(localPropertiesFile))
+    }
+    return localProperties.getProperty("GOOGLE_CLIENT_ID", "")
+}
+// --- END FUNCTIONS ---
 
 dependencies {
+    implementation 'com.google.android.gms:play-services-auth:21.2.0'
+    implementation 'com.github.bumptech.glide:glide:4.16.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+
     implementation 'com.google.ai.client.generativeai:generativeai:0.1.2'
     implementation libs.generativeai
     implementation libs.retrofit

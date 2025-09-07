@@ -71,15 +71,6 @@
                         android:textSize="32sp"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/balanceSubtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Income $5,000 - Expenses $3,200"
-                        android:textColor="#707070"
-                        android:textSize="12sp" />
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

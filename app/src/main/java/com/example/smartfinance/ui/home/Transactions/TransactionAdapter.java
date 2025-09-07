@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartfinance.R;
 import com.example.smartfinance.ui.home.model.Transaction;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -19,10 +20,12 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
 
     Context context;
     List<Transaction> transactions;
+    NumberFormat currencyFormat;
 
     public TransactionAdapter(List<Transaction> transactions, Context context) {
         this.transactions = transactions;
         this.context = context;
+        this.currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
     }
 
     @NonNull
@@ -35,9 +38,9 @@ public class TransactionAdapter extends RecyclerView.Adapter<TransactionViewHold
     public void onBindViewHolder(@NonNull TransactionViewHolder holder, int position) {
         Transaction transaction = transactions.get(position);
 
-        // Format amount
+        // Format amount in INR
         double amount = transaction.getAmount();
-        holder.amountText.setText(String.format("$%.2f", amount));
+        holder.amountText.setText(currencyFormat.format(amount));
 
         // Set type with proper formatting
         holder.typeText.setText(transaction.getType());

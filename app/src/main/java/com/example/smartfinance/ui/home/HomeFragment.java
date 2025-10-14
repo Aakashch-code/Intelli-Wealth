@@ -1,6 +1,8 @@
 package com.example.smartfinance.ui.home;
 
+import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,44 +32,31 @@ import java.util.Locale;
  * and recent transactions.
  */
 public class HomeFragment extends Fragment {
-    // ----------------- UI & Data Members -----------------
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
     private double currentIncome = 0.0;
     private double currentExpense = 0.0;
-    private NumberFormat currencyFormat; // Add currency formatter
+    private NumberFormat currencyFormat;
 
-    // ----------------- Constructor -----------------
     public HomeFragment() {
         super(R.layout.fragment_home);
     }
 
-    // ----------------- Lifecycle Methods -----------------
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        // Inflate layout with ViewBinding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Initialize currency formatter for INR
         currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
 
-        // Initialize ViewModels
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        TransactionViewModel transactionViewModel = new ViewModelProvider(
-                requireActivity(),
-                new ViewModelProvider.AndroidViewModelFactory(requireActivity().getApplication())
-        ).get(TransactionViewModel.class);
+        Application application = (Application) requireContext().getApplicationContext();
+        homeViewModel = new ViewModelProvider(this,
+                new ViewModelProvider.AndroidViewModelFactory(application))
+                .get(HomeViewModel.class);
 
-        // Observe LiveData (Income, Expense)
-        observeViewModels(homeViewModel, transactionViewModel);
-
-        // Setup Add Income & Expense Buttons
-        setupTransactionButtons(transactionViewModel);
-
-        // Setup RecyclerView for Transactions
-        setupRecyclerView(transactionViewModel);
+        setupTransactionButtons();
+        setupRecyclerView();
 
         return root;
     }
@@ -76,6 +65,8 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupFabMenu(view);
+        observeViewModels();
+        observeSyncStatus();
     }
 
     @Override
@@ -84,7 +75,6 @@ public class HomeFragment extends Fragment {
         binding = null;
     }
 
-    // ----------------- FAB Menu (Main + Mini FABs) -----------------
     private void setupFabMenu(View view) {
         FloatingActionButton fabMenu = view.findViewById(R.id.fabMenu);
         FloatingActionButton fabAddIncome = view.findViewById(R.id.btnAddIncome);
@@ -96,11 +86,11 @@ public class HomeFragment extends Fragment {
             if (!isFabMenuOpen[0]) {
                 showFab(fabAddIncome);
                 showFab(fabAddExpense);
-                fabMenu.animate().rotation(45f).setDuration(200).start(); // Rotate open
+                fabMenu.animate().rotation(45f).setDuration(200).start();
             } else {
                 hideFab(fabAddIncome);
                 hideFab(fabAddExpense);
-                fabMenu.animate().rotation(0f).setDuration(200).start(); // Rotate close
+                fabMenu.animate().rotation(0f).setDuration(200).start();
             }
             isFabMenuOpen[0] = !isFabMenuOpen[0];
         });
@@ -126,92 +116,82 @@ public class HomeFragment extends Fragment {
                 .start();
     }
 
-    // ----------------- Transaction Buttons -----------------
-    private void setupTransactionButtons(TransactionViewModel transactionViewModel) {
-        // Add Income
+    private void setupTransactionButtons() {
         binding.btnAddIncome.setOnClickListener(v -> {
             AddIncomeBottomSheet bottomSheet = new AddIncomeBottomSheet();
             bottomSheet.setIncomeListener(new AddIncomeBottomSheet.IncomeListener() {
                 @Override
                 public void onIncomeAdded(double amount, String note, String category,
                                           String paymentMethod, String date, long timestamp) {
-                    Toast.makeText(getContext(), "Income added: " + currencyFormat.format(amount), Toast.LENGTH_SHORT).show(); // Updated toast
+                    Toast.makeText(getContext(), "Income added: " + currencyFormat.format(amount), Toast.LENGTH_SHORT).show();
 
-                    // Create transaction with all fields
                     Transaction transaction = new Transaction(
-                            "Income",
-                            category,
-                            amount,
-                            date,
-                            paymentMethod,
-                            note,
-                            timestamp
+                            "Income", category, amount, date, paymentMethod, note, timestamp
                     );
-
-                    transactionViewModel.insert(transaction);
+                    homeViewModel.insertTransaction(transaction);
                 }
             });
             bottomSheet.show(getChildFragmentManager(), "AddIncomeBottomSheet");
         });
 
-        // Add Expense
         binding.btnAddExpense.setOnClickListener(v -> {
             AddExpenseBottomSheet bottomSheet = new AddExpenseBottomSheet();
             bottomSheet.setExpenseListener(new AddExpenseBottomSheet.ExpenseListener() {
                 @Override
                 public void onExpenseAdded(double amount, String note, String category,
                                            String paymentMethod, String date, long timestamp) {
-                    Toast.makeText(getContext(), "Expense added: " + currencyFormat.format(amount), Toast.LENGTH_SHORT).show(); // Updated toast
+                    Toast.makeText(getContext(), "Expense added: " + currencyFormat.format(amount), Toast.LENGTH_SHORT).show();
 
-                    // Create transaction with all fields
                     Transaction transaction = new Transaction(
-                            "Expense",
-                            category,
-                            amount,
-                            date,
-                            paymentMethod,
-                            note,
-                            timestamp
+                            "Expense", category, amount, date, paymentMethod, note, timestamp
                     );
-
-                    transactionViewModel.insert(transaction);
+                    homeViewModel.insertTransaction(transaction);
                 }
             });
             bottomSheet.show(getChildFragmentManager(), "AddExpenseBottomSheet");
         });
     }
 
-    // ----------------- RecyclerView Setup -----------------
-    private void setupRecyclerView(TransactionViewModel transactionViewModel) {
+    private void setupRecyclerView() {
         TransactionAdapter transactionAdapter = new TransactionAdapter(new ArrayList<>(), getContext());
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(transactionAdapter);
 
-        // Observe DB changes -> Update list
-        transactionViewModel.getAllTransactions().observe(getViewLifecycleOwner(),
+        homeViewModel.getAllTransactions().observe(getViewLifecycleOwner(),
                 transactionAdapter::setTransactions);
     }
 
-    // ----------------- ViewModel Observers -----------------
-    private void observeViewModels(HomeViewModel homeViewModel, TransactionViewModel transactionViewModel) {
-        // Budget
-        homeViewModel.getBudget().observe(getViewLifecycleOwner(), value ->
-                binding.totalBalance.setText(currencyFormat.format(value))); // Updated to INR format
+    private void observeViewModels() {
+        homeViewModel.getTotalBudget().observe(getViewLifecycleOwner(), value ->
+                binding.totalBalance.setText(currencyFormat.format(value != null ? value : 0.0)));
 
-        // Income
         TextView incomeText = binding.incomeAmount;
-        transactionViewModel.getTotalByType("Income").observe(getViewLifecycleOwner(), income -> {
+        homeViewModel.getTotalIncome().observe(getViewLifecycleOwner(), income -> {
             currentIncome = income != null ? income : 0.0;
-            incomeText.setText(currencyFormat.format(currentIncome)); // Updated to INR format
-            homeViewModel.updateBudget(currentIncome, currentExpense);
+            incomeText.setText(currencyFormat.format(currentIncome));
         });
 
-        // Expense
         TextView expenseText = binding.expenseAmount;
-        transactionViewModel.getTotalByType("Expense").observe(getViewLifecycleOwner(), expense -> {
+        homeViewModel.getTotalExpense().observe(getViewLifecycleOwner(), expense -> {
             currentExpense = expense != null ? expense : 0.0;
-            expenseText.setText(currencyFormat.format(currentExpense)); // Updated to INR format
-            homeViewModel.updateBudget(currentIncome, currentExpense);
+            expenseText.setText(currencyFormat.format(currentExpense));
+        });
+
+        homeViewModel.getSavings().observe(getViewLifecycleOwner(), savings -> {
+            if (savings != null) {
+                // Update savings UI if you have it
+            }
+        });
+    }
+
+    private void observeSyncStatus() {
+        homeViewModel.getSyncStatus().observe(getViewLifecycleOwner(), status -> {
+            if (status != null) {
+                Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
+                if (status.contains("Error")) {
+                    Log.e("HomeFragment", "Sync error: " + status);
+                }
+            }
         });
     }
 }

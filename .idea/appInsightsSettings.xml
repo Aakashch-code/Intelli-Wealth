@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.smartfinance" />
+                  <option name="mobileSdkAppId" value="1:1044283441660:android:746d61f16c69565c9f3279" />
+                  <option name="projectId" value="intelli-wealth-98075" />
+                  <option name="projectNumber" value="1044283441660" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

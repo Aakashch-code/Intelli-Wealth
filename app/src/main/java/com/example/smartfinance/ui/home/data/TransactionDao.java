@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
+import androidx.room.Delete;
 
 import com.example.smartfinance.ui.home.model.MonthlyTotal;
 import com.example.smartfinance.ui.home.model.Transaction;
@@ -20,7 +22,13 @@ public interface TransactionDao {
     LiveData<List<MonthlyTotal>> getMonthlyTotals(String type);
 
     @Insert
-    void insertTransaction(Transaction transaction);
+    long insertTransaction(Transaction transaction);
+
+    @Update
+    void updateTransaction(Transaction transaction);
+
+    @Delete
+    void deleteTransaction(Transaction transaction);
 
     @Query("SELECT SUM(amount) FROM transactions WHERE type = 'Income'")
     LiveData<Float> getTotalIncome();
@@ -39,4 +47,26 @@ public interface TransactionDao {
 
     @Query("SELECT * FROM transactions WHERE type = :type ORDER BY timestamp DESC")
     LiveData<List<Transaction>> getTransactionsByType(String type);
+
+    // New methods for Firestore synchronization - CORRECTED VERSION
+    @Query("SELECT * FROM transactions WHERE firestoreId IS NULL")
+    List<Transaction> getUnsyncedTransactions();
+
+    @Query("SELECT * FROM transactions WHERE firestoreId = :firestoreId")
+    Transaction getTransactionByFirestoreId(String firestoreId);
+
+    @Query("UPDATE transactions SET firestoreId = :firestoreId WHERE id = :localId")
+    void updateFirestoreId(int localId, String firestoreId);
+
+    @Query("DELETE FROM transactions WHERE firestoreId IS NULL")
+    void deleteUnsyncedTransactions();
+
+    @Query("SELECT COUNT(*) FROM transactions WHERE firestoreId = :firestoreId")
+    int countByFirestoreId(String firestoreId);
+
+    @Query("DELETE FROM transactions")
+    void deleteAllTransactions();
+
+    @Insert
+    void insertAll(List<Transaction> transactions);
 }

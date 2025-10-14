@@ -1,26 +1,73 @@
-# Gradle
+﻿# Gradle
 .gradle/
 build/
+*/build/
+!gradle-wrapper.jar
 
 # Local config / secrets
 local.properties
 *.env
 *.properties
+*.keystore
+*.jks
+*.key
+*.pem
+*.p12
+*.crt
+
+# Google / Firebase config
+google-services.json
+GoogleService-Info.plist
+firebase.json
+fabric.properties
+app/google-services.json
+app/src/**/google-services.json
 
 # Android Studio / IntelliJ
 .idea/
 *.iml
+*.ipr
+*.iws
+/.cxx/
+.externalNativeBuild/
+*.hprof
 
-# Keystores (keep private!)
-*.jks
-*.keystore
-
-# Generated / misc
+# Android / NDK generated files
 captures/
 outputs/
 navigation.json
+generated/
+intermediates/
+release/
+debug/
+obj/
+libs/
+*.apk
+*.ap_
+*.aab
+*.aar
+
+# Logs
 *.log
 
 # OS junk
 .DS_Store
 Thumbs.db
+
+# Misc
+local.gradle.properties
+.env.*
+*.bak
+*.tmp
+*.orig
+*.rej
+
+# Kotlin / Java build files
+*.class
+*.dex
+*.jar
+*.war
+*.ear
+
+# Jetpack Compose preview cache
+*.preview.cache/

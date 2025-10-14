@@ -10,8 +10,7 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.smartfinance.ui.home.model.Transaction;
-
-@Database(entities = {Transaction.class}, version = 2, exportSchema = true)
+@Database(entities = {Transaction.class}, version = 4, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
@@ -31,13 +30,30 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    // Migration from version 2 to 3 - Add firestoreId column
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("ALTER TABLE transactions ADD COLUMN firestoreId TEXT");
+        }
+    };
+
+    // Migration from version 3 to 4 - Empty migration (if needed)
+    static final Migration MIGRATION_3_4 = new Migration(3, 4) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // No changes needed, just increment version
+        }
+    };
+
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "transaction_database")
-                            .addMigrations(MIGRATION_1_2)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                            .fallbackToDestructiveMigration()  // Add this for safety
                             .build();
                 }
             }

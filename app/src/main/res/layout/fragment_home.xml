@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#0F0F0F"
     android:padding="16dp"
-    tools:context=".ui.home.HomeFragment">
+    tools:context=".ui.fragments.HomeFragment">
 
     <!-- Scrollable content -->
     <androidx.core.widget.NestedScrollView

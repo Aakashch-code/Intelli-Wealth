@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#0A0A0A"
-    tools:context=".ui.fynix.FynixFragment">
+    tools:context=".ui.fragments.FynixFragment">
 
     <!-- Header -->
     <LinearLayout

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="24dp"
-    tools:context=".ui.home.Transactions.AddIncomeBottomSheet">
+    tools:context=".data.sheets.AddIncomeBottomSheet">
 
     <!-- Header with close button -->
     <RelativeLayout

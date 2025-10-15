@@ -1,3 +1,4 @@
+// Updated MainApplication.java - Minor update to ensure Firestore is ready
 package com.example.smartfinance.data.remote.firebase;
 
 import android.app.Application;
@@ -18,13 +19,11 @@ public class MainApplication extends Application {
         super.onCreate();
 
         try {
-            // Initialize Firebase first
             FirebaseApp.initializeApp(this);
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
             Log.d("MainApplication", "Firebase initialized successfully");
 
-            // Add anonymous authentication
             FirebaseAuth auth = FirebaseAuth.getInstance();
             if (auth.getCurrentUser() == null) {
                 auth.signInAnonymously()
@@ -38,9 +37,7 @@ public class MainApplication extends Application {
                 Log.d("MainApplication", "User already authenticated");
             }
 
-            // Perform Firestore operations
             testFirebaseConnection(db);
-
 
         } catch (Exception e) {
             Log.e("MainApplication", "Firebase initialization error: " + e.getMessage(), e);
@@ -48,6 +45,7 @@ public class MainApplication extends Application {
     }
 
     private void testFirebaseConnection(FirebaseFirestore db) {
+        // Existing test code remains the same...
         try {
             Map<String, Object> testData = new HashMap<>();
             testData.put("timestamp", Timestamp.now());
@@ -59,7 +57,6 @@ public class MainApplication extends Application {
                     .addOnSuccessListener(aVoid -> Log.d("Firebase", "Connection test successful"))
                     .addOnFailureListener(e -> Log.w("Firebase", "Connection test failed: " + e.getMessage()));
 
-            // Optional: Single test write to testCollection
             Map<String, Object> testDataSingle = new HashMap<>();
             testDataSingle.put("message", "Test data from Android app");
             testDataSingle.put("timestamp", Timestamp.now());
@@ -74,7 +71,6 @@ public class MainApplication extends Application {
                         Log.e("Firestore", "Error writing document", e);
                     });
 
-            // Optional: Read test data
             db.collection("connection_tests")
                     .document("app_start")
                     .get()

@@ -20,7 +20,12 @@ public interface TransactionDao {
             "GROUP BY month " +
             "ORDER BY month ASC")
     LiveData<List<MonthlyTotal>> getMonthlyTotals(String type);
+    @Query("SELECT * FROM transactions WHERE category = :category")
+    List<Transaction> getTransactionsByCategory(String category);
 
+    // For spent sum, add:
+    @Query("SELECT SUM(ABS(amount)) FROM transactions WHERE category = :category AND amount < 0 AND timestamp >= :startTime")
+    double getSpentForCategoryInPeriod(String category, long startTime);
     @Insert
     long insertTransaction(Transaction transaction);
 

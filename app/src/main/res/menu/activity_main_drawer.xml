@@ -18,7 +18,11 @@
             android:id="@+id/nav_fynix"
             android:title="Fynix" />
         <item
+            android:id="@+id/nav_budget"
+            android:title="Budget"/>
+        <item
             android:id="@+id/nav_login"
             android:title="Login" />
+
     </group>
 </menu>

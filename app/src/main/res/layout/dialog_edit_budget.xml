@@ -1,58 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="match_parent"
+    android:background="#0A0E27">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Category">
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etCategory"
+        <!-- Header Section -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="32dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add &amp; Edit Budget"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:layout_marginBottom="8dp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Allocated Amount"
-        android:inputType="numberDecimal">
+        </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etAmount"
+        <!-- Category Input -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/rounded_background"
+            android:padding="2dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_inner_background"
+                android:padding="16dp"
+                android:orientation="vertical">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Spent Amount"
-        android:inputType="numberDecimal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category"
+                    android:textSize="12sp"
+                    android:textColor="#64B5F6"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etSpent"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="e.g., Groceries, Entertainment"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#666E8F"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Two Column Layout for Amount Fields -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <!-- Allocated Amount -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/rounded_background_green"
+                android:padding="2dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Period (e.g., monthly)">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_inner_background_dark"
+                    android:padding="16dp"
+                    android:orientation="vertical">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etPeriod"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Allocated"
+                        android:textSize="12sp"
+                        android:textColor="#81C784"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="₹0.00"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#666E8F"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!-- Spent Amount -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/rounded_background_orange"
+                android:padding="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_inner_background_dark"
+                    android:padding="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Spent"
+                        android:textSize="12sp"
+                        android:textColor="#FFB74D"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSpent"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:hint="₹0.00"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#666E8F"
+                        android:background="@null"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <!-- Period Input -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/rounded_background_purple"
+            android:padding="2dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/rounded_inner_background_dark"
+                android:padding="16dp"
+                android:orientation="vertical">
 
-</LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Billing Period"
+                    android:textSize="12sp"
+                    android:textColor="#BA68C8"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:hint="e.g., Monthly, Weekly"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#666E8F"
+                    android:background="@null"
+                    android:inputType="text"
+                    android:textSize="16sp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp" />
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <!-- Buttons Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Save Budget"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="12dp"
+                android:backgroundTint="#64B5F6"
+                android:textColor="#FFFFFF"
+                android:elevation="8dp"
+                style="@style/Widget.MaterialComponents.Button" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancel"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="Cancel"
+                android:textSize="16sp"
+                android:textColor="#64B5F6"
+                android:strokeColor="#64B5F6"
+                android:strokeWidth="5"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

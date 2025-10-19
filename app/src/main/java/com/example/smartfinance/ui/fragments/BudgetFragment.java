@@ -1,5 +1,6 @@
 package com.example.smartfinance.ui.fragments;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -26,7 +27,9 @@ import com.example.smartfinance.R;
 import com.example.smartfinance.data.local.database.AppDatabase;
 import com.example.smartfinance.data.model.Budget;
 import com.example.smartfinance.ui.viewmodels.BudgetViewModel;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
@@ -57,7 +60,7 @@ public class BudgetFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
         database = AppDatabase.getDatabase(requireContext());
-        initToolbar(view);
+
         initViews(view);
         setupRecyclerView(view);
         setupViewModel();
@@ -73,18 +76,11 @@ public class BudgetFragment extends Fragment {
         }
     }
 
-    private void initToolbar(View view) {
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        if (getActivity() != null) {
-            ((androidx.appcompat.app.AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        }
-    }
-
     private void initViews(View view) {
         tvTotalBudget = view.findViewById(R.id.tvTotalBudget);
         tvTotalSpent = view.findViewById(R.id.tvTotalSpent);
         tvTotalRemaining = view.findViewById(R.id.tvTotalRemaining);
-        FloatingActionButton fabAddBudget = view.findViewById(R.id.fabAddBudget);
+        ExtendedFloatingActionButton fabAddBudget = view.findViewById(R.id.fabAddBudget);
         fabAddBudget.setOnClickListener(v -> showAddBudgetDialog());
     }
 
@@ -119,7 +115,7 @@ public class BudgetFragment extends Fragment {
             }
             double totalRemaining = totalBudget - totalSpent;
 
-            final NumberFormat formatter = NumberFormat.getCurrencyInstance(Locale.getDefault());
+            final NumberFormat formatter = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
             final String budgetStr = formatter.format(totalBudget);
             final String spentStr = formatter.format(totalSpent);
             final String remainingStr = formatter.format(totalRemaining);
@@ -147,7 +143,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showAddBudgetDialog() {
-        showBudgetDialog(null, "Add New Budget", (dialog, which, budget) -> {
+        showBudgetDialog(null, null, (dialog, which, budget) -> {
             if (budget != null) {
                 mViewModel.insertBudget(budget);
                 Toast.makeText(getContext(), "Budget added", Toast.LENGTH_SHORT).show();
@@ -156,7 +152,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showEditBudgetDialog(Budget budget) {
-        showBudgetDialog(budget, "Edit Budget", (dialog, which, editedBudget) -> {
+        showBudgetDialog(budget, null, (dialog, which, editedBudget) -> {
             if (editedBudget != null) {
                 mViewModel.updateBudget(editedBudget);
                 Toast.makeText(getContext(), "Budget updated", Toast.LENGTH_SHORT).show();
@@ -164,32 +160,39 @@ public class BudgetFragment extends Fragment {
         });
     }
 
+
     private void showUpdateSpentDialog(Budget budget) {
         View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_update_spent, null);
         TextInputEditText etSpent = dialogView.findViewById(R.id.etSpent);
+        MaterialButton btnConfirm = dialogView.findViewById(R.id.btnConfirm);
+        MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
 
-        new MaterialAlertDialogBuilder(getContext())
-                .setTitle("Update Spent for " + budget.category)
+        Dialog dialog = new MaterialAlertDialogBuilder(getContext())
                 .setView(dialogView)
-                .setPositiveButton("Update", (dialog, which) -> {
-                    String spentStr = etSpent.getText().toString().trim();
-                    if (TextUtils.isEmpty(spentStr)) {
-                        Toast.makeText(getContext(), "Please enter spent amount", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    double spent;
-                    try {
-                        spent = Double.parseDouble(spentStr);
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    budget.currentSpent = spent;
-                    mViewModel.updateBudget(budget);
-                    Toast.makeText(getContext(), "Spent updated", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+                .create();
+
+        btnConfirm.setOnClickListener(v -> {
+            String spentStr = etSpent.getText().toString().trim();
+            if (TextUtils.isEmpty(spentStr)) {
+                Toast.makeText(getContext(), "Please enter spent amount", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            double spent;
+            try {
+                spent = Double.parseDouble(spentStr);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            budget.currentSpent = spent;
+            mViewModel.updateBudget(budget);
+            Toast.makeText(getContext(), "Spent updated", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void showBudgetDialog(Budget budget, String title, BudgetDialogCallback callback) {
@@ -198,6 +201,8 @@ public class BudgetFragment extends Fragment {
         TextInputEditText etAmount = dialogView.findViewById(R.id.etAmount);
         TextInputEditText etSpent = dialogView.findViewById(R.id.etSpent);
         TextInputEditText etPeriod = dialogView.findViewById(R.id.etPeriod);
+        MaterialButton btnSave = dialogView.findViewById(R.id.btnSave);
+        MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
 
         if (budget != null) {
             etCategory.setText(budget.category);
@@ -206,42 +211,47 @@ public class BudgetFragment extends Fragment {
             etPeriod.setText(budget.period);
         }
 
-        new MaterialAlertDialogBuilder(getContext())
+        Dialog dialog = new MaterialAlertDialogBuilder(getContext())
                 .setTitle(title)
                 .setView(dialogView)
-                .setPositiveButton("Save", (dialog, which) -> {
-                    String category = etCategory.getText().toString().trim();
-                    String amountStr = etAmount.getText().toString().trim();
-                    String spentStr = etSpent.getText().toString().trim();
-                    String period = etPeriod.getText().toString().trim();
+                .create();
 
-                    if (TextUtils.isEmpty(category) || TextUtils.isEmpty(amountStr) || TextUtils.isEmpty(period)) {
-                        Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+        btnSave.setOnClickListener(v -> {
+            String category = etCategory.getText().toString().trim();
+            String amountStr = etAmount.getText().toString().trim();
+            String spentStr = etSpent.getText().toString().trim();
+            String period = etPeriod.getText().toString().trim();
 
-                    double amount, spent = 0;
-                    try {
-                        amount = Double.parseDouble(amountStr);
-                        if (!TextUtils.isEmpty(spentStr)) {
-                            spent = Double.parseDouble(spentStr);
-                        }
-                    } catch (NumberFormatException e) {
-                        Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
+            if (TextUtils.isEmpty(category) || TextUtils.isEmpty(amountStr) || TextUtils.isEmpty(period)) {
+                Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    Budget newBudget = budget != null ? budget : new Budget();
-                    newBudget.category = category;
-                    newBudget.allocatedAmount = amount;
-                    newBudget.currentSpent = spent;
-                    newBudget.period = period.toLowerCase();
-                    newBudget.startDate = getPeriodStartTimestamp(period);
+            double amount, spent = 0;
+            try {
+                amount = Double.parseDouble(amountStr);
+                if (!TextUtils.isEmpty(spentStr)) {
+                    spent = Double.parseDouble(spentStr);
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                    callback.onSave(dialog, which, newBudget);
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+            Budget newBudget = budget != null ? budget : new Budget();
+            newBudget.category = category;
+            newBudget.allocatedAmount = amount;
+            newBudget.currentSpent = spent;
+            newBudget.period = period.toLowerCase();
+            newBudget.startDate = getPeriodStartTimestamp(period);
+
+            callback.onSave(dialog, 0, newBudget);
+            dialog.dismiss();
+        });
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     private void showDeleteConfirmDialog(Budget budget) {
@@ -310,10 +320,10 @@ public class BudgetFragment extends Fragment {
             Budget budget = budgets.get(position);
             holder.tvCategory.setText(budget.category);
             holder.tvPeriod.setText(budget.period.substring(0, 1).toUpperCase() + budget.period.substring(1));
-            holder.tvAllocated.setText("Allocated: $" + String.format(Locale.getDefault(), "%.2f", budget.allocatedAmount));
-            holder.tvSpent.setText("Spent: $" + String.format(Locale.getDefault(), "%.2f", budget.currentSpent));
+            holder.tvAllocated.setText("Allocated: ₹" + String.format(Locale.getDefault(), "%.2f", budget.allocatedAmount));
+            holder.tvSpent.setText("Spent: ₹" + String.format(Locale.getDefault(), "%.2f", budget.currentSpent));
             double remaining = budget.allocatedAmount - budget.currentSpent;
-            holder.tvRemaining.setText("Remaining: $" + String.format(Locale.getDefault(), "%.2f", remaining));
+            holder.tvRemaining.setText("Remaining: ₹" + String.format(Locale.getDefault(), "%.2f", remaining));
             Double progress = budget.allocatedAmount > 0 ? (float) budget.currentSpent / budget.allocatedAmount : 0f;
             holder.progressBar.setProgressCompat((int) (progress * 100), true);
 

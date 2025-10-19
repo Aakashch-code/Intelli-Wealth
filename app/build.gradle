@@ -87,4 +87,5 @@ dependencies {
     testImplementation libs.junit
     androidTestImplementation libs.junit.v115
     androidTestImplementation libs.espresso.core.v351
+    implementation 'androidx.coordinatorlayout:coordinatorlayout:1.2.0'
 }

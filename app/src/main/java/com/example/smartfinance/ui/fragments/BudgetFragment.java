@@ -100,8 +100,6 @@ public class BudgetFragment extends Fragment {
             mAdapter.updateBudgets(budgets);
             computeAndUpdateTotals(budgets);
         });
-        // Trigger initial sync
-        mViewModel.syncBudgetsWithFirebase();
     }
 
     private void computeAndUpdateTotals(List<Budget> budgets) {
@@ -142,7 +140,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showAddBudgetDialog() {
-        showBudgetDialog(null, null, (dialog, which, budget) -> {
+        showBudgetDialog(null, "Add New Budget", (dialog, which, budget) -> {
             if (budget != null) {
                 mViewModel.insertBudget(budget);
                 Toast.makeText(getContext(), "Budget added", Toast.LENGTH_SHORT).show();
@@ -151,7 +149,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showEditBudgetDialog(Budget budget) {
-        showBudgetDialog(budget, null, (dialog, which, editedBudget) -> {
+        showBudgetDialog(budget, "Edit Budget", (dialog, which, editedBudget) -> {
             if (editedBudget != null) {
                 mViewModel.updateBudget(editedBudget);
                 Toast.makeText(getContext(), "Budget updated", Toast.LENGTH_SHORT).show();
@@ -318,7 +316,10 @@ public class BudgetFragment extends Fragment {
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             Budget budget = budgets.get(position);
             holder.tvCategory.setText(budget.category);
-            holder.tvPeriod.setText(budget.period.substring(0, 1).toUpperCase() + budget.period.substring(1));
+            String periodDisplay = !TextUtils.isEmpty(budget.period)
+                    ? budget.period.substring(0, 1).toUpperCase() + budget.period.substring(1)
+                    : "Unknown";
+            holder.tvPeriod.setText(periodDisplay);
             holder.tvAllocated.setText("Allocated: ₹" + String.format(Locale.getDefault(), "%.2f", budget.allocatedAmount));
             holder.tvSpent.setText("Spent: ₹" + String.format(Locale.getDefault(), "%.2f", budget.currentSpent));
             double remaining = budget.allocatedAmount - budget.currentSpent;

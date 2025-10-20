@@ -13,12 +13,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.smartfinance.data.local.dao.TransactionDao;
 import com.example.smartfinance.data.local.dao.GoalDao;
 import com.example.smartfinance.data.local.dao.BudgetDao;
+import com.example.smartfinance.data.local.dao.SubscriptionDao;
 import com.example.smartfinance.data.model.Goal;
 import com.example.smartfinance.utils.DateConverter;
 import com.example.smartfinance.data.model.Transaction;
 import com.example.smartfinance.data.model.Budget;
+import com.example.smartfinance.data.model.Subscription;
 
-@Database(entities = {Transaction.class, Goal.class, Budget.class}, version = 9, exportSchema = true)
+@Database(entities = {Transaction.class, Goal.class, Budget.class, Subscription.class}, version = 11, exportSchema = true)
 @TypeConverters({DateConverter.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -27,6 +29,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract TransactionDao transactionDao();
     public abstract GoalDao goalDao();
     public abstract BudgetDao budgetDao();
+    public abstract SubscriptionDao subscriptionDao();
 
     // Previous migrations...
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
@@ -70,13 +73,20 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    static final Migration MIGRATION_9_10 = new Migration(9, 10) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS `subscriptions` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `amount` REAL NOT NULL, `startDate` INTEGER NOT NULL, `renewalDate` INTEGER, `category` TEXT)");
+        }
+    };
+
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "transaction_database")
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_7_8)
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_7_8, MIGRATION_9_10)
                             .fallbackToDestructiveMigration()
                             .build();
                 }

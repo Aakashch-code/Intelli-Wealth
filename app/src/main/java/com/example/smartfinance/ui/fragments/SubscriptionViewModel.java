@@ -1,4 +1,3 @@
-// app/src/main/java/com/example/smartfinance/ui/fragments/SubscriptionViewModel.java
 package com.example.smartfinance.ui.fragments;
 
 import android.app.Application;
@@ -9,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 
 import com.example.smartfinance.data.local.dao.SubscriptionDao;
-import com.example.smartfinance.data.local.database.SmartFinanceDatabase;
+import com.example.smartfinance.data.local.database.AppDatabase;
 import com.example.smartfinance.data.model.Subscription;
 import com.example.smartfinance.data.repository.SubscriptionRepository;
 
@@ -20,7 +19,7 @@ public class SubscriptionViewModel extends AndroidViewModel {
 
     public SubscriptionViewModel(@NonNull Application application) {
         super(application);
-        SubscriptionDao subscriptionDao = SmartFinanceDatabase.getDatabase(application).subscriptionDao();
+        SubscriptionDao subscriptionDao = AppDatabase.getDatabase(application).subscriptionDao();
         repository = new SubscriptionRepository(subscriptionDao);
         allActiveSubscriptions = repository.getAllActiveSubscriptions();
     }

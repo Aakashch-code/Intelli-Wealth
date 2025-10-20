@@ -24,6 +24,9 @@
             android:id="@+id/nav_Subscription_Tracker"
             android:title="Subscription Tracker" />
         <item
+            android:id="@+id/nav_reports"
+            android:title="Reports" />
+        <item
             android:id="@+id/nav_login"
             android:title="Login" />
 

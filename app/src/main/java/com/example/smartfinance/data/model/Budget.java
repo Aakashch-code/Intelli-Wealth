@@ -12,11 +12,10 @@ public class Budget implements Serializable {
 
     public String category;
     public double allocatedAmount;
-    public double currentSpent = 0.0; // Added for manual update
-    public String period; // e.g., "monthly", "weekly"
-    public long startDate; // Timestamp for period start
+    public double currentSpent = 0.0;
+    public String period;
+    public long startDate;
 
-    // Default constructor required for Room
     public Budget() {
     }
 }

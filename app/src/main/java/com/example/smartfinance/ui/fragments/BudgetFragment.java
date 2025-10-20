@@ -60,7 +60,6 @@ public class BudgetFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_budget, container, false);
         database = AppDatabase.getDatabase(requireContext());
-
         initViews(view);
         setupRecyclerView(view);
         setupViewModel();
@@ -111,7 +110,7 @@ public class BudgetFragment extends Fragment {
             double totalSpent = 0;
             for (Budget budget : budgets) {
                 totalBudget += budget.allocatedAmount;
-                totalSpent += budget.currentSpent; // Use stored currentSpent
+                totalSpent += budget.currentSpent;
             }
             double totalRemaining = totalBudget - totalSpent;
 

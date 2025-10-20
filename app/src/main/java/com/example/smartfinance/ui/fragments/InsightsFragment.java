@@ -18,29 +18,21 @@ import com.example.smartfinance.data.model.MonthlyTotal;
 import com.example.smartfinance.data.local.dao.TransactionDao;
 import com.example.smartfinance.ui.viewmodels.InsightsViewModel;
 import com.github.mikephil.charting.animation.Easing;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
-import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.utils.MPPointF;
+
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,17 +85,17 @@ public class InsightsFragment extends Fragment {
         pieChart.clear();
         List<PieEntry> entries = new ArrayList<>();
         List<Integer> colors = new ArrayList<>();
-        List<LegendEntry> legendEntries = new ArrayList<>();
+        List<com.github.mikephil.charting.components.LegendEntry> legendEntries = new ArrayList<>();
 
         if (income > 0) {
             entries.add(new PieEntry(income, "Income"));
             colors.add(Color.parseColor("#4CAF50"));
-            legendEntries.add(new LegendEntry("Income", Legend.LegendForm.CIRCLE, 12f, 12f, null, Color.parseColor("#4CAF50")));
+            legendEntries.add(new com.github.mikephil.charting.components.LegendEntry("Income", com.github.mikephil.charting.components.Legend.LegendForm.CIRCLE, 12f, 12f, null, Color.parseColor("#4CAF50")));
         }
         if (expense > 0) {
             entries.add(new PieEntry(expense, "Expense"));
             colors.add(Color.parseColor("#FF5722"));
-            legendEntries.add(new LegendEntry("Expense", Legend.LegendForm.CIRCLE, 12f, 12f, null, Color.parseColor("#FF5722")));
+            legendEntries.add(new com.github.mikephil.charting.components.LegendEntry("Expense", com.github.mikephil.charting.components.Legend.LegendForm.CIRCLE, 12f, 12f, null, Color.parseColor("#FF5722")));
         }
 
         if (entries.isEmpty()) {
@@ -117,7 +109,7 @@ public class InsightsFragment extends Fragment {
         dataSet.setColors(colors);
         dataSet.setValueTextColor(Color.WHITE);
         dataSet.setValueTextSize(16f);
-        dataSet.setValueFormatter(new PercentFormatter(pieChart));
+        dataSet.setValueFormatter(new com.github.mikephil.charting.formatter.PercentFormatter(pieChart));
         dataSet.setYValuePosition(PieDataSet.ValuePosition.OUTSIDE_SLICE);
         dataSet.setValueLinePart1Length(0.4f);
         dataSet.setValueLinePart2Length(0.4f);
@@ -353,205 +345,6 @@ public class InsightsFragment extends Fragment {
         chart.invalidate();
     }
 
-    private void setupComparisonChart(BarChart chart, List<MonthlyTotal> incomeList, List<MonthlyTotal> expenseList) {
-        chart.clear();
-
-        if ((incomeList == null || incomeList.isEmpty()) && (expenseList == null || expenseList.isEmpty())) {
-            chart.setNoDataText("No chart data available.");
-            chart.setNoDataTextColor(Color.WHITE);
-            chart.invalidate();
-            return;
-        }
-
-        Set<String> monthSet = new TreeSet<>();
-        if (incomeList != null) {
-            for (MonthlyTotal mt : incomeList) monthSet.add(mt.month);
-        }
-        if (expenseList != null) {
-            for (MonthlyTotal mt : expenseList) monthSet.add(mt.month);
-        }
-
-        List<String> sortedMonths = sortMonthsChronologically(monthSet);
-
-        List<BarEntry> incomeEntries = new ArrayList<>();
-        List<BarEntry> expenseEntries = new ArrayList<>();
-        List<BarEntry> savingsEntries = new ArrayList<>();
-
-        for (int i = 0; i < sortedMonths.size(); i++) {
-            String month = sortedMonths.get(i);
-            float income = 0;
-            if (incomeList != null) {
-                for (MonthlyTotal mt : incomeList) {
-                    if (mt.month.equals(month)) {
-                        income = mt.total;
-                        break;
-                    }
-                }
-            }
-            float expense = 0;
-            if (expenseList != null) {
-                for (MonthlyTotal mt : expenseList) {
-                    if (mt.month.equals(month)) {
-                        expense = mt.total;
-                        break;
-                    }
-                }
-            }
-            float savings = income - expense;
-
-            incomeEntries.add(new BarEntry(i, income));
-            expenseEntries.add(new BarEntry(i, expense));
-            savingsEntries.add(new BarEntry(i, savings));
-        }
-
-        BarDataSet incomeDataSet = new BarDataSet(incomeEntries, "Income") {
-            @Override
-            public void setBarShadowColor(int color) {
-                super.setBarShadowColor(Color.argb(50, 0, 0, 0));
-            }
-        };
-        incomeDataSet.setGradientColor(Color.rgb(67, 160, 71), Color.argb(100, 67, 160, 71));
-        incomeDataSet.setValueTextColor(Color.WHITE);
-        incomeDataSet.setValueTextSize(10f);
-        incomeDataSet.setValueTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        incomeDataSet.setHighLightColor(Color.argb(200, 255, 255, 255));
-
-        BarDataSet expenseDataSet = new BarDataSet(expenseEntries, "Expenses") {
-            @Override
-            public void setBarShadowColor(int color) {
-                super.setBarShadowColor(Color.argb(50, 0, 0, 0));
-            }
-        };
-        expenseDataSet.setGradientColor(Color.rgb(244, 67, 54), Color.argb(100, 244, 67, 54));
-        expenseDataSet.setValueTextColor(Color.WHITE);
-        expenseDataSet.setValueTextSize(10f);
-        expenseDataSet.setValueTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        expenseDataSet.setHighLightColor(Color.argb(200, 255, 255, 255));
-
-        BarDataSet savingsDataSet = new BarDataSet(savingsEntries, "Savings") {
-            @Override
-            public void setBarShadowColor(int color) {
-                super.setBarShadowColor(Color.argb(50, 0, 0, 0));
-            }
-        };
-        savingsDataSet.setGradientColor(Color.rgb(33, 150, 243), Color.argb(100, 33, 150, 243));
-        savingsDataSet.setValueTextColor(Color.WHITE);
-        savingsDataSet.setValueTextSize(10f);
-        savingsDataSet.setValueTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        savingsDataSet.setHighLightColor(Color.argb(200, 255, 255, 255));
-
-        float groupSpace = 0.12f;
-        float barSpace = 0.04f;
-        float barWidth = 0.25f;
-
-        BarData data = new BarData(incomeDataSet, expenseDataSet, savingsDataSet);
-        data.setBarWidth(barWidth);
-        data.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return "$" + Math.round(value);
-            }
-        });
-
-        chart.setData(data);
-        chart.groupBars(0, groupSpace, barSpace);
-        chart.setFitBars(true);
-
-        XAxis xAxis = chart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setTextSize(12f);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        xAxis.setDrawGridLines(false);
-        xAxis.setGranularity(1f);
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(sortedMonths));
-        xAxis.setLabelRotationAngle(45f);
-        xAxis.setAvoidFirstLastClipping(true);
-
-        YAxis leftAxis = chart.getAxisLeft();
-        leftAxis.setTextSize(12f);
-        leftAxis.setTextColor(Color.WHITE);
-        leftAxis.setTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        leftAxis.setAxisMinimum(0f);
-        leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.argb(50, 255, 255, 255));
-        leftAxis.setValueFormatter(new ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                return "$" + Math.round(value);
-            }
-        });
-
-        chart.getAxisRight().setEnabled(false);
-        chart.setBackgroundColor(Color.rgb(30, 30, 30));
-        chart.getDescription().setEnabled(false);
-        chart.setDrawGridBackground(false);
-        chart.setDrawBorders(true);
-        chart.setBorderColor(Color.argb(50, 255, 255, 255));
-        chart.setBorderWidth(1f);
-
-        Legend legend = chart.getLegend();
-        legend.setTextColor(Color.WHITE);
-        legend.setTextSize(12f);
-        legend.setTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
-        legend.setDrawInside(false);
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setFormSize(10f);
-
-        chart.setTouchEnabled(true);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(true);
-        chart.setPinchZoom(true);
-        chart.setDoubleTapToZoomEnabled(true);
-
-        chart.setMarker(new CustomMarkerView(chart.getContext(), R.layout.custom_marker_view, sortedMonths));
-        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-            @Override
-            public void onValueSelected(Entry e, Highlight h) {
-                chart.highlightValue(h);
-            }
-
-            @Override
-            public void onNothingSelected() {
-                chart.highlightValue(null);
-            }
-        });
-
-        chart.animateY(1600, Easing.EaseInOutCubic);
-        chart.setExtraOffsets(15f, 15f, 15f, 15f);
-        chart.invalidate();
-    }
-
-    // Custom MarkerView for tooltips
-    private class CustomMarkerView extends MarkerView {
-        private TextView tvContent;
-        private List<String> months;
-
-        public CustomMarkerView(Context context, int layoutResource, List<String> months) {
-            super(context, layoutResource);
-            this.months = months;
-            tvContent = findViewById(R.id.tvContent);
-            tvContent.setTypeface(Typeface.create("Roboto", Typeface.NORMAL));
-        }
-
-        @Override
-        public void refreshContent(Entry e, Highlight highlight) {
-            int index = (int) e.getX();
-            String month = index >= 0 && index < months.size() ? months.get(index) : "";
-            String label = highlight.getDataSetIndex() == 0 ? "Income" : highlight.getDataSetIndex() == 1 ? "Expenses" : "Savings";
-            tvContent.setText(String.format("%s\n%s: $%.2f", month, label, e.getY()));
-            super.refreshContent(e, highlight);
-        }
-
-        @Override
-        public MPPointF getOffset() {
-            return new MPPointF(-(getWidth() / 2), -getHeight());
-        }
-    }
-
     private void updateSummaryTexts(float totalIncome, float totalExpense, List<MonthlyTotal> incomeList, List<MonthlyTotal> expenseList) {
         if (incomeSummaryText != null) {
             if (incomeList == null || incomeList.isEmpty()) {
@@ -606,16 +399,52 @@ public class InsightsFragment extends Fragment {
         }
     }
 
-    private void updateSuggestions(float income, float expense, List<MonthlyTotal> incomeHistory, List<MonthlyTotal> expenseHistory) {
+    private void updateSuggestions(float totalIncome, float totalExpense, List<MonthlyTotal> incomeHistory, List<MonthlyTotal> expenseHistory) {
         View view = getView();
         if (view == null) return;
 
         TextView suggestionsText = view.findViewById(R.id.suggestionsText);
         if (suggestionsText == null) return;
 
+        // Calculate current month values for accurate suggestions
+        float currentIncome = 0f;
+        float currentExpense = 0f;
+        List<String> sortedIncomeMonths = new ArrayList<>();
+        List<String> sortedExpenseMonths = new ArrayList<>();
+
+        if (incomeHistory != null && !incomeHistory.isEmpty()) {
+            Set<String> incomeMonthsSet = new TreeSet<>();
+            for (MonthlyTotal mt : incomeHistory) incomeMonthsSet.add(mt.month);
+            sortedIncomeMonths = sortMonthsChronologically(incomeMonthsSet);
+            if (!sortedIncomeMonths.isEmpty()) {
+                String currentMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 1);
+                for (MonthlyTotal mt : incomeHistory) {
+                    if (mt.month.equals(currentMonth)) {
+                        currentIncome = mt.total;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (expenseHistory != null && !expenseHistory.isEmpty()) {
+            Set<String> expenseMonthsSet = new TreeSet<>();
+            for (MonthlyTotal mt : expenseHistory) expenseMonthsSet.add(mt.month);
+            sortedExpenseMonths = sortMonthsChronologically(expenseMonthsSet);
+            if (!sortedExpenseMonths.isEmpty()) {
+                String currentMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 1);
+                for (MonthlyTotal mt : expenseHistory) {
+                    if (mt.month.equals(currentMonth)) {
+                        currentExpense = mt.total;
+                        break;
+                    }
+                }
+            }
+        }
+
         StringBuilder suggestions = new StringBuilder();
-        float savings = income - expense;
-        float savingsRate = income > 0 ? (savings / income) * 100 : 0;
+        float savings = currentIncome - currentExpense;
+        float savingsRate = currentIncome > 0 ? (savings / currentIncome) * 100 : 0;
 
         if (savingsRate < 10) {
             suggestions.append("• Try to save at least 10% of your income\n");
@@ -624,41 +453,30 @@ public class InsightsFragment extends Fragment {
         }
 
         if (incomeHistory != null && expenseHistory != null &&
-                incomeHistory.size() >= 2 && expenseHistory.size() >= 2) {
-            Set<String> incomeMonths = new TreeSet<>();
-            for (MonthlyTotal mt : incomeHistory) incomeMonths.add(mt.month);
-            List<String> sortedIncomeMonths = sortMonthsChronologically(incomeMonths);
+                incomeHistory.size() >= 2 && expenseHistory.size() >= 2 &&
+                sortedIncomeMonths.size() >= 2 && sortedExpenseMonths.size() >= 2) {
+            String currentIncomeMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 1);
+            String previousIncomeMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 2);
+            String currentExpenseMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 1);
+            String previousExpenseMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 2);
 
-            Set<String> expenseMonths = new TreeSet<>();
-            for (MonthlyTotal mt : expenseHistory) expenseMonths.add(mt.month);
-            List<String> sortedExpenseMonths = sortMonthsChronologically(expenseMonths);
+            float previousIncome = 0;
+            float previousExpense = 0;
 
-            if (sortedIncomeMonths.size() >= 2 && sortedExpenseMonths.size() >= 2) {
-                String currentIncomeMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 1);
-                String previousIncomeMonth = sortedIncomeMonths.get(sortedIncomeMonths.size() - 2);
-                String currentExpenseMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 1);
-                String previousExpenseMonth = sortedExpenseMonths.get(sortedExpenseMonths.size() - 2);
+            for (MonthlyTotal mt : incomeHistory) {
+                if (mt.month.equals(previousIncomeMonth)) previousIncome = mt.total;
+            }
 
-                float currentIncome = 0, previousIncome = 0;
-                float currentExpense = 0, previousExpense = 0;
+            for (MonthlyTotal mt : expenseHistory) {
+                if (mt.month.equals(previousExpenseMonth)) previousExpense = mt.total;
+            }
 
-                for (MonthlyTotal mt : incomeHistory) {
-                    if (mt.month.equals(currentIncomeMonth)) currentIncome = mt.total;
-                    if (mt.month.equals(previousIncomeMonth)) previousIncome = mt.total;
-                }
+            if (currentExpense > previousExpense * 1.1 && previousExpense > 0) {
+                suggestions.append("• Your expenses increased by ").append(Math.round((currentExpense / previousExpense - 1) * 100)).append("% compared to last month\n");
+            }
 
-                for (MonthlyTotal mt : expenseHistory) {
-                    if (mt.month.equals(currentExpenseMonth)) currentExpense = mt.total;
-                    if (mt.month.equals(previousExpenseMonth)) previousExpense = mt.total;
-                }
-
-                if (currentExpense > previousExpense * 1.1 && previousExpense > 0) {
-                    suggestions.append("• Your expenses increased by ").append(Math.round((currentExpense / previousExpense - 1) * 100)).append("% compared to last month\n");
-                }
-
-                if (currentIncome < previousIncome * 0.9 && previousIncome > 0) {
-                    suggestions.append("• Your income decreased by ").append(Math.round((1 - currentIncome / previousIncome) * 100)).append("% compared to last month\n");
-                }
+            if (currentIncome < previousIncome * 0.9 && previousIncome > 0) {
+                suggestions.append("• Your income decreased by ").append(Math.round((1 - currentIncome / previousIncome) * 100)).append("% compared to last month\n");
             }
         }
 
@@ -683,7 +501,6 @@ public class InsightsFragment extends Fragment {
         PieChart pieChart = view.findViewById(R.id.expenseChart);
         LineChart incomeChart = view.findViewById(R.id.incomeChart);
         LineChart savingsChart = view.findViewById(R.id.savingsChart);
-        BarChart monthlyComparisonChart = view.findViewById(R.id.comparisonChart);
 
         pieChart.setNoDataText("No chart data available.");
         pieChart.setNoDataTextColor(Color.WHITE);
@@ -693,9 +510,6 @@ public class InsightsFragment extends Fragment {
 
         savingsChart.setNoDataText("No chart data available.");
         savingsChart.setNoDataTextColor(Color.WHITE);
-
-        monthlyComparisonChart.setNoDataText("No chart data available.");
-        monthlyComparisonChart.setNoDataTextColor(Color.WHITE);
 
         dao.getTotalIncome().observe(getViewLifecycleOwner(), income -> {
             dao.getTotalExpense().observe(getViewLifecycleOwner(), expense -> {
@@ -709,7 +523,6 @@ public class InsightsFragment extends Fragment {
             setupIncomeLineChart(incomeChart, incomeList);
             dao.getMonthlyTotals("Expense").observe(getViewLifecycleOwner(), expenseList -> {
                 setupSavingsChart(savingsChart, incomeList, expenseList);
-                setupComparisonChart(monthlyComparisonChart, incomeList, expenseList);
 
                 float totalIncome = 0;
                 float totalExpense = 0;

@@ -124,16 +124,29 @@ public class SubscriptionFragment extends Fragment {
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
+    // In SubscriptionFragment.java, update the showDeleteConfirmation method:
     private void showDeleteConfirmation(Subscription subscription) {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Delete Subscription")
-                .setMessage("Are you sure you want to delete " + subscription.getName() + "?")
-                .setPositiveButton("Delete", (dialog, which) -> {
-                    viewModel.deleteSubscription(subscription);
-                    Toast.makeText(getContext(), "Subscription deleted", Toast.LENGTH_SHORT).show();
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+        Dialog dialog = new Dialog(requireContext());
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_delete_confirmation, null);
+        dialog.setContentView(dialogView);
+
+        TextView tvMessage = dialogView.findViewById(R.id.tvMessage);
+        tvMessage.setText("Are you sure you want to delete " + subscription.getName() + "? This action cannot be undone.");
+
+        Button btnCancel = dialogView.findViewById(R.id.btnCancel);
+        Button btnDelete = dialogView.findViewById(R.id.btnDelete);
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+
+        btnDelete.setOnClickListener(v -> {
+            viewModel.deleteSubscription(subscription);
+            Toast.makeText(getContext(), "Subscription deleted", Toast.LENGTH_SHORT).show();
+            dialog.dismiss();
+        });
+
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
     }
 
     @Override

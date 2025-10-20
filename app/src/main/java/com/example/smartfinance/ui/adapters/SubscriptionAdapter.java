@@ -1,6 +1,7 @@
-
+// app/src/main/java/com/example/smartfinance/ui/adapters/SubscriptionAdapter.java
 package com.example.smartfinance.ui.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartfinance.R;
 import com.example.smartfinance.data.model.Subscription;
 
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 public class SubscriptionAdapter extends ListAdapter<Subscription, SubscriptionAdapter.SubscriptionViewHolder> {
@@ -37,7 +36,7 @@ public class SubscriptionAdapter extends ListAdapter<Subscription, SubscriptionA
     @Override
     public SubscriptionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_subscription, parent, false);
-        return new SubscriptionViewHolder(view);
+        return new SubscriptionViewHolder(view, onDeleteClickListener);
     }
 
     @Override
@@ -52,9 +51,11 @@ public class SubscriptionAdapter extends ListAdapter<Subscription, SubscriptionA
         private final TextView tvBillingCycle;
         private final TextView tvNextBilling;
         private final ImageView ivCancel;
+        private final OnDeleteClickListener listener;
 
-        public SubscriptionViewHolder(@NonNull View itemView) {
+        public SubscriptionViewHolder(@NonNull View itemView, OnDeleteClickListener listener) {
             super(itemView);
+            this.listener = listener;
             tvName = itemView.findViewById(R.id.tvSubscriptionName);
             tvCost = itemView.findViewById(R.id.tvCost);
             tvBillingCycle = itemView.findViewById(R.id.tvBillingCycle);
@@ -71,9 +72,8 @@ public class SubscriptionAdapter extends ListAdapter<Subscription, SubscriptionA
             tvNextBilling.setText("Next: " + sdf.format(subscription.getNextBillingDate()));
 
             ivCancel.setOnClickListener(v -> {
-                if (subscription != null) {
-                    // Assuming listener is accessible; in practice, pass via constructor or use interface
-                    // For simplicity, we'll handle in fragment
+                if (listener != null && subscription != null) {
+                    listener.onDeleteClick(subscription);
                 }
             });
         }
@@ -85,6 +85,7 @@ public class SubscriptionAdapter extends ListAdapter<Subscription, SubscriptionA
             return oldItem.getId() == newItem.getId();
         }
 
+        @SuppressLint("DiffUtilEquals")
         @Override
         public boolean areContentsTheSame(@NonNull Subscription oldItem, @NonNull Subscription newItem) {
             return oldItem.equals(newItem);

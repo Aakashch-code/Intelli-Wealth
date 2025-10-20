@@ -1,6 +1,5 @@
 package com.example.smartfinance.ui.fragments;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -47,10 +46,7 @@ public class HomeFragment extends Fragment {
 
         currencyFormat = NumberFormat.getCurrencyInstance(new Locale("en", "IN"));
 
-        Application application = (Application) requireContext().getApplicationContext();
-        homeViewModel = new ViewModelProvider(this,
-                new ViewModelProvider.AndroidViewModelFactory(application))
-                .get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         setupTransactionButtons();
         setupRecyclerView();
@@ -63,7 +59,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         setupFabMenu(view);
         observeViewModels();
-        observeSyncStatus();
     }
 
     @Override
@@ -73,9 +68,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupFabMenu(View view) {
-        FloatingActionButton fabMenu = view.findViewById(R.id.fabMenu);
-        FloatingActionButton fabAddIncome = view.findViewById(R.id.btnAddIncome);
-        FloatingActionButton fabAddExpense = view.findViewById(R.id.btnAddExpense);
+        FloatingActionButton fabMenu = binding.fabMenu;
+        FloatingActionButton fabAddIncome = binding.btnAddIncome;
+        FloatingActionButton fabAddExpense = binding.btnAddExpense;
 
         final boolean[] isFabMenuOpen = {false};
 
@@ -177,17 +172,6 @@ public class HomeFragment extends Fragment {
         homeViewModel.getSavings().observe(getViewLifecycleOwner(), savings -> {
             if (savings != null) {
 
-            }
-        });
-    }
-
-    private void observeSyncStatus() {
-        homeViewModel.getSyncStatus().observe(getViewLifecycleOwner(), status -> {
-            if (status != null) {
-                Toast.makeText(getContext(), status, Toast.LENGTH_SHORT).show();
-                if (status.contains("Error")) {
-                    Log.e("HomeFragment", "Sync error: " + status);
-                }
             }
         });
     }

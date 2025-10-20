@@ -1,4 +1,3 @@
-// Updated AppDatabase.java
 package com.example.smartfinance.data.local.database;
 
 import android.content.Context;

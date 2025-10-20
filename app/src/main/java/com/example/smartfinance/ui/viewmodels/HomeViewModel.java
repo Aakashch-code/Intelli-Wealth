@@ -19,23 +19,11 @@ public class HomeViewModel extends AndroidViewModel {
     private final LiveData<Double> totalExpense;
     private final MutableLiveData<Double> totalBudget;
     private final MutableLiveData<Double> savings;
-    private final MutableLiveData<String> syncStatus = new MutableLiveData<>("Initializing...");
 
     public HomeViewModel(Application application) {
         super(application);
 
-        // Initialize repository with safe approach
-        try {
-            repository = new TransactionRepository(application);
-            if (repository.isFirebaseInitialized()) {
-                syncStatus.setValue("Firebase ready");
-            } else {
-                syncStatus.setValue("Firebase not initialized");
-            }
-        } catch (Exception e) {
-            syncStatus.setValue("Error: " + e.getMessage());
-            throw new RuntimeException("Firebase not initialized. Please check Firebase setup.", e);
-        }
+        repository = new TransactionRepository(application);
 
         allTransactions = repository.getAllTransactions();
         totalIncome = repository.getTotalByType("Income");
@@ -63,31 +51,21 @@ public class HomeViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<String> getSyncStatus() {
-        return syncStatus;
-    }
-
     public void insertTransaction(Transaction transaction) {
         if (repository != null) {
             repository.insertTransaction(transaction);
-            syncStatus.setValue("Transaction saved locally, syncing to Firestore...");
-            repository.forceSync(); // Ensure sync is triggered
         }
     }
 
     public void updateTransaction(Transaction transaction) {
         if (repository != null) {
             repository.updateTransaction(transaction);
-            syncStatus.setValue("Transaction updated locally, syncing to Firestore...");
-            repository.forceSync();
         }
     }
 
     public void deleteTransaction(Transaction transaction) {
         if (repository != null) {
             repository.deleteTransaction(transaction);
-            syncStatus.setValue("Transaction deleted locally, syncing to Firestore...");
-            repository.forceSync();
         }
     }
 
@@ -120,17 +98,8 @@ public class HomeViewModel extends AndroidViewModel {
         savings.setValue(savingsAmount);
     }
 
-    public void forceSync() {
-        if (repository != null) {
-            repository.forceSync();
-        }
-    }
-
     @Override
     protected void onCleared() {
         super.onCleared();
-        if (repository != null) {
-            repository.shutdown();
-        }
     }
 }

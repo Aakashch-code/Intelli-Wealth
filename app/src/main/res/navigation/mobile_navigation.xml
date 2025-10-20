@@ -33,6 +33,11 @@
         android:label="Budget"
         tools:layout="@layout/fragment_budget" />
     <fragment
+        android:id="@+id/nav_Subscription_Tracker"
+        android:name="com.example.smartfinance.ui.fragments.SubscriptionFragment"
+        android:label="Subscription Tracker"
+        tools:layout="@layout/fragment_subscription" />
+    <fragment
         android:id="@+id/nav_login"
         android:name="com.example.smartfinance.ui.fragments.LoginFragment"
         android:label="Login"

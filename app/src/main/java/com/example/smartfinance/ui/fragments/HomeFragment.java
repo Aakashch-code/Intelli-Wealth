@@ -28,10 +28,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-/**
- * HomeFragment - Main screen for showing budget, income, expenses,
- * and recent transactions.
- */
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private HomeViewModel homeViewModel;
@@ -180,7 +176,7 @@ public class HomeFragment extends Fragment {
 
         homeViewModel.getSavings().observe(getViewLifecycleOwner(), savings -> {
             if (savings != null) {
-                // Update savings UI if you have it
+
             }
         });
     }

@@ -8,7 +8,7 @@ import retrofit2.http.POST;
 
 public interface FynixApiService {
 
-    @POST("models/gemini-1.5-flash:generateContent")
+    @POST("models/gemini-2.5-pro:generateContent")
     Call<ApiModels.GeminiResponse> chatWithGemini(
             @Body ApiModels.GeminiRequest request
     );

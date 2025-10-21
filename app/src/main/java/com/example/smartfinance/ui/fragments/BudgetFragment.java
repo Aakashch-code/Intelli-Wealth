@@ -320,10 +320,10 @@ public class BudgetFragment extends Fragment {
                     ? budget.period.substring(0, 1).toUpperCase() + budget.period.substring(1)
                     : "Unknown";
             holder.tvPeriod.setText(periodDisplay);
-            holder.tvAllocated.setText("Allocated: ₹" + String.format(Locale.getDefault(), "%.2f", budget.allocatedAmount));
-            holder.tvSpent.setText("Spent: ₹" + String.format(Locale.getDefault(), "%.2f", budget.currentSpent));
+            holder.tvAllocated.setText(String.format(Locale.getDefault(), "%.2f", budget.allocatedAmount));
+            holder.tvSpent.setText(String.format(Locale.getDefault(), "%.2f", budget.currentSpent));
             double remaining = budget.allocatedAmount - budget.currentSpent;
-            holder.tvRemaining.setText("Remaining: ₹" + String.format(Locale.getDefault(), "%.2f", remaining));
+            holder.tvRemaining.setText(String.format(Locale.getDefault(), "%.2f", remaining));
             Double progress = budget.allocatedAmount > 0 ? (float) budget.currentSpent / budget.allocatedAmount : 0f;
             holder.progressBar.setProgressCompat((int) (progress * 100), true);
 

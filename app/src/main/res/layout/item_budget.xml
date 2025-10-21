@@ -4,88 +4,92 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardBackgroundColor="#0A0A0A"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    app:strokeColor="#1A1A1A"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="12dp"
+    app:cardBackgroundColor="#121212"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#1F1F1F"
     app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="20dp">
 
-        <!-- Header Section: Category Title with Edit/Delete Actions -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:layout_marginBottom="4dp">
 
             <TextView
                 android:id="@+id/tvCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-medium"
                 android:textColor="#FFFFFF" />
 
             <ImageButton
                 android:id="@+id/btnEdit"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_edit"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:padding="10dp"
                 app:tint="#60A5FA" />
 
             <ImageButton
                 android:id="@+id/btnDelete"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="4dp"
                 android:src="@drawable/ic_delete"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
+                android:padding="10dp"
                 app:tint="#F87171" />
 
         </LinearLayout>
 
-        <!-- Period Label -->
         <TextView
             android:id="@+id/tvPeriod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:textSize="12sp"
-            android:textColor="#888888"
-            android:textStyle="bold"
-            android:letterSpacing="-0.02" />
+            android:layout_marginBottom="16dp"
+            android:textSize="13sp"
+            android:textColor="#9CA3AF"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.02" />
 
-        <!-- Progress Indicator -->
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progressBar"
             style="@style/Widget.Material3.LinearProgressIndicator"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:layout_marginBottom="16dp"
-            app:trackCornerRadius="4dp"
+            android:layout_marginVertical="16dp"
+            android:layout_marginHorizontal="8dp"
+            app:trackCornerRadius="8dp"
             app:trackThickness="8dp"
-            app:indicatorColor="#60A5FA"
-            app:trackColor="#1A1A1A" />
+            app:indicatorColor="@color/primary_blue"
+            app:trackColor="#222222"
+            app:showAnimationBehavior="inward"
+            app:hideAnimationBehavior="outward"
+            app:indicatorDirectionLinear="leftToRight"
+            android:elevation="4dp" />
 
-        <!-- Budget Stats Row -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="16dp"
             android:weightSum="3">
 
-            <!-- Allocated Amount Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -97,24 +101,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ALLOCATED"
-                    android:textSize="9sp"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:letterSpacing="-0.02" />
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#6B7280"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvAllocated"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:text="$0.00"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textColor="#60A5FA" />
 
             </LinearLayout>
 
-            <!-- Spent Amount Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -126,24 +129,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/spent"
-                    android:textSize="9sp"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:letterSpacing="-0.02" />
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#6B7280"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvSpent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:text="$0.00"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textColor="#F87171" />
 
             </LinearLayout>
 
-            <!-- Remaining Amount Column -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -155,45 +157,43 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/remaining"
-                    android:textSize="9sp"
-                    android:textStyle="bold"
-                    android:textColor="#666666"
-                    android:letterSpacing="-0.02" />
+                    android:textSize="10sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:textColor="#6B7280"
+                    android:letterSpacing="0.05" />
 
                 <TextView
                     android:id="@+id/tvRemaining"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="6dp"
                     android:text="$0.00"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:fontFamily="sans-serif-medium"
                     android:textColor="#4ADE80" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Divider -->
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="#1A1A1A" />
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="16dp"
+            android:background="#1F1F1F" />
 
-        <!-- Update Spent Action (Styled as Button) -->
         <TextView
             android:id="@+id/tvUpdateSpent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:padding="10dp"
+            android:padding="12dp"
             android:text="Update Budget Amount"
-            android:textSize="11sp"
-            android:textStyle="bold"
+            android:textSize="13sp"
+            android:fontFamily="sans-serif-medium"
             android:textColor="#60A5FA"
-            android:letterSpacing="-0.02"
+            android:letterSpacing="0.02"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true" />

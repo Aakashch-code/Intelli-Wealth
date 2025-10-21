@@ -1,4 +1,4 @@
-package com.example.smartfinance.ui.fragments;
+package com.example.smartfinance.ui.viewmodels;
 
 import android.app.Application;
 

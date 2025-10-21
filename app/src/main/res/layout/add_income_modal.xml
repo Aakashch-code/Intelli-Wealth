@@ -19,19 +19,18 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Add Income"
-            android:textColor="@android:color/white"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="?attr/colorOnSurface" />
 
         <ImageButton
             android:id="@+id/btnClose"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
+            android:contentDescription="close"
             android:src="@drawable/ic_close_white"
-            app:tint="?android:attr/textColorSecondary" />
+            app:tint="?attr/colorOnSurfaceVariant" />
     </RelativeLayout>
 
     <!-- Amount Input -->
@@ -40,31 +39,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:hint="Amount"
         app:errorEnabled="true"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/incomeAmountEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Amount"
             android:importantForAutofill="no"
             android:inputType="numberDecimal"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
-    <!--Payment Method-->
+
+    <!-- Payment Method -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/paymentMethodInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        android:hint="Payment Method"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
             android:id="@+id/incomePaymentMethod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Payment Method"
             android:inputType="none"
             android:clickable="true"
             android:focusable="false" />
@@ -76,14 +76,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:hint="Transaction ID (optional)"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/transactionIdEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Transaction ID (optional)"
-            android:inputType="textVisiblePassword"
+            android:inputType="text"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,13 +93,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        android:hint="Source"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
             android:id="@+id/incomeCategorySpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Source"
             android:inputType="none"
             android:clickable="true"
             android:focusable="false" />
@@ -111,13 +111,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:hint="Date"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/incomeDateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Date"
             android:inputType="none"
             android:focusable="false"
             android:clickable="true" />
@@ -129,30 +129,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        android:hint="Note (optional)"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/incomeNoteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Note (optional)"
-            android:inputType="textCapSentences"
-            android:maxLines="3" />
+            android:inputType="textCapSentences|textMultiLine"
+            android:maxLines="3"
+            android:minLines="2" />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <!-- Save Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/saveIncomeBtn"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Save Income"
-        style="@style/Widget.MaterialComponents.Button"
-        app:cornerRadius="8dp"
+        style="@style/Widget.Material3.Button.TonalButton"
         app:icon="@drawable/ic_save"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp" />
-
+        app:iconGravity="textStart" />
 
 </LinearLayout>

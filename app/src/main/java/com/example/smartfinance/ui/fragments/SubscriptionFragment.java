@@ -1,7 +1,6 @@
 // app/src/main/java/com/example/smartfinance/ui/fragments/SubscriptionFragment.java (updated to use Java backend)
 package com.example.smartfinance.ui.fragments;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,12 +16,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartfinance.R;
 import com.example.smartfinance.data.model.Subscription;
 import com.example.smartfinance.databinding.FragmentSubscriptionBinding;
 import com.example.smartfinance.ui.adapters.SubscriptionAdapter;
+import com.example.smartfinance.ui.viewmodels.SubscriptionViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 

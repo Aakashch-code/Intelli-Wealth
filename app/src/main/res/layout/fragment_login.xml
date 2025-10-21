@@ -4,47 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:background="@color/black"
     tools:context=".ui.fragments.LoginFragment">
 
     <!-- Main Content -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
+        android:layout_gravity="center"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- App Logo -->
-        <ImageView
-            android:id="@+id/iv_app_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="24dp"
-            android:contentDescription="@string/app_logo"
-            android:src="@mipmap/ic_launcher" />
+        <!-- App Logo with Glow Effect -->
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <ImageView
+                android:id="@+id/iv_app_logo"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:contentDescription="@string/app_logo"
+                android:elevation="4dp"
+                android:src="@mipmap/ic_launcher" />
+
+        </FrameLayout>
 
         <!-- App Name -->
         <TextView
             android:id="@+id/tv_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.02"
             android:text="@string/app_name"
             android:textColor="@color/white"
             android:textSize="32sp"
             android:textStyle="bold" />
 
+        <!-- Tagline -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
+            android:fontFamily="sans-serif"
+            android:text="Smart budgeting made simple"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp"
+            android:alpha="0.8" />
+
         <!-- Login Card -->
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             app:cardBackgroundColor="@color/card_background"
             app:cardCornerRadius="16dp"
-            app:cardElevation="8dp">
+            app:cardElevation="8dp"
+            app:strokeColor="@color/primary_blue"
+            app:strokeWidth="0.5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,9 +78,10 @@
                     android:id="@+id/tv_welcome"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
                     android:gravity="center"
                     android:text="@string/welcome_back"
-                    android:textColor="@color/primary_text_dark"
+                    android:textColor="@color/white"
                     android:textSize="24sp"
                     android:textStyle="bold" />
 
@@ -70,9 +92,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="32dp"
+                    android:fontFamily="sans-serif"
                     android:gravity="center"
                     android:text="@string/sign_in_to_continue_journey"
-                    android:textColor="@color/secondary_text_dark"
+                    android:textColor="@color/text_secondary"
                     android:textSize="14sp" />
 
                 <!-- OR Divider -->
@@ -87,44 +110,68 @@
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1"
-                        android:background="@color/divider_dark" />
+                        android:background="@color/divider"
+                        android:alpha="0.3" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="0.1"
                         android:text="@string/or"
-                        android:textColor="@color/secondary_text_dark"
-                        android:textSize="12sp" />
+                        android:textColor="@color/text_hint"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
                     <View
                         android:layout_width="0dp"
                         android:layout_height="1dp"
                         android:layout_weight="1"
-                        android:background="@color/divider_dark" />
+                        android:background="@color/divider"
+                        android:alpha="0.3" />
 
                 </LinearLayout>
-
 
                 <!-- Google Sign-in Button -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_google_signin"
-                    android:layout_width="56dp"
+                    android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:contentDescription="@string/sign_in_with_google"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.02"
+                    android:text="Continue with Google"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
                     android:visibility="visible"
-                    app:backgroundTint="@color/google_button_dark"
+                    app:backgroundTint="@color/card_background"
                     app:cornerRadius="12dp"
+                    app:elevation="2dp"
                     app:icon="@drawable/ic_google"
                     app:iconGravity="textStart"
-                    app:iconPadding="0dp"
+                    app:iconPadding="12dp"
                     app:iconSize="24dp"
                     app:iconTint="@null"
-                    app:strokeColor="@color/google_stroke_dark"
-                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/primary_blue"
+                    app:strokeWidth="2dp"
                     tools:visibility="visible" />
+
+                <!-- Info Text -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:text="By continuing, you agree to our Terms of Service and Privacy Policy"
+                    android:textColor="@color/text_hint"
+                    android:textSize="11sp" />
 
                 <!-- Sign Out Button -->
                 <com.google.android.material.button.MaterialButton
@@ -132,27 +179,77 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.02"
                     android:text="@string/sign_out"
                     android:textAllCaps="false"
-                    android:textColor="@color/sign_out_text_dark"
-                    android:textSize="16sp"
+                    android:textColor="@color/error_red"
+                    android:textSize="15sp"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    app:backgroundTint="@color/sign_out_background_dark"
+                    app:backgroundTint="@android:color/transparent"
                     app:cornerRadius="12dp"
                     app:icon="@drawable/ic_logout"
                     app:iconGravity="textStart"
-                    app:iconPadding="8dp"
+                    app:iconPadding="12dp"
                     app:iconSize="20dp"
-                    app:iconTint="@color/sign_out_text_dark"
-                    app:strokeColor="@color/sign_out_stroke_dark"
-                    app:strokeWidth="1dp"
+                    app:iconTint="@color/error_red"
+                    app:strokeColor="@color/error_red"
+                    app:strokeWidth="2dp"
                     tools:visibility="visible" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Footer -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="Need help? "
+                android:textColor="@color/text_hint"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/tv_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Contact Support"
+                android:textColor="@color/primary_blue"
+                android:textSize="13sp"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <!-- Loading Overlay (optional) -->
+    <FrameLayout
+        android:id="@+id/loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/overlay_dark"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/primary_blue" />
+
+    </FrameLayout>
 
 </FrameLayout>

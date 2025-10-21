@@ -38,7 +38,8 @@
                 android:letterSpacing="0.1"
                 android:textAllCaps="true"
                 android:paddingHorizontal="8dp"
-                android:paddingVertical="4dp" />
+                android:paddingVertical="4dp"
+                android:background="@drawable/transaction_type_background" />
 
             <View
                 android:layout_width="0dp"
@@ -114,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
+                android:background="@drawable/category_chip_background"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp">
 

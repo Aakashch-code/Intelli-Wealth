@@ -26,7 +26,6 @@ public class FynixFragment extends Fragment {
     private RecyclerView messagesRecyclerView;
     private EditText messageEditText;
     private Button sendButton;
-    private ProgressBar uploadProgress;
     private TextView uploadStatus;
     private View loadingContainer;
     private ChatAdapter adapter;
@@ -55,7 +54,6 @@ public class FynixFragment extends Fragment {
         messagesRecyclerView = view.findViewById(R.id.messagesRecyclerView);
         messageEditText = view.findViewById(R.id.messageEditText);
         sendButton = view.findViewById(R.id.sendButton);
-        uploadProgress = view.findViewById(R.id.uploadProgress);
         uploadStatus = view.findViewById(R.id.uploadStatus);
         loadingContainer = view.findViewById(R.id.loadingContainer);
     }
@@ -80,9 +78,6 @@ public class FynixFragment extends Fragment {
             sendButton.setText(isLoading ? "..." : "Send");
         });
 
-        viewModel.getIsUploading().observe(getViewLifecycleOwner(), isUploading -> {
-            uploadProgress.setVisibility(isUploading ? View.VISIBLE : View.GONE);
-        });
 
         viewModel.getUploadStatus().observe(getViewLifecycleOwner(), status -> {
             if (status != null && !status.isEmpty()) {

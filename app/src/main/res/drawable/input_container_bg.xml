@@ -1,0 +1,21 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Slightly transparent black fill to keep background dark -->
+    <solid android:color="#FF000000" />
+
+    <!-- Soft white stroke (outline) -->
+    <stroke
+        android:width="1.5dp"
+        android:color="#66FFFFFF" /> <!-- 40% white for glow-like effect -->
+
+    <!-- Rounded corners -->
+    <corners android:radius="12dp" />
+
+    <!-- Subtle inner padding for smoother edge -->
+    <padding
+        android:left="2dp"
+        android:top="2dp"
+        android:right="2dp"
+        android:bottom="2dp" />
+</shape>

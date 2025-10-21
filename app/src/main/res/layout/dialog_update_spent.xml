@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0E27">
+    android:background="@android:color/black"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,200 +12,175 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Header Section -->
-        <LinearLayout
+        <!-- Header -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginBottom="32dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Update Amount"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:textColor="#FFFFFF"
-                android:layout_marginBottom="8dp" />
-
-        </LinearLayout>
+            android:text="Update Amount"
+            android:textSize="24sp"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="32dp" />
 
         <!-- Spent Amount Card -->
-        <FrameLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/rounded_background_orange"
-            android:padding="2dp">
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@android:color/black"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@android:color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_inner_background_dark"
                 android:padding="20dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_expense"
-                        android:layout_marginEnd="8dp"
-                        android:contentDescription="Expense icon"
-                        app:tint="#FFB74D" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Amount Spent"
-                        android:textSize="13sp"
-                        android:textColor="#FFB74D"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etSpent"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="₹0.00"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#666E8F"
-                    android:background="@null"
-                    android:inputType="numberDecimal"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
-                    android:gravity="start|center_vertical" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#666E8F"
-                    android:layout_marginTop="12dp"
-                    android:alpha="0.3" />
-
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SPENT"
+                    android:textSize="11sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Enter the total amount you've spent"
-                    android:textSize="12sp"
-                    android:textColor="#999AAF"
-                    android:layout_marginTop="12dp" />
+                    android:hint="₹0.00"
+                    app:hintTextColor="@android:color/darker_gray"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:prefixText="₹ "
+                    app:prefixTextColor="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etSpent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:background="@android:color/transparent"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-        </FrameLayout>
-        <!-- Spent Amount Card -->
-        <FrameLayout
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Allocated Amount Card -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/rounded_background_orange"
-            android:padding="2dp">
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@android:color/black"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="@android:color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_inner_background_dark"
                 android:padding="20dp"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginBottom="12dp"
-                    android:gravity="center_vertical">
-
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/ic_expense"
-                        android:layout_marginEnd="8dp"
-                        android:contentDescription="Expense icon"
-                        app:tint="#FFB74D" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Amount Allocate"
-                        android:textSize="13sp"
-                        android:textColor="#FFB74D"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etallocate"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:hint="₹0.00"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#666E8F"
-                    android:background="@null"
-                    android:inputType="numberDecimal"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="0dp"
-                    android:gravity="start|center_vertical" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#666E8F"
-                    android:layout_marginTop="12dp"
-                    android:alpha="0.3" />
-
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ALLOCATED"
+                    android:textSize="11sp"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.1"
+                    android:fontFamily="sans-serif-medium"
+                    android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Enter the total amount you want to allocate"
-                    android:textSize="12sp"
-                    android:textColor="#999AAF"
-                    android:layout_marginTop="12dp" />
+                    android:hint="₹0.00"
+                    app:hintTextColor="@android:color/darker_gray"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:prefixText="₹ "
+                    app:prefixTextColor="@android:color/white"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etallocate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:background="@android:color/transparent"
+                        android:inputType="numberDecimal"
+                        android:textSize="16sp"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="0dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Confirm Expense"
-                android:textSize="16sp"
+                android:text="Confirm Amount"
+                android:textSize="15sp"
                 android:textStyle="bold"
+                app:strokeColor="@color/white"
+                android:textAllCaps="false"
+                android:letterSpacing="0.02"
+                android:fontFamily="sans-serif-medium"
                 android:layout_marginBottom="12dp"
-                android:backgroundTint="#FFB74D"
-                android:textColor="#0A0E27"
-                android:elevation="8dp"
-                style="@style/Widget.MaterialComponents.Button" />
+                app:backgroundTint="@android:color/black"
+                android:textColor="@android:color/white"
+                app:cornerRadius="12dp"
+                app:strokeWidth="2dp"
+                app:elevation="4dp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="Cancel"
-                android:textSize="16sp"
-                android:textColor="#FFB74D"
-                android:strokeColor="#FFB74D"
-                android:strokeWidth="2"
+                android:textSize="15sp"
+                android:textAllCaps="false"
+                android:letterSpacing="0.02"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@android:color/white"
+                app:strokeColor="@android:color/white"
+                app:strokeWidth="2dp"
+                app:cornerRadius="12dp"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
         </LinearLayout>

@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import com.example.smartfinance.R;
 import com.example.smartfinance.data.local.database.AppDatabase;
 import com.example.smartfinance.data.model.Budget;
 import com.example.smartfinance.ui.viewmodels.BudgetViewModel;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -140,7 +143,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showAddBudgetDialog() {
-        showBudgetDialog(null, "Add New Budget", (dialog, which, budget) -> {
+        showBudgetDialog(null, null, (dialog, which, budget) -> {
             if (budget != null) {
                 mViewModel.insertBudget(budget);
                 Toast.makeText(getContext(), "Budget added", Toast.LENGTH_SHORT).show();
@@ -149,7 +152,7 @@ public class BudgetFragment extends Fragment {
     }
 
     private void showEditBudgetDialog(Budget budget) {
-        showBudgetDialog(budget, "Edit Budget", (dialog, which, editedBudget) -> {
+        showBudgetDialog(budget, null, (dialog, which, editedBudget) -> {
             if (editedBudget != null) {
                 mViewModel.updateBudget(editedBudget);
                 Toast.makeText(getContext(), "Budget updated", Toast.LENGTH_SHORT).show();
@@ -164,9 +167,8 @@ public class BudgetFragment extends Fragment {
         MaterialButton btnConfirm = dialogView.findViewById(R.id.btnConfirm);
         MaterialButton btnCancel = dialogView.findViewById(R.id.btnCancel);
 
-        Dialog dialog = new MaterialAlertDialogBuilder(getContext())
-                .setView(dialogView)
-                .create();
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        dialog.setContentView(dialogView);
 
         btnConfirm.setOnClickListener(v -> {
             String spentStr = etSpent.getText().toString().trim();
@@ -208,10 +210,23 @@ public class BudgetFragment extends Fragment {
             etPeriod.setText(budget.period);
         }
 
-        Dialog dialog = new MaterialAlertDialogBuilder(getContext())
-                .setTitle(title)
-                .setView(dialogView)
-                .create();
+        LinearLayout wrapper = new LinearLayout(getContext());
+        wrapper.setOrientation(LinearLayout.VERTICAL);
+        wrapper.setPadding(24, 24, 24, 24);
+
+        if (title != null) {
+            TextView titleTv = new TextView(getContext());
+            titleTv.setText(title);
+            titleTv.setTextSize(20);
+            titleTv.setGravity(Gravity.CENTER_HORIZONTAL);
+            titleTv.setPadding(0, 0, 0, 16);
+            wrapper.addView(titleTv);
+        }
+
+        wrapper.addView(dialogView);
+
+        BottomSheetDialog dialog = new BottomSheetDialog(getContext());
+        dialog.setContentView(wrapper);
 
         btnSave.setOnClickListener(v -> {
             String category = etCategory.getText().toString().trim();

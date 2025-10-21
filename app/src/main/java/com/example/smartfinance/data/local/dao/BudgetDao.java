@@ -21,7 +21,8 @@ public interface BudgetDao {
 
     @Update
     void updateBudget(Budget budget);
-
+    @Query("SELECT * FROM budgets ORDER BY category ASC")
+    List<Budget> getAllBudgetsSync();
     @Delete
     void deleteBudget(Budget budget);
 

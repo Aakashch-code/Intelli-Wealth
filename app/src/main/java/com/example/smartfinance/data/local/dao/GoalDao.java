@@ -33,7 +33,13 @@ public interface GoalDao {
             "WHEN 'LOW' THEN 3 " +
             "END, targetDate ASC")
     LiveData<List<Goal>> getAllGoals();
-
+    @Query("SELECT * FROM goals ORDER BY " +
+            "CASE priority " +
+            "WHEN 'HIGH' THEN 1 " +
+            "WHEN 'MEDIUM' THEN 2 " +
+            "WHEN 'LOW' THEN 3 " +
+            "END, targetDate ASC")
+    List<Goal> getAllGoalsSync();
     @Query("SELECT * FROM goals WHERE id = :goalId")
     LiveData<Goal> getGoalById(int goalId);
 

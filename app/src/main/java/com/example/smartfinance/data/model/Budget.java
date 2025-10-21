@@ -16,6 +16,18 @@ public class Budget implements Serializable {
     public String period;
     public long startDate;
 
+    public double getAllocatedAmount() {
+        return allocatedAmount;
+    }
+
+    public double getCurrentSpent() {
+        return currentSpent;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
     public Budget() {
     }
 }

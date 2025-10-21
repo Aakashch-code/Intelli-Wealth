@@ -22,7 +22,8 @@ public interface SubscriptionDao {
 
     @Update
     void update(Subscription subscription);
-
+    @Query("SELECT * FROM subscriptions WHERE isActive = 1")
+    List<Subscription> getAllSubscriptionsSync();
     @Delete
     void delete(Subscription subscription);
 

@@ -65,7 +65,11 @@ public interface TransactionDao {
 
     @Query("DELETE FROM transactions WHERE firestoreId IS NULL")
     void deleteUnsyncedTransactions();
+    @Query("SELECT * FROM transactions WHERE type = :type ORDER BY timestamp DESC")
+    List<Transaction> getTransactionsByTypeSync(String type);
 
+    @Query("SELECT * FROM transactions WHERE type = :type AND timestamp BETWEEN :startTime AND :endTime ORDER BY timestamp ASC")
+    List<Transaction> getTransactionsByTypeAndDateRange(String type, long startTime, long endTime);
     @Query("SELECT COUNT(*) FROM transactions WHERE firestoreId = :firestoreId")
     int countByFirestoreId(String firestoreId);
 

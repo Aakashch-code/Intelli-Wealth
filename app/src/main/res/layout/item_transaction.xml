@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="6dp"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="4dp"
-    app:cardBackgroundColor="#1A1A1A"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="#1E1E1E"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    app:strokeWidth="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,30 +20,30 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Top row: Type, Transaction ID, and Date -->
+        <!-- Header: Type, ID, and Date -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:paddingBottom="12dp">
 
-            <!-- Transaction Type -->
+            <!-- Transaction Type Badge -->
             <TextView
                 android:id="@+id/typeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10sp"
                 android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.05"
-                android:paddingHorizontal="6dp"
-                android:paddingVertical="2dp" />
+                android:letterSpacing="0.1"
+                android:textAllCaps="true"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp" />
 
             <View
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="8dp"
-                android:background="#333333" />
+                android:layout_height="0dp"
+                android:layout_weight="1" />
 
             <!-- Transaction ID -->
             <TextView
@@ -49,39 +51,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="#TX-4892"
-                android:textColor="#888888"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.05" />
+                android:textColor="#808080"
+                android:textSize="11sp"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.02" />
 
+            <!-- Divider -->
             <View
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="8dp"
-                android:background="#333333" />
+                android:layout_width="1dp"
+                android:layout_height="12dp"
+                android:layout_marginHorizontal="12dp"
+                android:background="#404040" />
 
             <!-- Date -->
             <TextView
                 android:id="@+id/dateText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#888888"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.05" />
+                android:textColor="#808080"
+                android:textSize="11sp"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.01" />
         </LinearLayout>
 
-        <!-- Middle section: Amount and Category -->
+        <!-- Main content: Amount and Category -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="8dp">
+            android:paddingBottom="12dp">
 
-            <!-- Amount with accent indicator -->
+            <!-- Amount with accent bar -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -90,9 +91,10 @@
                 android:gravity="center_vertical">
 
                 <View
+                    android:id="@+id/accentBar"
                     android:layout_width="4dp"
-                    android:layout_height="20dp"
-                    android:background="#00E676"
+                    android:layout_height="24dp"
+                    android:background="#4CAF50"
                     android:layout_marginEnd="12dp" />
 
                 <TextView
@@ -100,77 +102,95 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:fontFamily="sans-serif-light" />
+                    android:textSize="24sp"
+                    android:fontFamily="sans-serif-light"
+                    android:letterSpacing="-0.02"
+                    android:includeFontPadding="false" />
             </LinearLayout>
 
-            <!-- Category -->
+            <!-- Category chip -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="end">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CATEGORY"
-                    android:textColor="#666666"
-                    android:textSize="10sp"
-                    android:fontFamily="sans-serif-medium"
-                    android:letterSpacing="0.05" />
+                <ImageView
+                    android:id="@+id/categoryIcon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginEnd="6dp"
+                    app:tint="#B0B0B0"
+                    android:contentDescription="Category icon" />
 
                 <TextView
                     android:id="@+id/categoryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#CCCCCC"
+                    android:textColor="#E0E0E0"
                     android:textSize="12sp"
                     android:fontFamily="sans-serif-medium"
-                    android:layout_marginTop="2dp" />
+                    android:letterSpacing="0.02" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Payment method and note -->
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#2A2A2A"
+            android:layout_marginVertical="8dp" />
+
+        <!-- Footer: Payment method and note -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <!-- Payment method -->
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="PAYMENT METHOD"
-                android:textColor="#666666"
-                android:textSize="10sp"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.05" />
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-            <TextView
-                android:id="@+id/paymentMethodText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#CCCCCC"
-                android:textSize="12sp"
-                android:fontFamily="sans-serif-medium"
-                android:layout_marginTop="2dp" />
+                <ImageView
+                    android:id="@+id/paymentIcon"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="8dp"
+                    app:tint="#808080"
+                    android:contentDescription="Payment method icon" />
 
-            <!-- Note (only shown when exists) -->
+                <TextView
+                    android:id="@+id/paymentMethodText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#B0B0B0"
+                    android:textSize="12sp"
+                    android:fontFamily="sans-serif-medium"
+                    android:letterSpacing="0.01" />
+            </LinearLayout>
+
+            <!-- Note (if exists) -->
             <TextView
                 android:id="@+id/noteText"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="#888888"
+                android:layout_weight="1"
+                android:textColor="#808080"
                 android:textSize="11sp"
                 android:fontFamily="sans-serif"
                 android:maxLines="1"
                 android:ellipsize="end"
-                android:layout_marginTop="8dp" />
+                android:gravity="end"
+                android:letterSpacing="0.01" />
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>
